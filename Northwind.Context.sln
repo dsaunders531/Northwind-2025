@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Context", "Northwind.Context\Northwind.Context.csproj", "{19A429F8-A591-4523-B856-8AF663BF5F89}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19A429F8-A591-4523-B856-8AF663BF5F89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19A429F8-A591-4523-B856-8AF663BF5F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19A429F8-A591-4523-B856-8AF663BF5F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19A429F8-A591-4523-B856-8AF663BF5F89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6EA215D7-C8D4-4457-971A-3D4B6581EFFE}
+	EndGlobalSection
+EndGlobal
