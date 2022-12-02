@@ -3,7 +3,7 @@ using Northwind.Context.Contexts;
 
 namespace Northwind.Context.MsSql.Contexts
 {
-    public partial class NorthwindContextSql : NorthwindContext
+    public sealed class NorthwindContextSql : NorthwindContext
     {
         public NorthwindContextSql()
         {
