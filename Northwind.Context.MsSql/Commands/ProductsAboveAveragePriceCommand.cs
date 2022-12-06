@@ -30,7 +30,8 @@ namespace Northwind.Context.MsSql.Commands
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new ProductsAboveAveragePrice() { 
+                        result.Add(new ProductsAboveAveragePrice()
+                        {
                             ProductName = reader["ProductName"]?.ToString() ?? string.Empty,
                             UnitPrice = Convert.ToDecimal(reader["UnitPrice"])
                         });

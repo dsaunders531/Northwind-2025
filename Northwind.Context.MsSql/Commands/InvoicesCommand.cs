@@ -30,7 +30,8 @@ namespace Northwind.Context.MsSql.Commands
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new Invoice() { 
+                        result.Add(new Invoice()
+                        {
                             ShipName = reader["ShipName"]?.ToString() ?? string.Empty,
                             ShipAddress = reader["ShipAddress"]?.ToString() ?? string.Empty,
                             ShipCity = reader["ShipCity"]?.ToString() ?? string.Empty,
@@ -43,7 +44,7 @@ namespace Northwind.Context.MsSql.Commands
                             City = reader["City"]?.ToString() ?? string.Empty,
                             Region = reader["Region"]?.ToString() ?? string.Empty,
                             PostalCode = reader["PostalCode"]?.ToString() ?? string.Empty,
-                            Country = reader["Country"]?.ToString() ?? string.Empty, 
+                            Country = reader["Country"]?.ToString() ?? string.Empty,
                             Salesperson = reader["Salesperson"]?.ToString() ?? string.Empty,
                             OrderId = Convert.ToInt32(reader["OrderID"]),
                             OrderDate = Convert.ToDateTime(reader["OrderDate"]),

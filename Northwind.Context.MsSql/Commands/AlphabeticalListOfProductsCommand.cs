@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
-using System.Net;
 
 namespace Northwind.Context.MsSql.Commands
 {
@@ -18,7 +17,7 @@ namespace Northwind.Context.MsSql.Commands
         {
             // no parameters
         }
-       
+
         protected override async Task<IList<AlphabeticalListOfProduct>> RunCommand(SqlCommand com)
         {
             List<AlphabeticalListOfProduct> result = new List<AlphabeticalListOfProduct>();
@@ -29,7 +28,8 @@ namespace Northwind.Context.MsSql.Commands
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new AlphabeticalListOfProduct() { 
+                        result.Add(new AlphabeticalListOfProduct()
+                        {
                             CategoryId = Convert.ToInt32(reader["CategoryID"]),
                             Discontinued = Convert.ToBoolean(reader["Discontinued"]),
                             CategoryName = reader["CategoryName"]?.ToString() ?? string.Empty,
@@ -40,13 +40,13 @@ namespace Northwind.Context.MsSql.Commands
                             SupplierId = Convert.ToInt32(reader["SupplierID"]),
                             UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
                             UnitsInStock = Convert.ToInt16(reader["UnitsInStock"]),
-                            UnitsOnOrder = Convert.ToInt16(reader["UnitsOnOrder"])                            
+                            UnitsOnOrder = Convert.ToInt16(reader["UnitsOnOrder"])
                         });
                     }
                 }
             }
 
             return result;
-        }        
+        }
     }
 }

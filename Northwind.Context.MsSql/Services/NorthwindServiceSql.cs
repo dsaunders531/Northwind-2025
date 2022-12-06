@@ -11,114 +11,114 @@ namespace Northwind.Context.MsSql.Services
     {
         public NorthwindServiceSql(string connection)
         {
-            this.Connection = connection;
+            Connection = connection;
         }
 
         protected string Connection { get; set; }
 
         public Task<IList<AlphabeticalListOfProduct>> AlphabeticalListOfProducts()
         {
-            return new AlphabeticalListOfProductsCommand(this.Connection).Run();
+            return new AlphabeticalListOfProductsCommand(Connection).Run();
         }
 
         public Task<IList<CategorySalesFor1997>> CategorySalesFor1997s()
         {
-            return new CategorySalesFor1997Command(this.Connection).Run();
+            return new CategorySalesFor1997Command(Connection).Run();
         }
 
         public Task<IList<CurrentProductList>> CurrentProductLists()
         {
-            return new CurrentProductListCommand(this.Connection).Run();
+            return new CurrentProductListCommand(Connection).Run();
         }
 
         public Task<IList<CustomerAndSuppliersByCity>> CustomerAndSuppliersByCities()
         {
-            return new CustomAndSuppliersByCitiesCommand(this.Connection).Run();
+            return new CustomAndSuppliersByCitiesCommand(Connection).Run();
         }
 
         public Task<IList<CustomerOrders>> CustomerOders(string customerId)
         {
-            return new CustomerOrdersCommand(this.Connection, customerId).Run();
+            return new CustomerOrdersCommand(Connection, customerId).Run();
         }
 
         public Task<IList<CustomerOrderDetail>> CustomerOrderDetail(int orderId)
         {
-            return new CustomerOrderDetailCommand(this.Connection, orderId).Run();
+            return new CustomerOrderDetailCommand(Connection, orderId).Run();
         }
 
         public Task<IList<CustomerOrderHistory>> CustomerOrderHistory(string customerId)
         {
-            return new CustomerOrderHistoryCommand(this.Connection, customerId).Run();
+            return new CustomerOrderHistoryCommand(Connection, customerId).Run();
         }
 
         public Task<IList<EmployeeSalesByCountry>> EmployeeSalesByCountries(DateTime fromDate, DateTime toDate)
         {
-            return new EmployeeSalesByCountries(this.Connection, new Patterns.StartAndEndDate() { StartDate = fromDate, EndDate = toDate }).Run();
+            return new EmployeeSalesByCountriesCommand(Connection, new Patterns.StartAndEndDate() { StartDate = fromDate, EndDate = toDate }).Run();
         }
 
         public Task<IList<SaleByYear>> SalesByYear(DateTime fromDate, DateTime toDate)
         {
-            return new SalesByYearCommand(this.Connection, new Patterns.StartAndEndDate() { StartDate = fromDate, EndDate = toDate }).Run();
+            return new SalesByYearCommand(Connection, new Patterns.StartAndEndDate() { StartDate = fromDate, EndDate = toDate }).Run();
         }
 
         public Task<IList<Invoice>> Invoices()
         {
-            return new InvoicesCommand(this.Connection).Run();
+            return new InvoicesCommand(Connection).Run();
         }
 
         public Task<IList<OrderDetailsExtended>> OrderDetailsExtendeds()
         {
-            return new OrderDetailsExtendedCommand(this.Connection).Run();
+            return new OrderDetailsExtendedCommand(Connection).Run();
         }
 
         public Task<IList<OrdersQry>> OrdersQries()
         {
-            return new OrdersQueryCommand(this.Connection).Run();
+            return new OrdersQueryCommand(Connection).Run();
         }
 
         public Task<IList<OrderSubtotal>> OrderSubtotals()
         {
-            return new OrderSubtotalsCommand(this.Connection).Run();
+            return new OrderSubtotalsCommand(Connection).Run();
         }
 
         public Task<IList<ProductsAboveAveragePrice>> ProductsAboveAveragePrices()
         {
-            return new ProductsAboveAveragePriceCommand(this.Connection).Run();
+            return new ProductsAboveAveragePriceCommand(Connection).Run();
         }
 
         public Task<IList<ProductSalesFor1997>> ProductSalesFor1997s()
         {
-            return new ProductSalesFor1997Command(this.Connection).Run();
+            return new ProductSalesFor1997Command(Connection).Run();
         }
 
         public Task<IList<ProductsByCategory>> ProductsByCategories()
         {
-            return new ProductsByCategoryCommand(this.Connection).Run();
+            return new ProductsByCategoryCommand(Connection).Run();
         }
 
         public Task<IList<SaleByCategoryReport>> SalesByCategory()
         {
-            return new SalesByCategoryCommand(this.Connection).Run();
+            return new SalesByCategoryCommand(Connection).Run();
         }
-       
+
         public Task<IList<SalesTotalsByAmount>> SalesTotalsByAmounts()
         {
-            return new SalesTotalsByAmountCommand(this.Connection).Run();
+            return new SalesTotalsByAmountCommand(Connection).Run();
         }
 
         public Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters()
         {
-            return new SummaryOfSalesByQuarterCommand(this.Connection).Run();
+            return new SummaryOfSalesByQuarterCommand(Connection).Run();
         }
 
         public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears()
         {
-            return new SummaryOfSalesByYearCommand(this.Connection).Run();
+            return new SummaryOfSalesByYearCommand(Connection).Run();
         }
 
         public Task<IList<MostExpensiveProduct>> TenMostExpensiveProducts()
         {
-            return new TenMostExpensiveProductsCommand(this.Connection).Run();
-        }        
+            return new TenMostExpensiveProductsCommand(Connection).Run();
+        }
     }
 }

@@ -7,12 +7,12 @@ namespace Northwind.Context.MsSql
         where TOutput : class
     {
         public SqlRunnerCommand(string connection) : base(connection) { }
-                
+
         public async Task<TOutput> Run()
         {
             TOutput result = Activator.CreateInstance<TOutput>();
 
-            using (SqlConnection con = this.GetConnection())
+            using (SqlConnection con = GetConnection())
             {
                 await con.OpenAsync();
 
@@ -21,8 +21,8 @@ namespace Northwind.Context.MsSql
                     using (SqlCommand com = con.CreateCommand())
                     {
                         // add parameters and define command
-                        this.DefineCommand(com);
-                        this.DefineParameters(com);
+                        DefineCommand(com);
+                        DefineParameters(com);
 
                         // run the command and process the output.
                         result = await RunCommand(com);
@@ -36,7 +36,7 @@ namespace Northwind.Context.MsSql
                 {
                     await con.CloseAsync();
                     await con.DisposeAsync();
-                }                                
+                }
             }
 
             return result;
@@ -44,7 +44,7 @@ namespace Northwind.Context.MsSql
 
         public async Task Undo()
         {
-            using (SqlConnection con = this.GetConnection())
+            using (SqlConnection con = GetConnection())
             {
                 try
                 {
@@ -53,8 +53,8 @@ namespace Northwind.Context.MsSql
                     using (SqlCommand com = con.CreateCommand())
                     {
                         // add parameters and define command
-                        this.DefineUndoCommand(com);
-                        this.DefineUndoParameters(com);
+                        DefineUndoCommand(com);
+                        DefineUndoParameters(com);
 
                         // run the command and process the output.
                         await RunUndoCommand(com);
@@ -94,33 +94,33 @@ namespace Northwind.Context.MsSql
 
         protected override void DefineUndoCommand(SqlCommand com)
         {
-            throw new NotSupportedException($"{this.GetType().ToString} does not support undo operations.");
+            throw new NotSupportedException($"{GetType().ToString} does not support undo operations.");
         }
 
         protected override void DefineUndoParameters(SqlCommand com)
         {
-            throw new NotSupportedException($"{this.GetType().ToString} does not support undo operations.");
+            throw new NotSupportedException($"{GetType().ToString} does not support undo operations.");
         }
 
         protected override Task RunUndoCommand(SqlCommand com)
         {
-            throw new NotSupportedException($"{this.GetType().ToString} does not support undo operations.");
+            throw new NotSupportedException($"{GetType().ToString} does not support undo operations.");
         }
     }
 
     internal abstract class SqlRunnerCommand<TOutput, TInput> : SqlRunnerCommand<TOutput>
         where TOutput : class
     {
-        public SqlRunnerCommand(string connection, TInput parameters) : base(connection) 
+        public SqlRunnerCommand(string connection, TInput parameters) : base(connection)
         {
-            this.Parameters = parameters;
+            Parameters = parameters;
         }
 
-        protected TInput Parameters { get; set; }        
+        protected TInput Parameters { get; set; }
     }
 
     internal abstract class SqlRunnerCommandWithoutUndo<TOutput, TInput> : SqlRunnerCommand<TOutput, TInput>
-        where TOutput : class        
+        where TOutput : class
     {
         protected SqlRunnerCommandWithoutUndo(string connection, TInput parameters) : base(connection, parameters)
         {
@@ -128,17 +128,17 @@ namespace Northwind.Context.MsSql
 
         protected override void DefineUndoCommand(SqlCommand com)
         {
-            throw new NotSupportedException($"{this.GetType().ToString} does not support undo operations.");
+            throw new NotSupportedException($"{GetType().ToString} does not support undo operations.");
         }
 
         protected override void DefineUndoParameters(SqlCommand com)
         {
-            throw new NotSupportedException($"{this.GetType().ToString} does not support undo operations.");
+            throw new NotSupportedException($"{GetType().ToString} does not support undo operations.");
         }
 
         protected override Task RunUndoCommand(SqlCommand com)
         {
-            throw new NotSupportedException($"{this.GetType().ToString} does not support undo operations.");
+            throw new NotSupportedException($"{GetType().ToString} does not support undo operations.");
         }
     }
 }

@@ -30,9 +30,10 @@ namespace Northwind.Context.MsSql.Commands
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new SaleByCategoryReport() { 
-                           ProductName = reader["ProductName"]?.ToString() ?? string.Empty,
-                           TotalPurchased = Convert.ToDecimal(reader["TotalPurchase"])
+                        result.Add(new SaleByCategoryReport()
+                        {
+                            ProductName = reader["ProductName"]?.ToString() ?? string.Empty,
+                            TotalPurchased = Convert.ToDecimal(reader["TotalPurchase"])
                         });
                     }
                 }

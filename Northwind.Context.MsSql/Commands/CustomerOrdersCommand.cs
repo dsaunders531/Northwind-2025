@@ -17,7 +17,7 @@ namespace Northwind.Context.MsSql.Commands
 
         protected override void DefineParameters(SqlCommand com)
         {
-            com.Parameters.Add(new SqlParameter("@CustomerId",System.Data.SqlDbType.NChar, 5) { Value = this.Parameters });
+            com.Parameters.Add(new SqlParameter("@CustomerId", System.Data.SqlDbType.NChar, 5) { Value = Parameters });
         }
 
         protected override async Task<IList<CustomerOrders>> RunCommand(SqlCommand com)

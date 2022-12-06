@@ -18,21 +18,22 @@ namespace Northwind.Context.MsSql.Commands
 
         protected override void DefineParameters(SqlCommand com)
         {
-            com.Parameters.Add(new SqlParameter("@Beginning_Date", System.Data.SqlDbType.DateTime) { Value = this.Parameters.StartDate });
-            com.Parameters.Add(new SqlParameter("@Ending_Date", System.Data.SqlDbType.DateTime) { Value = this.Parameters.EndDate });
+            com.Parameters.Add(new SqlParameter("@Beginning_Date", System.Data.SqlDbType.DateTime) { Value = Parameters.StartDate });
+            com.Parameters.Add(new SqlParameter("@Ending_Date", System.Data.SqlDbType.DateTime) { Value = Parameters.EndDate });
         }
 
         protected override async Task<IList<EmployeeSalesByCountry>> RunCommand(SqlCommand com)
         {
             List<EmployeeSalesByCountry> result = new List<EmployeeSalesByCountry>();
 
-            using (SqlDataReader reader= await com.ExecuteReaderAsync())
+            using (SqlDataReader reader = await com.ExecuteReaderAsync())
             {
                 if (reader.HasRows)
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new EmployeeSalesByCountry() { 
+                        result.Add(new EmployeeSalesByCountry()
+                        {
                             Country = reader["Country"]?.ToString() ?? string.Empty,
                             LastName = reader["LastName"].ToString() ?? string.Empty,
                             FirstName = reader["FirstName"].ToString() ?? string.Empty,

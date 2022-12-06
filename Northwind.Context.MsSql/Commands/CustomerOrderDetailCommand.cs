@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
-using System.Net;
 
 namespace Northwind.Context.MsSql.Commands
 {
@@ -18,7 +17,7 @@ namespace Northwind.Context.MsSql.Commands
 
         protected override void DefineParameters(SqlCommand com)
         {
-            com.Parameters.Add(new SqlParameter("@OrderId", System.Data.SqlDbType.Int) { Value = this.Parameters });
+            com.Parameters.Add(new SqlParameter("@OrderId", System.Data.SqlDbType.Int) { Value = Parameters });
         }
 
         protected override async Task<IList<CustomerOrderDetail>> RunCommand(SqlCommand com)
@@ -31,7 +30,8 @@ namespace Northwind.Context.MsSql.Commands
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new CustomerOrderDetail() { 
+                        result.Add(new CustomerOrderDetail()
+                        {
                             ProductName = reader["ProductName"]?.ToString() ?? string.Empty,
                             UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
                             Quantity = Convert.ToInt32(reader["Quantity"]),

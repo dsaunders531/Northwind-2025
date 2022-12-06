@@ -18,8 +18,8 @@ namespace Northwind.Context.MsSql.Commands
 
         protected override void DefineParameters(SqlCommand com)
         {
-            com.Parameters.Add(new SqlParameter("@Beginning_Date", System.Data.SqlDbType.DateTime) { Value = this.Parameters.StartDate });
-            com.Parameters.Add(new SqlParameter("@Ending_Date", System.Data.SqlDbType.DateTime) { Value = this.Parameters.EndDate });
+            com.Parameters.Add(new SqlParameter("@Beginning_Date", System.Data.SqlDbType.DateTime) { Value = Parameters.StartDate });
+            com.Parameters.Add(new SqlParameter("@Ending_Date", System.Data.SqlDbType.DateTime) { Value = Parameters.EndDate });
         }
 
         protected override async Task<IList<SaleByYear>> RunCommand(SqlCommand com)
@@ -32,7 +32,8 @@ namespace Northwind.Context.MsSql.Commands
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new SaleByYear() { 
+                        result.Add(new SaleByYear()
+                        {
                             ShippedDate = Convert.ToDateTime(reader["ShippedDate"]),
                             OrderId = Convert.ToInt32(reader["OrderID"]),
                             Subtotal = Convert.ToDecimal(reader["Subtotal"]),

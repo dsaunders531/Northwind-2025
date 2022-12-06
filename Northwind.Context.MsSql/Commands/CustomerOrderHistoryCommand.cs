@@ -17,7 +17,7 @@ namespace Northwind.Context.MsSql.Commands
 
         protected override void DefineParameters(SqlCommand com)
         {
-            com.Parameters.Add(new SqlParameter("@CustomerId", System.Data.SqlDbType.NChar, 5) { Value = this.Parameters });
+            com.Parameters.Add(new SqlParameter("@CustomerId", System.Data.SqlDbType.NChar, 5) { Value = Parameters });
         }
 
         protected override async Task<IList<CustomerOrderHistory>> RunCommand(SqlCommand com)
@@ -30,8 +30,8 @@ namespace Northwind.Context.MsSql.Commands
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new CustomerOrderHistory() 
-                        { 
+                        result.Add(new CustomerOrderHistory()
+                        {
                             ProductName = reader["ProductName"]?.ToString() ?? string.Empty,
                             Total = Convert.ToInt32(reader["Total"])
                         });

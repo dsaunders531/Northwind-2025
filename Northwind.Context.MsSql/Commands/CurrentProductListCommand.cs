@@ -30,7 +30,8 @@ namespace Northwind.Context.MsSql.Commands
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new CurrentProductList() { 
+                        result.Add(new CurrentProductList()
+                        {
                             ProductId = Convert.ToInt32(reader["ProductID"]),
                             ProductName = reader["ProductName"]?.ToString() ?? string.Empty
                         });

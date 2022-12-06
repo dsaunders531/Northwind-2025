@@ -13,11 +13,11 @@
         /// <summary>
         /// Always return the start date as the start of the day.
         /// </summary>
-        public DateTime StartDate { get => this._startDate.Date; set => this._startDate = value; }
+        public DateTime StartDate { get => _startDate.Date; set => _startDate = value; }
 
         /// <summary>
         /// Always return the end date as the last moment of the day.
         /// </summary>
-        public DateTime EndDate { get => this._endDate.Date.AddDays(1).AddTicks(-1); set => this._endDate = value; }
+        public DateTime EndDate { get => _endDate.Date.AddDays(1).AddTicks(-1); set => _endDate = value; }
     }
 }

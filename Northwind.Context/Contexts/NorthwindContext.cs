@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.Contexts
@@ -174,7 +171,7 @@ namespace Northwind.Context.Contexts
                     .HasConstraintName("FK_Territories_Region");
             });
 
-            this.OnModelCreatingPartial(modelBuilder);
+            OnModelCreatingPartial(modelBuilder);
         }
 
         /// <summary>
@@ -182,5 +179,5 @@ namespace Northwind.Context.Contexts
         /// </summary>
         /// <param name="modelBuilder"></param>
         protected virtual void OnModelCreatingPartial(ModelBuilder modelBuilder) { }
-    }   
+    }
 }

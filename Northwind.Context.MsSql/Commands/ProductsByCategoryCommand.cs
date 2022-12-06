@@ -30,7 +30,8 @@ namespace Northwind.Context.MsSql.Commands
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new ProductsByCategory() { 
+                        result.Add(new ProductsByCategory()
+                        {
                             CategoryName = reader["CategoryName"]?.ToString() ?? string.Empty,
                             ProductName = reader["ProductName"]?.ToString() ?? string.Empty,
                             QuantityPerUnit = reader["QuantityPerUnit"]?.ToString() ?? string.Empty,

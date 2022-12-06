@@ -30,7 +30,8 @@ namespace Northwind.Context.MsSql.Commands
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new SummaryOfSalesByYear() { 
+                        result.Add(new SummaryOfSalesByYear()
+                        {
                             ShippedDate = Convert.ToDateTime(reader["ShippedDate"]),
                             OrderId = Convert.ToInt32(reader["OrderID"]),
                             Subtotal = Convert.ToDecimal(reader["Subtotal"])
