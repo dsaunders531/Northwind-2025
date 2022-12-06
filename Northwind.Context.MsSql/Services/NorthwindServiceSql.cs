@@ -38,87 +38,87 @@ namespace Northwind.Context.MsSql.Services
 
         public Task<IList<CustomerOrders>> CustomerOders(string customerId)
         {
-            throw new NotImplementedException();
+            return new CustomerOrdersCommand(this.Connection, customerId).Run();
         }
 
         public Task<IList<CustomerOrderDetail>> CustomerOrderDetail(int orderId)
         {
-            throw new NotImplementedException();
+            return new CustomerOrderDetailCommand(this.Connection, orderId).Run();
         }
 
         public Task<IList<CustomerOrderHistory>> CustomerOrderHistory(string customerId)
         {
-            throw new NotImplementedException();
+            return new CustomerOrderHistoryCommand(this.Connection, customerId).Run();
         }
 
         public Task<IList<EmployeeSalesByCountry>> EmployeeSalesByCountries(DateTime fromDate, DateTime toDate)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<Invoice>> Invoices()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<OrderDetailsExtended>> OrderDetailsExtendeds()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<OrdersQry>> OrdersQries()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<OrderSubtotal>> OrderSubtotals()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<ProductsAboveAveragePrice>> ProductsAboveAveragePrices()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<ProductSalesFor1997>> ProductSalesFor1997s()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<ProductsByCategory>> ProductsByCategories()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<SalesByCategory>> SalesByCategory()
-        {
-            throw new NotImplementedException();
+            return new EmployeeSalesByCountries(this.Connection, new Patterns.StartAndEndDate() { StartDate = fromDate, EndDate = toDate }).Run();
         }
 
         public Task<IList<SaleByYear>> SalesByYear(DateTime fromDate, DateTime toDate)
         {
-            throw new NotImplementedException();
+            return new SalesByYearCommand(this.Connection, new Patterns.StartAndEndDate() { StartDate = fromDate, EndDate = toDate }).Run();
         }
 
+        public Task<IList<Invoice>> Invoices()
+        {
+            return new InvoicesCommand(this.Connection).Run();
+        }
+
+        public Task<IList<OrderDetailsExtended>> OrderDetailsExtendeds()
+        {
+            return new OrderDetailsExtendedCommand(this.Connection).Run();
+        }
+
+        public Task<IList<OrdersQry>> OrdersQries()
+        {
+            return new OrdersQueryCommand(this.Connection).Run();
+        }
+
+        public Task<IList<OrderSubtotal>> OrderSubtotals()
+        {
+            return new OrderSubtotalsCommand(this.Connection).Run();
+        }
+
+        public Task<IList<ProductsAboveAveragePrice>> ProductsAboveAveragePrices()
+        {
+            return new ProductsAboveAveragePriceCommand(this.Connection).Run();
+        }
+
+        public Task<IList<ProductSalesFor1997>> ProductSalesFor1997s()
+        {
+            return new ProductSalesFor1997Command(this.Connection).Run();
+        }
+
+        public Task<IList<ProductsByCategory>> ProductsByCategories()
+        {
+            return new ProductsByCategoryCommand(this.Connection).Run();
+        }
+
+        public Task<IList<SaleByCategoryReport>> SalesByCategory()
+        {
+            return new SalesByCategoryCommand(this.Connection).Run();
+        }
+       
         public Task<IList<SalesTotalsByAmount>> SalesTotalsByAmounts()
         {
-            throw new NotImplementedException();
+            return new SalesTotalsByAmountCommand(this.Connection).Run();
         }
 
         public Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters()
         {
-            throw new NotImplementedException();
+            return new SummaryOfSalesByQuarterCommand(this.Connection).Run();
         }
 
         public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears()
         {
-            throw new NotImplementedException();
+            return new SummaryOfSalesByYearCommand(this.Connection).Run();
         }
 
         public Task<IList<MostExpensiveProduct>> TenMostExpensiveProducts()
         {
-            throw new NotImplementedException();
+            return new TenMostExpensiveProductsCommand(this.Connection).Run();
         }        
     }
 }

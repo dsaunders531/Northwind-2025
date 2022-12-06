@@ -3,16 +3,16 @@ using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
-    internal class CurrentProductListCommand : SqlRunnerCommandWithoutUndo<IList<CurrentProductList>>
+    internal class ProductsAboveAveragePriceCommand : SqlRunnerCommandWithoutUndo<IList<ProductsAboveAveragePrice>>
     {
-        public CurrentProductListCommand(string connection) : base(connection)
+        public ProductsAboveAveragePriceCommand(string connection) : base(connection)
         {
         }
 
         protected override void DefineCommand(SqlCommand com)
         {
             com.CommandType = System.Data.CommandType.Text;
-            com.CommandText = "select * from [Current Product List];";
+            com.CommandText = "select * from [dbo].[Products Above Average Price];";
         }
 
         protected override void DefineParameters(SqlCommand com)
@@ -20,9 +20,9 @@ namespace Northwind.Context.MsSql.Commands
             // no parameters
         }
 
-        protected override async Task<IList<CurrentProductList>> RunCommand(SqlCommand com)
+        protected override async Task<IList<ProductsAboveAveragePrice>> RunCommand(SqlCommand com)
         {
-            List<CurrentProductList> result = new List<CurrentProductList>();
+            List<ProductsAboveAveragePrice> result = new List<ProductsAboveAveragePrice>();
 
             using (SqlDataReader reader = await com.ExecuteReaderAsync())
             {
@@ -30,9 +30,9 @@ namespace Northwind.Context.MsSql.Commands
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new CurrentProductList() { 
-                            ProductId = Convert.ToInt32(reader["ProductID"]),
-                            ProductName = reader["ProductName"]?.ToString() ?? string.Empty
+                        result.Add(new ProductsAboveAveragePrice() { 
+                            ProductName = reader["ProductName"]?.ToString() ?? string.Empty,
+                            UnitPrice = Convert.ToDecimal(reader["UnitPrice"])
                         });
                     }
                 }

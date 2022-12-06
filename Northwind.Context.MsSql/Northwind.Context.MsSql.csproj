@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Northwind.Context\Northwind.Context.csproj" />
+    <ProjectReference Include="..\Patterns\Patterns.csproj" />
   </ItemGroup>
 
 </Project>

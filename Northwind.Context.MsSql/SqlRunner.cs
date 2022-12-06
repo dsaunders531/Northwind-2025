@@ -2,7 +2,7 @@
 
 namespace Northwind.Context.MsSql
 {
-    internal abstract class SqlRunner
+    internal abstract class SqlRunner 
     {
         public SqlRunner(string connection)
         {
@@ -10,7 +10,7 @@ namespace Northwind.Context.MsSql
         }
 
         protected string Connection { get; set; }
-
+        
         protected SqlConnection GetConnection()
         {
             return new SqlConnection(this.Connection);

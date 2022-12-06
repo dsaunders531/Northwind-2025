@@ -3,16 +3,16 @@ using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
-    internal class CurrentProductListCommand : SqlRunnerCommandWithoutUndo<IList<CurrentProductList>>
+    internal class SummaryOfSalesByYearCommand : SqlRunnerCommandWithoutUndo<IList<SummaryOfSalesByYear>>
     {
-        public CurrentProductListCommand(string connection) : base(connection)
+        public SummaryOfSalesByYearCommand(string connection) : base(connection)
         {
         }
 
         protected override void DefineCommand(SqlCommand com)
         {
             com.CommandType = System.Data.CommandType.Text;
-            com.CommandText = "select * from [Current Product List];";
+            com.CommandText = "select * from [dbo].[Summary of Sales by Year];";
         }
 
         protected override void DefineParameters(SqlCommand com)
@@ -20,9 +20,9 @@ namespace Northwind.Context.MsSql.Commands
             // no parameters
         }
 
-        protected override async Task<IList<CurrentProductList>> RunCommand(SqlCommand com)
+        protected override async Task<IList<SummaryOfSalesByYear>> RunCommand(SqlCommand com)
         {
-            List<CurrentProductList> result = new List<CurrentProductList>();
+            List<SummaryOfSalesByYear> result = new List<SummaryOfSalesByYear>();
 
             using (SqlDataReader reader = await com.ExecuteReaderAsync())
             {
@@ -30,9 +30,10 @@ namespace Northwind.Context.MsSql.Commands
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new CurrentProductList() { 
-                            ProductId = Convert.ToInt32(reader["ProductID"]),
-                            ProductName = reader["ProductName"]?.ToString() ?? string.Empty
+                        result.Add(new SummaryOfSalesByYear() { 
+                            ShippedDate = Convert.ToDateTime(reader["ShippedDate"]),
+                            OrderId = Convert.ToInt32(reader["OrderID"]),
+                            Subtotal = Convert.ToDecimal(reader["Subtotal"])
                         });
                     }
                 }

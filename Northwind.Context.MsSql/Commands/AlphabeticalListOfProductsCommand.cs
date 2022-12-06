@@ -4,7 +4,7 @@ using System.Net;
 
 namespace Northwind.Context.MsSql.Commands
 {
-    internal class AlphabeticalListOfProductsCommand : SqlCommandRunner<IList<AlphabeticalListOfProduct>>
+    internal class AlphabeticalListOfProductsCommand : SqlRunnerCommandWithoutUndo<IList<AlphabeticalListOfProduct>>
     {
         public AlphabeticalListOfProductsCommand(string connection) : base(connection) { }
 
@@ -18,7 +18,7 @@ namespace Northwind.Context.MsSql.Commands
         {
             // no parameters
         }
-
+       
         protected override async Task<IList<AlphabeticalListOfProduct>> RunCommand(SqlCommand com)
         {
             List<AlphabeticalListOfProduct> result = new List<AlphabeticalListOfProduct>();
@@ -47,6 +47,6 @@ namespace Northwind.Context.MsSql.Commands
             }
 
             return result;
-        }
+        }        
     }
 }
