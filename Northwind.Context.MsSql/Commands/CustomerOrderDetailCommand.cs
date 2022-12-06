@@ -1,11 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="CustomerOrderDetailCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
     internal class CustomerOrderDetailCommand : SqlRunnerCommandWithoutUndo<IList<CustomerOrderDetail>, int>
     {
-        public CustomerOrderDetailCommand(string connection, int parameters) : base(connection, parameters)
+        public CustomerOrderDetailCommand(string connection, int parameters)
+            : base(connection, parameters)
         {
         }
 
@@ -36,7 +41,7 @@ namespace Northwind.Context.MsSql.Commands
                             UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
                             Quantity = Convert.ToInt32(reader["Quantity"]),
                             Discount = Convert.ToDecimal(reader["Discount"]),
-                            ExtendedPrice = Convert.ToDecimal(reader["ExtendedPrice"])
+                            ExtendedPrice = Convert.ToDecimal(reader["ExtendedPrice"]),
                         });
                     }
                 }

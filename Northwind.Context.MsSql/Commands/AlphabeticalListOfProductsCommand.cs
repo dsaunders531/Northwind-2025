@@ -1,11 +1,18 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="AlphabeticalListOfProductsCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
     internal class AlphabeticalListOfProductsCommand : SqlRunnerCommandWithoutUndo<IList<AlphabeticalListOfProduct>>
     {
-        public AlphabeticalListOfProductsCommand(string connection) : base(connection) { }
+        public AlphabeticalListOfProductsCommand(string connection)
+            : base(connection)
+        {
+        }
 
         protected override void DefineCommand(SqlCommand com)
         {
@@ -40,7 +47,7 @@ namespace Northwind.Context.MsSql.Commands
                             SupplierId = Convert.ToInt32(reader["SupplierID"]),
                             UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
                             UnitsInStock = Convert.ToInt16(reader["UnitsInStock"]),
-                            UnitsOnOrder = Convert.ToInt16(reader["UnitsOnOrder"])
+                            UnitsOnOrder = Convert.ToInt16(reader["UnitsOnOrder"]),
                         });
                     }
                 }

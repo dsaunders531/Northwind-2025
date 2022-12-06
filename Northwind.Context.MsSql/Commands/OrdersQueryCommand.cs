@@ -1,11 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="OrdersQueryCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
     internal class OrdersQueryCommand : SqlRunnerCommandWithoutUndo<IList<OrdersQry>>
     {
-        public OrdersQueryCommand(string connection) : base(connection)
+        public OrdersQueryCommand(string connection)
+            : base(connection)
         {
         }
 
@@ -51,7 +56,7 @@ namespace Northwind.Context.MsSql.Commands
                             City = reader["City"]?.ToString() ?? string.Empty,
                             Region = reader["Region"]?.ToString() ?? string.Empty,
                             PostalCode = reader["PostalCode"]?.ToString() ?? string.Empty,
-                            Country = reader["Country"]?.ToString() ?? string.Empty
+                            Country = reader["Country"]?.ToString() ?? string.Empty,
                         });
                     }
                 }

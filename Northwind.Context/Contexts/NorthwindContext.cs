@@ -1,26 +1,48 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// <copyright file="NorthwindContext.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.EntityFrameworkCore;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.Contexts
 {
     public abstract class NorthwindContext : DbContext
     {
-        public NorthwindContext() : base() { }
+        public NorthwindContext()
+            : base()
+        {
+        }
 
-        public NorthwindContext(DbContextOptions<NorthwindContext> options) : base(options) { }
+        public NorthwindContext(DbContextOptions<NorthwindContext> options)
+            : base(options)
+        {
+        }
 
         public virtual DbSet<Category> Categories { get; set; } = null!;
+
         public virtual DbSet<Customer> Customers { get; set; } = null!;
+
         public virtual DbSet<CustomerDemographic> CustomerDemographics { get; set; } = null!;
+
         public virtual DbSet<Employee> Employees { get; set; } = null!;
+
         public virtual DbSet<Order> Orders { get; set; } = null!;
+
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
+
         public virtual DbSet<Product> Products { get; set; } = null!;
+
         public virtual DbSet<QuarterlyOrder> QuarterlyOrders { get; set; } = null!;
+
         public virtual DbSet<Region> Regions { get; set; } = null!;
+
         public virtual DbSet<SalesByCategory> SalesByCategories { get; set; } = null!;
+
         public virtual DbSet<Shipper> Shippers { get; set; } = null!;
+
         public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
+
         public virtual DbSet<Territory> Territories { get; set; } = null!;
 
         protected sealed override void OnModelCreating(ModelBuilder modelBuilder)
@@ -178,6 +200,8 @@ namespace Northwind.Context.Contexts
         /// Use this to create any specific modelcreating things you need for your database type.
         /// </summary>
         /// <param name="modelBuilder"></param>
-        protected virtual void OnModelCreatingPartial(ModelBuilder modelBuilder) { }
+        protected virtual void OnModelCreatingPartial(ModelBuilder modelBuilder)
+        {
+        }
     }
 }

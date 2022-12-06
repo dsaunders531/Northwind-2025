@@ -1,11 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="CategorySalesFor1997Command.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
     internal class CategorySalesFor1997Command : SqlRunnerCommandWithoutUndo<IList<CategorySalesFor1997>>
     {
-        public CategorySalesFor1997Command(string connection) : base(connection)
+        public CategorySalesFor1997Command(string connection)
+            : base(connection)
         {
         }
 
@@ -33,7 +38,7 @@ namespace Northwind.Context.MsSql.Commands
                         result.Add(new CategorySalesFor1997()
                         {
                             CategoryName = reader["CategoryName"]?.ToString() ?? string.Empty,
-                            CategorySales = Convert.IsDBNull(reader["CategorySales"]) ? new decimal?() : Convert.ToDecimal(reader["CategorySales"])
+                            CategorySales = Convert.IsDBNull(reader["CategorySales"]) ? default(decimal?) : Convert.ToDecimal(reader["CategorySales"]),
                         });
                     }
                 }

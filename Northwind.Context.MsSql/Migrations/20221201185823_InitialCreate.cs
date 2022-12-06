@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// <copyright file="20221201185823_InitialCreate.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -16,7 +20,7 @@ namespace Northwind.Context.MsSql.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CategoryName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     Description = table.Column<string>(type: "ntext", nullable: true),
-                    Picture = table.Column<byte[]>(type: "image", nullable: true)
+                    Picture = table.Column<byte[]>(type: "image", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -28,7 +32,7 @@ namespace Northwind.Context.MsSql.Migrations
                 columns: table => new
                 {
                     CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CustomerTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    CustomerTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -40,7 +44,7 @@ namespace Northwind.Context.MsSql.Migrations
                 columns: table => new
                 {
                     CustomerTypeID = table.Column<string>(type: "nchar(10)", fixedLength: true, maxLength: 10, nullable: false),
-                    CustomerDesc = table.Column<string>(type: "ntext", nullable: true)
+                    CustomerDesc = table.Column<string>(type: "ntext", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -61,7 +65,7 @@ namespace Northwind.Context.MsSql.Migrations
                     PostalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     Country = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: true),
-                    Fax = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: true)
+                    Fax = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -90,7 +94,7 @@ namespace Northwind.Context.MsSql.Migrations
                     Photo = table.Column<byte[]>(type: "image", nullable: true),
                     Notes = table.Column<string>(type: "ntext", nullable: true),
                     ReportsTo = table.Column<int>(type: "int", nullable: true),
-                    PhotoPath = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                    PhotoPath = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -107,7 +111,7 @@ namespace Northwind.Context.MsSql.Migrations
                 columns: table => new
                 {
                     RegionID = table.Column<int>(type: "int", nullable: false),
-                    RegionDescription = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false)
+                    RegionDescription = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false),
                 },
                 constraints: table =>
                 {
@@ -121,7 +125,7 @@ namespace Northwind.Context.MsSql.Migrations
                     CategoryID = table.Column<int>(type: "int", nullable: false),
                     CategoryName = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     ProductName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    ProductSales = table.Column<decimal>(type: "money", nullable: true)
+                    ProductSales = table.Column<decimal>(type: "money", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -134,7 +138,7 @@ namespace Northwind.Context.MsSql.Migrations
                     ShipperID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CompanyName = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: true)
+                    Phone = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -157,7 +161,7 @@ namespace Northwind.Context.MsSql.Migrations
                     Country = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: true),
                     Fax = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: true),
-                    HomePage = table.Column<string>(type: "ntext", nullable: true)
+                    HomePage = table.Column<string>(type: "ntext", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -169,7 +173,7 @@ namespace Northwind.Context.MsSql.Migrations
                 columns: table => new
                 {
                     CustomerID = table.Column<string>(type: "nchar(5)", fixedLength: true, maxLength: 5, nullable: false),
-                    CustomerTypeID = table.Column<string>(type: "nchar(10)", fixedLength: true, maxLength: 10, nullable: false)
+                    CustomerTypeID = table.Column<string>(type: "nchar(10)", fixedLength: true, maxLength: 10, nullable: false),
                 },
                 constraints: table =>
                 {
@@ -192,7 +196,7 @@ namespace Northwind.Context.MsSql.Migrations
                 {
                     TerritoryID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     TerritoryDescription = table.Column<string>(type: "nchar(50)", fixedLength: true, maxLength: 50, nullable: false),
-                    RegionID = table.Column<int>(type: "int", nullable: false)
+                    RegionID = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -222,7 +226,7 @@ namespace Northwind.Context.MsSql.Migrations
                     ShipCity = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     ShipRegion = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     ShipPostalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    ShipCountry = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true)
+                    ShipCountry = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                 },
                 constraints: table =>
                 {
@@ -258,7 +262,7 @@ namespace Northwind.Context.MsSql.Migrations
                     UnitsInStock = table.Column<short>(type: "smallint", nullable: true, defaultValueSql: "((0))"),
                     UnitsOnOrder = table.Column<short>(type: "smallint", nullable: true, defaultValueSql: "((0))"),
                     ReorderLevel = table.Column<short>(type: "smallint", nullable: true, defaultValueSql: "((0))"),
-                    Discontinued = table.Column<bool>(type: "bit", nullable: false)
+                    Discontinued = table.Column<bool>(type: "bit", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -280,7 +284,7 @@ namespace Northwind.Context.MsSql.Migrations
                 columns: table => new
                 {
                     EmployeeID = table.Column<int>(type: "int", nullable: false),
-                    TerritoryID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    TerritoryID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                 },
                 constraints: table =>
                 {
@@ -305,7 +309,7 @@ namespace Northwind.Context.MsSql.Migrations
                     ProductID = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "money", nullable: false),
                     Quantity = table.Column<short>(type: "smallint", nullable: false, defaultValueSql: "((1))"),
-                    Discount = table.Column<float>(type: "real", nullable: false)
+                    Discount = table.Column<float>(type: "real", nullable: false),
                 },
                 constraints: table =>
                 {

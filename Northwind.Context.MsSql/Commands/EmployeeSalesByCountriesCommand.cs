@@ -1,4 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="EmployeeSalesByCountriesCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 using Patterns;
 
@@ -6,7 +10,8 @@ namespace Northwind.Context.MsSql.Commands
 {
     internal class EmployeeSalesByCountriesCommand : SqlRunnerCommandWithoutUndo<IList<EmployeeSalesByCountry>, StartAndEndDate>
     {
-        public EmployeeSalesByCountriesCommand(string connection, StartAndEndDate parameters) : base(connection, parameters)
+        public EmployeeSalesByCountriesCommand(string connection, StartAndEndDate parameters)
+            : base(connection, parameters)
         {
         }
 
@@ -38,7 +43,7 @@ namespace Northwind.Context.MsSql.Commands
                             LastName = reader["LastName"].ToString() ?? string.Empty,
                             FirstName = reader["FirstName"].ToString() ?? string.Empty,
                             OrderId = Convert.ToInt32(reader["OderID"]),
-                            SaleAmount = Convert.ToDecimal(reader["SaleAmount"])
+                            SaleAmount = Convert.ToDecimal(reader["SaleAmount"]),
                         });
                     }
                 }

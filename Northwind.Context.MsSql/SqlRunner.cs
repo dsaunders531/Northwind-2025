@@ -1,4 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="SqlRunner.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 
 namespace Northwind.Context.MsSql
 {

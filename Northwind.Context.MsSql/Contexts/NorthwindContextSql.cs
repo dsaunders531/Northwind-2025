@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// <copyright file="NorthwindContextSql.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.EntityFrameworkCore;
 using Northwind.Context.Contexts;
 
 namespace Northwind.Context.MsSql.Contexts

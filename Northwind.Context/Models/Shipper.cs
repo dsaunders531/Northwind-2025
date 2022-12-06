@@ -1,4 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// <copyright file="Shipper.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Northwind.Context.Models
@@ -13,8 +17,10 @@ namespace Northwind.Context.Models
         [Key]
         [Column("ShipperID")]
         public int ShipperId { get; set; }
+
         [StringLength(40)]
         public string CompanyName { get; set; } = null!;
+
         [StringLength(24)]
         public string? Phone { get; set; }
 

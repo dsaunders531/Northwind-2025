@@ -1,11 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="ProductsByCategoryCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
     internal class ProductsByCategoryCommand : SqlRunnerCommandWithoutUndo<IList<ProductsByCategory>>
     {
-        public ProductsByCategoryCommand(string connection) : base(connection)
+        public ProductsByCategoryCommand(string connection)
+            : base(connection)
         {
         }
 
@@ -36,7 +41,7 @@ namespace Northwind.Context.MsSql.Commands
                             ProductName = reader["ProductName"]?.ToString() ?? string.Empty,
                             QuantityPerUnit = reader["QuantityPerUnit"]?.ToString() ?? string.Empty,
                             UnitsInStock = Convert.ToInt16(reader["UnitsInStock"]),
-                            Discontinued = Convert.ToBoolean(reader["Discontinued"])
+                            Discontinued = Convert.ToBoolean(reader["Discontinued"]),
                         });
                     }
                 }

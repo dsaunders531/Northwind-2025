@@ -1,11 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="InvoicesCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
     internal class InvoicesCommand : SqlRunnerCommandWithoutUndo<IList<Invoice>>
     {
-        public InvoicesCommand(string connection) : base(connection)
+        public InvoicesCommand(string connection)
+            : base(connection)
         {
         }
 
@@ -57,7 +62,7 @@ namespace Northwind.Context.MsSql.Commands
                             Quantity = Convert.ToInt16(reader["Quantity"]),
                             Discount = Convert.ToSingle(reader["Discount"]),
                             ExtendedPrice = Convert.ToDecimal(reader["ExtendedPrice"]),
-                            Freight = Convert.ToDecimal(reader["Freight"])
+                            Freight = Convert.ToDecimal(reader["Freight"]),
                         });
                     }
                 }

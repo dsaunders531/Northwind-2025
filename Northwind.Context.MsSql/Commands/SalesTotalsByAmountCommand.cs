@@ -1,11 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="SalesTotalsByAmountCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
     internal class SalesTotalsByAmountCommand : SqlRunnerCommandWithoutUndo<IList<SalesTotalsByAmount>>
     {
-        public SalesTotalsByAmountCommand(string connection) : base(connection)
+        public SalesTotalsByAmountCommand(string connection)
+            : base(connection)
         {
         }
 
@@ -35,7 +40,7 @@ namespace Northwind.Context.MsSql.Commands
                             SaleAmount = Convert.ToDecimal(reader["SaleAmount"]),
                             OrderId = Convert.ToInt32(reader["OrderID"]),
                             CompanyName = reader["CompanyName"]?.ToString() ?? string.Empty,
-                            ShippedDate = Convert.ToDateTime(reader["ShippedDate"])
+                            ShippedDate = Convert.ToDateTime(reader["ShippedDate"]),
                         });
                     }
                 }

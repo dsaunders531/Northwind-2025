@@ -1,4 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="SalesByYearCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 using Patterns;
 
@@ -6,7 +10,8 @@ namespace Northwind.Context.MsSql.Commands
 {
     internal class SalesByYearCommand : SqlRunnerCommandWithoutUndo<IList<SaleByYear>, StartAndEndDate>
     {
-        public SalesByYearCommand(string connection, StartAndEndDate parameters) : base(connection, parameters)
+        public SalesByYearCommand(string connection, StartAndEndDate parameters)
+            : base(connection, parameters)
         {
         }
 
@@ -37,7 +42,7 @@ namespace Northwind.Context.MsSql.Commands
                             ShippedDate = Convert.ToDateTime(reader["ShippedDate"]),
                             OrderId = Convert.ToInt32(reader["OrderID"]),
                             Subtotal = Convert.ToDecimal(reader["Subtotal"]),
-                            Year = Convert.ToInt32(reader["Year"])
+                            Year = Convert.ToInt32(reader["Year"]),
                         });
                     }
                 }

@@ -1,11 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="CustomerOrderHistoryCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
     internal class CustomerOrderHistoryCommand : SqlRunnerCommandWithoutUndo<IList<CustomerOrderHistory>, string>
     {
-        public CustomerOrderHistoryCommand(string connection, string parameters) : base(connection, parameters)
+        public CustomerOrderHistoryCommand(string connection, string parameters)
+            : base(connection, parameters)
         {
         }
 
@@ -33,7 +38,7 @@ namespace Northwind.Context.MsSql.Commands
                         result.Add(new CustomerOrderHistory()
                         {
                             ProductName = reader["ProductName"]?.ToString() ?? string.Empty,
-                            Total = Convert.ToInt32(reader["Total"])
+                            Total = Convert.ToInt32(reader["Total"]),
                         });
                     }
                 }

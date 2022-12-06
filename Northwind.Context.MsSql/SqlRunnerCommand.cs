@@ -1,4 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="SqlRunnerCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Patterns;
 
 namespace Northwind.Context.MsSql
@@ -6,7 +10,10 @@ namespace Northwind.Context.MsSql
     internal abstract class SqlRunnerCommand<TOutput> : SqlRunner, IAsyncCommand<TOutput>
         where TOutput : class
     {
-        public SqlRunnerCommand(string connection) : base(connection) { }
+        public SqlRunnerCommand(string connection)
+            : base(connection)
+        {
+        }
 
         public async Task<TOutput> Run()
         {
@@ -83,62 +90,5 @@ namespace Northwind.Context.MsSql
         protected abstract Task<TOutput> RunCommand(SqlCommand com);
 
         protected abstract Task RunUndoCommand(SqlCommand com);
-    }
-
-    internal abstract class SqlRunnerCommandWithoutUndo<TOutput> : SqlRunnerCommand<TOutput>
-        where TOutput : class
-    {
-        protected SqlRunnerCommandWithoutUndo(string connection) : base(connection)
-        {
-        }
-
-        protected override void DefineUndoCommand(SqlCommand com)
-        {
-            throw new NotSupportedException($"{GetType().ToString} does not support undo operations.");
-        }
-
-        protected override void DefineUndoParameters(SqlCommand com)
-        {
-            throw new NotSupportedException($"{GetType().ToString} does not support undo operations.");
-        }
-
-        protected override Task RunUndoCommand(SqlCommand com)
-        {
-            throw new NotSupportedException($"{GetType().ToString} does not support undo operations.");
-        }
-    }
-
-    internal abstract class SqlRunnerCommand<TOutput, TInput> : SqlRunnerCommand<TOutput>
-        where TOutput : class
-    {
-        public SqlRunnerCommand(string connection, TInput parameters) : base(connection)
-        {
-            Parameters = parameters;
-        }
-
-        protected TInput Parameters { get; set; }
-    }
-
-    internal abstract class SqlRunnerCommandWithoutUndo<TOutput, TInput> : SqlRunnerCommand<TOutput, TInput>
-        where TOutput : class
-    {
-        protected SqlRunnerCommandWithoutUndo(string connection, TInput parameters) : base(connection, parameters)
-        {
-        }
-
-        protected override void DefineUndoCommand(SqlCommand com)
-        {
-            throw new NotSupportedException($"{GetType().ToString} does not support undo operations.");
-        }
-
-        protected override void DefineUndoParameters(SqlCommand com)
-        {
-            throw new NotSupportedException($"{GetType().ToString} does not support undo operations.");
-        }
-
-        protected override Task RunUndoCommand(SqlCommand com)
-        {
-            throw new NotSupportedException($"{GetType().ToString} does not support undo operations.");
-        }
     }
 }

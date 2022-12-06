@@ -7,13 +7,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 	ProjectSection(SolutionItems) = preProject
 		Resources\instnwnd2005_original.sql = Resources\instnwnd2005_original.sql
 		Project Journal.docx = Project Journal.docx
+		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Context", "Northwind.Context\Northwind.Context.csproj", "{47A1368E-EC48-4324-9FD0-FF632875549B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Context.MsSql", "Northwind.Context.MsSql\Northwind.Context.MsSql.csproj", "{B089766A-AEA1-4FF2-9DA2-64C62AE37E6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Patterns", "Patterns\Patterns.csproj", "{B3405200-6102-408E-B396-70C5D131131B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Patterns", "Patterns\Patterns.csproj", "{B3405200-6102-408E-B396-70C5D131131B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{132532B2-4A8F-4ACF-9104-D7D51CE369B1}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

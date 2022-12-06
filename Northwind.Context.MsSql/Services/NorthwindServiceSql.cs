@@ -1,4 +1,8 @@
-﻿using Northwind.Context.Interfaces;
+﻿// <copyright file="NorthwindServiceSql.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Northwind.Context.Interfaces;
 using Northwind.Context.Models;
 using Northwind.Context.MsSql.Commands;
 

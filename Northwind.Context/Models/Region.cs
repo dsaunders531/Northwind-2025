@@ -1,4 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// <copyright file="Region.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Northwind.Context.Models
@@ -14,6 +18,7 @@ namespace Northwind.Context.Models
         [Key]
         [Column("RegionID")]
         public int RegionId { get; set; }
+
         [StringLength(50)]
         public string RegionDescription { get; set; } = null!;
 

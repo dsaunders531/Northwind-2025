@@ -1,11 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="SummaryOfSalesByQuarterCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
     internal class SummaryOfSalesByQuarterCommand : SqlRunnerCommandWithoutUndo<IList<SummaryOfSalesByQuarter>>
     {
-        public SummaryOfSalesByQuarterCommand(string connection) : base(connection)
+        public SummaryOfSalesByQuarterCommand(string connection)
+            : base(connection)
         {
         }
 
@@ -34,7 +39,7 @@ namespace Northwind.Context.MsSql.Commands
                         {
                             ShippedDate = Convert.ToDateTime(reader["ShippedDate"]),
                             OrderId = Convert.ToInt32(reader["OrderID"]),
-                            Subtotal = Convert.ToDecimal(reader["Subtotal"])
+                            Subtotal = Convert.ToDecimal(reader["Subtotal"]),
                         });
                     }
                 }

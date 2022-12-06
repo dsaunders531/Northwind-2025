@@ -1,11 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="CustomAndSuppliersByCitiesCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
     internal class CustomAndSuppliersByCitiesCommand : SqlRunnerCommandWithoutUndo<IList<CustomerAndSuppliersByCity>>
     {
-        public CustomAndSuppliersByCitiesCommand(string connection) : base(connection)
+        public CustomAndSuppliersByCitiesCommand(string connection)
+            : base(connection)
         {
         }
 
@@ -35,7 +40,7 @@ namespace Northwind.Context.MsSql.Commands
                             City = reader["City"].ToString(),
                             CompanyName = reader["CompanyName"]?.ToString() ?? string.Empty,
                             ContactName = reader["ContactName"].ToString(),
-                            Relationship = reader["Relationship"]?.ToString() ?? string.Empty
+                            Relationship = reader["Relationship"]?.ToString() ?? string.Empty,
                         });
                     }
                 }

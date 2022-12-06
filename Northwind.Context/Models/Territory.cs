@@ -1,4 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿// <copyright file="Territory.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Northwind.Context.Models
@@ -14,8 +18,10 @@ namespace Northwind.Context.Models
         [Column("TerritoryID")]
         [StringLength(20)]
         public string TerritoryId { get; set; } = null!;
+
         [StringLength(50)]
         public string TerritoryDescription { get; set; } = null!;
+
         [Column("RegionID")]
         public int RegionId { get; set; }
 

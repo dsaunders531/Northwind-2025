@@ -1,11 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="CustomerOrdersCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
     internal class CustomerOrdersCommand : SqlRunnerCommandWithoutUndo<IList<CustomerOrders>, string>
     {
-        public CustomerOrdersCommand(string connection, string parameters) : base(connection, parameters)
+        public CustomerOrdersCommand(string connection, string parameters)
+            : base(connection, parameters)
         {
         }
 
@@ -35,7 +40,7 @@ namespace Northwind.Context.MsSql.Commands
                             OrderId = Convert.ToInt32(reader["OrderId"]),
                             OrderDate = Convert.ToDateTime(reader["OrderDate"]),
                             RequiredDate = Convert.ToDateTime(reader["RequiredDate"]),
-                            ShippedDate = Convert.ToDateTime(reader["ShippedDate"])
+                            ShippedDate = Convert.ToDateTime(reader["ShippedDate"]),
                         });
                     }
                 }

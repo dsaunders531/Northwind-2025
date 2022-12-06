@@ -1,11 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿// <copyright file="TenMostExpensiveProductsCommand.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
     internal class TenMostExpensiveProductsCommand : SqlRunnerCommandWithoutUndo<IList<MostExpensiveProduct>>
     {
-        public TenMostExpensiveProductsCommand(string connection) : base(connection)
+        public TenMostExpensiveProductsCommand(string connection)
+            : base(connection)
         {
         }
 
@@ -33,7 +38,7 @@ namespace Northwind.Context.MsSql.Commands
                         result.Add(new MostExpensiveProduct()
                         {
                             Name = reader["TenMostExpensiveProducts"]?.ToString() ?? string.Empty,
-                            UnitPrice = Convert.ToDecimal(reader["UnitPrice"])
+                            UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
                         });
                     }
                 }
