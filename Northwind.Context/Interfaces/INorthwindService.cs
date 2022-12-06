@@ -23,7 +23,7 @@ namespace Northwind.Context.Interfaces
         // Stored procs
         Task<IList<MostExpensiveProduct>> TenMostExpensiveProducts();
         Task<IList<EmployeeSalesByCountry>> EmployeeSalesByCountries(DateTime fromDate, DateTime toDate);
-        Task<IList<SalesByCategory>> SalesByCategory();
+        Task<IList<SaleByCategoryReport>> SalesByCategory();
         Task<IList<SaleByYear>> SalesByYear(DateTime fromDate, DateTime toDate);
         Task<IList<CustomerOrders>> CustomerOders(string customerId);
         Task<IList<CustomerOrderDetail>> CustomerOrderDetail(int orderId);

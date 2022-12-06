@@ -1,6 +1,6 @@
 ﻿namespace Northwind.Context.Models
 {
-    public class SaleByCategory
+    public class SaleByCategoryReport
     {
         public string ProductName { get; set; }
         public decimal TotalPurchased { get; set; }
