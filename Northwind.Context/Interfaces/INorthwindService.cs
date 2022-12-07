@@ -42,7 +42,7 @@ namespace Northwind.Context.Interfaces
 
         Task<IList<EmployeeSalesByCountry>> EmployeeSalesByCountries(DateTime fromDate, DateTime toDate);
 
-        Task<IList<SaleByCategoryReport>> SalesByCategory();
+        Task<IList<SaleByCategoryReport>> SalesByCategory(string categoryName, int year);
 
         Task<IList<SaleByYear>> SalesByYear(DateTime fromDate, DateTime toDate);
 

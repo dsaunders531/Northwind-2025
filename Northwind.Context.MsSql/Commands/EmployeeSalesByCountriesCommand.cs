@@ -42,7 +42,7 @@ namespace Northwind.Context.MsSql.Commands
                             Country = reader["Country"]?.ToString() ?? string.Empty,
                             LastName = reader["LastName"].ToString() ?? string.Empty,
                             FirstName = reader["FirstName"].ToString() ?? string.Empty,
-                            OrderId = Convert.ToInt32(reader["OderID"]),
+                            OrderId = Convert.ToInt32(reader["OrderID"]),
                             SaleAmount = Convert.ToDecimal(reader["SaleAmount"]),
                         });
                     }

@@ -100,9 +100,13 @@ namespace Northwind.Context.MsSql.Services
             return new ProductsByCategoryCommand(Connection).Run();
         }
 
-        public Task<IList<SaleByCategoryReport>> SalesByCategory()
+        public Task<IList<SaleByCategoryReport>> SalesByCategory(string categoryName, int year)
         {
-            return new SalesByCategoryCommand(Connection).Run();
+            return new SalesByCategoryCommand(Connection, new SalesByCateogryCommandParameters()
+            {
+                CategoryName = categoryName,
+                Year = year,
+            }).Run();
         }
 
         public Task<IList<SalesTotalsByAmount>> SalesTotalsByAmounts()

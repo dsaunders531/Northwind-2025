@@ -52,17 +52,17 @@ namespace Northwind.Context.MsSql.Commands
                             Country = reader["Country"]?.ToString() ?? string.Empty,
                             Salesperson = reader["Salesperson"]?.ToString() ?? string.Empty,
                             OrderId = Convert.ToInt32(reader["OrderID"]),
-                            OrderDate = Convert.ToDateTime(reader["OrderDate"]),
-                            RequiredDate = Convert.ToDateTime(reader["RequiredDate"]),
-                            ShippedDate = Convert.ToDateTime(reader["ShippedDate"]),
+                            OrderDate = Convert.IsDBNull(reader["OrderDate"]) ? default(DateTime?) : Convert.ToDateTime(reader["OrderDate"]),
+                            RequiredDate = Convert.IsDBNull(reader["RequiredDate"]) ? default(DateTime?) : Convert.ToDateTime(reader["RequiredDate"]),
+                            ShippedDate = Convert.IsDBNull(reader["ShippedDate"]) ? default(DateTime?) : Convert.ToDateTime(reader["ShippedDate"]),
                             ShipperName = reader["ShipperName"]?.ToString() ?? string.Empty,
                             ProductId = Convert.ToInt32(reader["ProductID"]),
                             ProductName = reader["ProductName"]?.ToString() ?? string.Empty,
                             UnitPrice = Convert.ToDecimal(reader["UnitPrice"]),
                             Quantity = Convert.ToInt16(reader["Quantity"]),
                             Discount = Convert.ToSingle(reader["Discount"]),
-                            ExtendedPrice = Convert.ToDecimal(reader["ExtendedPrice"]),
-                            Freight = Convert.ToDecimal(reader["Freight"]),
+                            ExtendedPrice = Convert.IsDBNull(reader["ExtendedPrice"]) ? default(decimal?) : Convert.ToDecimal(reader["ExtendedPrice"]),
+                            Freight = Convert.IsDBNull(reader["Freight"]) ? default(decimal?) : Convert.ToDecimal(reader["Freight"]),
                         });
                     }
                 }

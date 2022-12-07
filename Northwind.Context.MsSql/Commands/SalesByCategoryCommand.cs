@@ -7,10 +7,10 @@ using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
-    internal class SalesByCategoryCommand : SqlRunnerCommandWithoutUndo<IList<SaleByCategoryReport>>
+    internal class SalesByCategoryCommand : SqlRunnerCommandWithoutUndo<IList<SaleByCategoryReport>, SalesByCateogryCommandParameters>
     {
-        public SalesByCategoryCommand(string connection)
-            : base(connection)
+        public SalesByCategoryCommand(string connection, SalesByCateogryCommandParameters parameters)
+            : base(connection, parameters)
         {
         }
 
@@ -22,7 +22,8 @@ namespace Northwind.Context.MsSql.Commands
 
         protected override void DefineParameters(SqlCommand com)
         {
-            // no paramters
+            com.Parameters.Add(new SqlParameter("@CategoryName", System.Data.SqlDbType.NVarChar, 15) { Value = this.Parameters.CategoryName });
+            com.Parameters.Add(new SqlParameter("@OrdYear", System.Data.SqlDbType.NVarChar, 4) { Value = this.Parameters.Year.ToString() });
         }
 
         protected override async Task<IList<SaleByCategoryReport>> RunCommand(SqlCommand com)

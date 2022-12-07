@@ -17,7 +17,7 @@ namespace Northwind.Context.MsSql
 
         public async Task<TOutput> Run()
         {
-            TOutput result = Activator.CreateInstance<TOutput>();
+            TOutput result;
 
             using (SqlConnection con = GetConnection())
             {

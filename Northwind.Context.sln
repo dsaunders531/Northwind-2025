@@ -21,6 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{19EC04EA-BA1C-408E-ACCD-4A410F20695C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Tests.Sql", "Northwind.Tests.Sql\Northwind.Tests.Sql.csproj", "{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +43,16 @@ Global
 		{B3405200-6102-408E-B396-70C5D131131B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3405200-6102-408E-B396-70C5D131131B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3405200-6102-408E-B396-70C5D131131B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE} = {19EC04EA-BA1C-408E-ACCD-4A410F20695C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6EA215D7-C8D4-4457-971A-3D4B6581EFFE}
