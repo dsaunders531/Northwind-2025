@@ -37,6 +37,10 @@ namespace Northwind.Context.Interfaces
 
         Task<IList<ProductsAboveAveragePrice>> ProductsAboveAveragePrices();
 
+        Task<IList<QuarterlyOrder>> QuarterlyOrders();
+
+        Task<IList<SalesByCategory>> SalesByCategory();
+
         // Stored procs
         Task<IList<MostExpensiveProduct>> TenMostExpensiveProducts();
 

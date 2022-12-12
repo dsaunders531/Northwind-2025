@@ -102,7 +102,7 @@ namespace Northwind.Context.MsSql.Services
 
         public Task<IList<SaleByCategoryReport>> SalesByCategory(string categoryName, int year)
         {
-            return new SalesByCategoryCommand(Connection, new SalesByCateogryCommandParameters()
+            return new SalesByCategoryReportCommand(Connection, new SalesByCateogryReportCommandParameters()
             {
                 CategoryName = categoryName,
                 Year = year,
@@ -127,6 +127,16 @@ namespace Northwind.Context.MsSql.Services
         public Task<IList<MostExpensiveProduct>> TenMostExpensiveProducts()
         {
             return new TenMostExpensiveProductsCommand(Connection).Run();
+        }
+
+        public Task<IList<QuarterlyOrder>> QuarterlyOrders()
+        {
+            return new QuarterlyOrdersCommand(this.Connection).Run();
+        }
+
+        public Task<IList<SalesByCategory>> SalesByCategory()
+        {
+            return new SalesByCategoryCommand(this.Connection).Run();
         }
     }
 }

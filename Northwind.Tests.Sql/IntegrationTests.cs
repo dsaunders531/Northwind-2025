@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// <copyright file="IntegrationTests.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols;
 using Northwind.Context.Contexts;
@@ -6,6 +10,7 @@ using Northwind.Context.Interfaces;
 using Northwind.Context.Models;
 using Northwind.Context.MsSql.Contexts;
 using Northwind.Context.MsSql.Services;
+using NuGet.Frameworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,15 +32,15 @@ namespace Northwind.Tests.Sql
         /// <summary>
         /// Gets or sets the interface for the service is implemented in the test class, when it changes we have to update the tests too!
         /// </summary>
-        private INorthwindService NorthwindService { get; set; }
+        protected INorthwindService NorthwindService { get; set; }
 
         /// <summary>
         /// Gets or sets the context to get values which are not in the service.
         /// </summary>
-        private NorthwindContext NorthwindContext { get; set; }
+        protected NorthwindContext NorthwindContext { get; set; }
 
         [SetUp]
-        public void Setup()
+        public virtual void Setup()
         {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
             string connection = "Data Source=LAPTOP10\\SQLEXPRESS;Initial Catalog=Northwind-2025;Integrated Security=True;MultipleActiveResultSets=true;";
@@ -46,7 +51,7 @@ namespace Northwind.Tests.Sql
         }
 
         [TearDown]
-        public void Teardown()
+        public virtual void Teardown()
         {
             this.NorthwindContext.Dispose();
         }
@@ -300,7 +305,7 @@ namespace Northwind.Tests.Sql
         }
 
         [Test]
-        public async Task SalesByCategoryTest()
+        public async Task SalesByCategoryReportTest()
         {
             Category category = this.NorthwindContext.Categories.First();
 
@@ -384,6 +389,36 @@ namespace Northwind.Tests.Sql
         public Task<IList<CustomerOrderHistory>> CustomerOrderHistory(string customerId)
         {
             return NorthwindService.CustomerOrderHistory(customerId);
+        }
+
+        [Test]
+        public async Task QuarterlyOrdersTest()
+        {
+            IList<QuarterlyOrder> serviceValue = await this.QuarterlyOrders();
+
+            Assert.IsNotNull(serviceValue);
+
+            Assert.IsTrue(serviceValue.Any());
+        }
+
+        public Task<IList<QuarterlyOrder>> QuarterlyOrders()
+        {
+            return NorthwindService.QuarterlyOrders();
+        }
+
+        [Test]
+        public async Task SalesByCategoryTest()
+        {
+            IList<SalesByCategory> serviceValue = await this.SalesByCategory();
+
+            Assert.IsNotNull(serviceValue);
+
+            Assert.IsTrue(serviceValue.Any());
+        }
+
+        public Task<IList<SalesByCategory>> SalesByCategory()
+        {
+            return NorthwindService.SalesByCategory();
         }
     }
 }

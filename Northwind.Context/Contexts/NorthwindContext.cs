@@ -33,11 +33,7 @@ namespace Northwind.Context.Contexts
 
         public virtual DbSet<Product> Products { get; set; } = null!;
 
-        public virtual DbSet<QuarterlyOrder> QuarterlyOrders { get; set; } = null!;
-
         public virtual DbSet<Region> Regions { get; set; } = null!;
-
-        public virtual DbSet<SalesByCategory> SalesByCategories { get; set; } = null!;
 
         public virtual DbSet<Shipper> Shippers { get; set; } = null!;
 

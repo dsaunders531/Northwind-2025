@@ -7,28 +7,26 @@ using Northwind.Context.Models;
 
 namespace Northwind.Context.MsSql.Commands
 {
-    internal class SalesByCategoryCommand : SqlRunnerCommandWithoutUndo<IList<SaleByCategoryReport>, SalesByCateogryCommandParameters>
+    internal class SalesByCategoryCommand : SqlRunnerCommandWithoutUndo<IList<SalesByCategory>>
     {
-        public SalesByCategoryCommand(string connection, SalesByCateogryCommandParameters parameters)
-            : base(connection, parameters)
+        public SalesByCategoryCommand(string connection) : base(connection)
         {
         }
 
         protected override void DefineCommand(SqlCommand com)
         {
-            com.CommandType = System.Data.CommandType.StoredProcedure;
-            com.CommandText = "SalesByCategory";
+            com.CommandType = System.Data.CommandType.Text;
+            com.CommandText = "select * from [Sales by Category];";
         }
 
         protected override void DefineParameters(SqlCommand com)
         {
-            com.Parameters.Add(new SqlParameter("@CategoryName", System.Data.SqlDbType.NVarChar, 15) { Value = this.Parameters.CategoryName });
-            com.Parameters.Add(new SqlParameter("@OrdYear", System.Data.SqlDbType.NVarChar, 4) { Value = this.Parameters.Year.ToString() });
+            // no parameters
         }
 
-        protected override async Task<IList<SaleByCategoryReport>> RunCommand(SqlCommand com)
+        protected override async Task<IList<SalesByCategory>> RunCommand(SqlCommand com)
         {
-            List<SaleByCategoryReport> result = new List<SaleByCategoryReport>();
+            List<SalesByCategory> result = new List<SalesByCategory>();
 
             using (SqlDataReader reader = await com.ExecuteReaderAsync())
             {
@@ -36,10 +34,12 @@ namespace Northwind.Context.MsSql.Commands
                 {
                     while (await reader.ReadAsync())
                     {
-                        result.Add(new SaleByCategoryReport()
+                        result.Add(new SalesByCategory()
                         {
+                            CategoryId = Convert.ToInt32(reader["CategoryID"]),
+                            CategoryName = reader["CategoryName"]?.ToString() ?? string.Empty,
                             ProductName = reader["ProductName"]?.ToString() ?? string.Empty,
-                            TotalPurchased = Convert.ToDecimal(reader["TotalPurchase"]),
+                            ProductSales = Convert.IsDBNull(reader["ProductSales"]) ? default(decimal?) : Convert.ToDecimal(reader["ProductSales"])
                         });
                     }
                 }
