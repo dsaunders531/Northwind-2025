@@ -3,7 +3,6 @@
 // </copyright>
 
 using Microsoft.Data.SqlClient;
-using Patterns;
 
 namespace Northwind.Context.MsSql
 {

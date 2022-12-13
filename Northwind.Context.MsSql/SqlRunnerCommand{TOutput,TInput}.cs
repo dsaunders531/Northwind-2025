@@ -2,9 +2,6 @@
 // Copyright (c) Duncan Saunders. All rights reserved.
 // </copyright>
 
-using Microsoft.Data.SqlClient;
-using Patterns;
-
 namespace Northwind.Context.MsSql
 {
     internal abstract class SqlRunnerCommand<TOutput, TInput> : SqlRunnerCommand<TOutput>

@@ -22,8 +22,8 @@ namespace Northwind.Context.MsSql.Commands
 
         protected override void DefineParameters(SqlCommand com)
         {
-            com.Parameters.Add(new SqlParameter("@CategoryName", System.Data.SqlDbType.NVarChar, 15) { Value = this.Parameters.CategoryName });
-            com.Parameters.Add(new SqlParameter("@OrdYear", System.Data.SqlDbType.NVarChar, 4) { Value = this.Parameters.Year.ToString() });
+            com.Parameters.Add(new SqlParameter("@CategoryName", System.Data.SqlDbType.NVarChar, 15) { Value = Parameters.CategoryName });
+            com.Parameters.Add(new SqlParameter("@OrdYear", System.Data.SqlDbType.NVarChar, 4) { Value = Parameters.Year.ToString() });
         }
 
         protected override async Task<IList<SaleByCategoryReport>> RunCommand(SqlCommand com)
