@@ -7,6 +7,5 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1413:Use trailing comma in multi-line initializers", Justification = "<Pending>", Scope = "member", Target = "~M:Northwind.Context.MsSql.Commands.QuarterlyOrdersCommand.RunCommand(Microsoft.Data.SqlClient.SqlCommand)~System.Threading.Tasks.Task{System.Collections.Generic.IList{Northwind.Context.Models.QuarterlyOrder}}")]
-[assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1128:Put constructor initializers on their own line", Justification = "<Pending>", Scope = "member", Target = "~M:Northwind.Context.MsSql.Commands.QuarterlyOrdersCommand.#ctor(System.String)")]
-[assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1413:Use trailing comma in multi-line initializers", Justification = "<Pending>", Scope = "member", Target = "~M:Northwind.Context.MsSql.Commands.SalesByCategoryReportCommand.RunCommand(Microsoft.Data.SqlClient.SqlCommand)~System.Threading.Tasks.Task{System.Collections.Generic.IList{Northwind.Context.Models.SalesByCategory}}")]
+[assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1413:Use trailing comma in multi-line initializers", Justification = "Comma looks like the list is incomplete so do not use it.")]
+[assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1128:Put constructor initializers on their own line", Justification = "Creates unnecessary empty lines.")]
