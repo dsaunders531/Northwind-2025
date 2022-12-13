@@ -6,60 +6,60 @@ using Patterns.Extensions;
 namespace Northwind.Context.InMemory.Contexts
 {
 #warning Do not use in production
-    public class NorthwindContextInMemory : NorthwindContext
+    public sealed class NorthwindContextInMemory : NorthwindContext
     {
         public NorthwindContextInMemory(string pathToStateFiles) : base()
         {
-            this.PathToStateFiles = pathToStateFiles;
+            PathToStateFiles = pathToStateFiles;
 
-            this.LoadState();
+            LoadState();
         }
-        
+
         private string PathToStateFiles { get; set; }
-        
+
         private string BaseFilePath()
-        {            
-            return string.IsNullOrWhiteSpace(this.PathToStateFiles) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), this.GetType().ToString()) : this.PathToStateFiles;
+        {
+            return string.IsNullOrWhiteSpace(PathToStateFiles) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), GetType().ToString()) : PathToStateFiles;
         }
 
         public override void Dispose()
         {
-            this.SaveState();
+            SaveState();
 
             base.Dispose();
         }
 
         public override ValueTask DisposeAsync()
         {
-            this.SaveState();
+            SaveState();
 
             return base.DisposeAsync();
         }
 
         public override int SaveChanges()
         {
-            this.SaveState();
+            SaveState();
 
             return base.SaveChanges();
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            this.SaveState();
+            SaveState();
 
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            this.SaveState();
+            SaveState();
 
             return base.SaveChangesAsync(cancellationToken);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            this.SaveState();
+            SaveState();
 
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -76,11 +76,11 @@ namespace Northwind.Context.InMemory.Contexts
 
         private List<T> LoadTable<T>(string filename)
         {
-            string filePath = Path.Combine(this.BaseFilePath(), filename);
+            string filePath = Path.Combine(BaseFilePath(), filename);
 
-            if (!Directory.Exists(this.BaseFilePath()))
+            if (!Directory.Exists(BaseFilePath()))
             {
-                Directory.CreateDirectory(this.BaseFilePath());
+                Directory.CreateDirectory(BaseFilePath());
             }
 
             if (File.Exists(filePath))
@@ -95,32 +95,32 @@ namespace Northwind.Context.InMemory.Contexts
 
         private void LoadState()
         {
-            this.Categories.AddRange(this.LoadTable<Category>("categories.json"));            
-            this.Customers.AddRange(this.LoadTable<Customer>("customers.json"));
-            this.CustomerDemographics.AddRange(this.LoadTable<CustomerDemographic>("customerdemographics.json"));
-            this.Employees.AddRange(this.LoadTable<Employee>("employees.json"));
-            this.Orders.AddRange(this.LoadTable<Order>("orders.json"));
-            this.OrderDetails.AddRange(this.LoadTable<OrderDetail>("orderDetails.json"));
-            this.Products.AddRange(this.LoadTable<Product>("products.json"));
-            this.Regions.AddRange(this.LoadTable<Region>("regions.json"));
-            this.Shippers.AddRange(this.LoadTable<Shipper>("shippers.json"));
-            this.Suppliers.AddRange(this.LoadTable<Supplier>("suppliers.json"));
-            this.Territories.AddRange(this.LoadTable<Territory>("territories.json"));
+            Categories.AddRange(LoadTable<Category>("categories.json"));
+            Customers.AddRange(LoadTable<Customer>("customers.json"));
+            CustomerDemographics.AddRange(LoadTable<CustomerDemographic>("customerdemographics.json"));
+            Employees.AddRange(LoadTable<Employee>("employees.json"));
+            Orders.AddRange(LoadTable<Order>("orders.json"));
+            OrderDetails.AddRange(LoadTable<OrderDetail>("orderDetails.json"));
+            Products.AddRange(LoadTable<Product>("products.json"));
+            Regions.AddRange(LoadTable<Region>("regions.json"));
+            Shippers.AddRange(LoadTable<Shipper>("shippers.json"));
+            Suppliers.AddRange(LoadTable<Supplier>("suppliers.json"));
+            Territories.AddRange(LoadTable<Territory>("territories.json"));
         }
 
         private void SaveState()
         {
-            File.WriteAllText(Path.Combine(this.BaseFilePath(), "categories.json"), this.Categories.ToList().ToJson());
-            File.WriteAllText(Path.Combine(this.BaseFilePath(), "customers.json"), this.Customers.ToList().ToJson());
-            File.WriteAllText(Path.Combine(this.BaseFilePath(), "customerdemographics.json"), this.CustomerDemographics.ToList().ToJson());
-            File.WriteAllText(Path.Combine(this.BaseFilePath(), "employees.json"), this.Employees.ToList().ToJson());
-            File.WriteAllText(Path.Combine(this.BaseFilePath(), "orders.json"), this.Orders.ToList().ToJson());
-            File.WriteAllText(Path.Combine(this.BaseFilePath(), "orderDetails.json"), this.OrderDetails.ToList().ToJson());
-            File.WriteAllText(Path.Combine(this.BaseFilePath(), "products.json"), this.Products.ToList().ToJson());
-            File.WriteAllText(Path.Combine(this.BaseFilePath(), "regions.json"), this.Regions.ToList().ToJson());
-            File.WriteAllText(Path.Combine(this.BaseFilePath(), "shippers.json"), this.Shippers.ToList().ToJson());
-            File.WriteAllText(Path.Combine(this.BaseFilePath(), "suppliers.json"), this.Suppliers.ToList().ToJson());
-            File.WriteAllText(Path.Combine(this.BaseFilePath(), "territories.json"), this.Territories.ToList().ToJson());
+            File.WriteAllText(Path.Combine(BaseFilePath(), "categories.json"), Categories.ToList().ToJson());
+            File.WriteAllText(Path.Combine(BaseFilePath(), "customers.json"), Customers.ToList().ToJson());
+            File.WriteAllText(Path.Combine(BaseFilePath(), "customerdemographics.json"), CustomerDemographics.ToList().ToJson());
+            File.WriteAllText(Path.Combine(BaseFilePath(), "employees.json"), Employees.ToList().ToJson());
+            File.WriteAllText(Path.Combine(BaseFilePath(), "orders.json"), Orders.ToList().ToJson());
+            File.WriteAllText(Path.Combine(BaseFilePath(), "orderDetails.json"), OrderDetails.ToList().ToJson());
+            File.WriteAllText(Path.Combine(BaseFilePath(), "products.json"), Products.ToList().ToJson());
+            File.WriteAllText(Path.Combine(BaseFilePath(), "regions.json"), Regions.ToList().ToJson());
+            File.WriteAllText(Path.Combine(BaseFilePath(), "shippers.json"), Shippers.ToList().ToJson());
+            File.WriteAllText(Path.Combine(BaseFilePath(), "suppliers.json"), Suppliers.ToList().ToJson());
+            File.WriteAllText(Path.Combine(BaseFilePath(), "territories.json"), Territories.ToList().ToJson());
         }
     }
 }

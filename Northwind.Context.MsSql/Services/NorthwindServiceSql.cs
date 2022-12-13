@@ -131,12 +131,12 @@ namespace Northwind.Context.MsSql.Services
 
         public Task<IList<QuarterlyOrder>> QuarterlyOrders()
         {
-            return new QuarterlyOrdersCommand(this.Connection).Run();
+            return new QuarterlyOrdersCommand(Connection).Run();
         }
 
         public Task<IList<SalesByCategory>> SalesByCategory()
         {
-            return new SalesByCategoryCommand(this.Connection).Run();
+            return new SalesByCategoryCommand(Connection).Run();
         }
     }
 }
