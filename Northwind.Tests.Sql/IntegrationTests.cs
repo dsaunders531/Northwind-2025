@@ -3,19 +3,11 @@
 // </copyright>
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Protocols;
 using Northwind.Context.Contexts;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models;
 using Northwind.Context.MsSql.Contexts;
 using Northwind.Context.MsSql.Services;
-using NuGet.Frameworks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace Northwind.Tests.Sql
@@ -46,20 +38,20 @@ namespace Northwind.Tests.Sql
             string connection = "Data Source=LAPTOP10\\SQLEXPRESS;Initial Catalog=Northwind-2025;Integrated Security=True;MultipleActiveResultSets=true;";
             DbContextOptions<NorthwindContext> contextOptions = new DbContextOptionsBuilder<NorthwindContext>().UseSqlServer(connection).Options;
 
-            this.NorthwindService = new NorthwindServiceSql(connection);
-            this.NorthwindContext = new NorthwindContextSql(contextOptions);
+            NorthwindService = new NorthwindServiceSql(connection);
+            NorthwindContext = new NorthwindContextSql(contextOptions);
         }
 
         [TearDown]
         public virtual void Teardown()
         {
-            this.NorthwindContext.Dispose();
+            NorthwindContext.Dispose();
         }
 
         [Test]
         public async Task AlphabeticalListOfProductsTest()
         {
-            IList<AlphabeticalListOfProduct> products = await this.AlphabeticalListOfProducts();
+            IList<AlphabeticalListOfProduct> products = await AlphabeticalListOfProducts();
 
             Assert.IsNotNull(products);
             Assert.IsTrue(products.Any());
@@ -80,10 +72,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task CategorySalesFor1997sTest()
         {
-            IList<CategorySalesFor1997> sales = await this.CategorySalesFor1997s();
+            IList<CategorySalesFor1997> sales = await CategorySalesFor1997s();
 
             Assert.IsNotNull(sales);
-
+            Assert.IsTrue(sales.Any());
             Assert.That(sales.Count() >= 1);
         }
 
@@ -95,10 +87,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task CurrentProductListsTest()
         {
-            IList<CurrentProductList> products = await this.CurrentProductLists();
+            IList<CurrentProductList> products = await CurrentProductLists();
 
             Assert.IsNotNull(products);
-
+            Assert.IsTrue(products.Any());
             Assert.That(products.Count() >= 1);
         }
 
@@ -110,10 +102,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task CustomerAndSuppliersByCitiesTest()
         {
-            IList<CustomerAndSuppliersByCity> customersByCities = await this.CustomerAndSuppliersByCities();
+            IList<CustomerAndSuppliersByCity> customersByCities = await CustomerAndSuppliersByCities();
 
             Assert.IsNotNull(customersByCities);
-
+            Assert.IsTrue(customersByCities.Any());
             Assert.That(customersByCities.Count() >= 1);
         }
 
@@ -125,10 +117,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task InvoicesTest()
         {
-            IList<Invoice> invoices = await this.Invoices();
+            IList<Invoice> invoices = await Invoices();
 
             Assert.IsNotNull(invoices);
-
+            Assert.IsTrue(invoices.Any());
             Assert.That(invoices.Count() >= 1);
         }
 
@@ -140,10 +132,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task OrderDetailsExtendedsTest()
         {
-            IList<OrderDetailsExtended> orderDetails = await this.OrderDetailsExtendeds();
+            IList<OrderDetailsExtended> orderDetails = await OrderDetailsExtendeds();
 
             Assert.IsNotNull(orderDetails);
-
+            Assert.IsTrue(orderDetails.Any());
             Assert.That(orderDetails.Count() >= 1);
         }
 
@@ -155,10 +147,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task OrderSubtotalsTest()
         {
-            IList<OrderSubtotal> orderSubtotals = await this.OrderSubtotals();
+            IList<OrderSubtotal> orderSubtotals = await OrderSubtotals();
 
             Assert.IsNotNull(orderSubtotals);
-
+            Assert.IsTrue(orderSubtotals.Any());
             Assert.That(orderSubtotals.Count() >= 1);
         }
 
@@ -170,10 +162,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task OrdersQriesTest()
         {
-            IList<OrdersQry> orders = await this.OrdersQries();
+            IList<OrdersQry> orders = await OrdersQries();
 
             Assert.IsNotNull(orders);
-
+            Assert.IsTrue(orders.Any());
             Assert.That(orders.Count() >= 1);
         }
 
@@ -185,10 +177,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task ProductSalesFor1997sTest()
         {
-            IList<ProductSalesFor1997> productSales = await this.ProductSalesFor1997s();
+            IList<ProductSalesFor1997> productSales = await ProductSalesFor1997s();
 
             Assert.IsNotNull(productSales);
-
+            Assert.IsTrue(productSales.Any());
             Assert.That(productSales.Count() >= 1);
         }
 
@@ -200,10 +192,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task ProductsByCategoriesTest()
         {
-            IList<ProductsByCategory> categories = await this.ProductsByCategories();
+            IList<ProductsByCategory> categories = await ProductsByCategories();
 
             Assert.IsNotNull(categories);
-
+            Assert.IsTrue(categories.Any());
             Assert.That(categories.Count() >= 1);
         }
 
@@ -215,10 +207,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task SalesTotalsByAmountsTest()
         {
-            IList<SalesTotalsByAmount> salesTotals = await this.SalesTotalsByAmounts();
+            IList<SalesTotalsByAmount> salesTotals = await SalesTotalsByAmounts();
 
             Assert.IsNotNull(salesTotals);
-
+            Assert.IsTrue(salesTotals.Any());
             Assert.That(salesTotals.Count() >= 1);
         }
 
@@ -230,10 +222,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task SummaryOfSalesByQuartersTest()
         {
-            IList<SummaryOfSalesByQuarter> salesByQuarters = await this.SummaryOfSalesByQuarters();
+            IList<SummaryOfSalesByQuarter> salesByQuarters = await SummaryOfSalesByQuarters();
 
             Assert.IsNotNull(salesByQuarters);
-
+            Assert.IsTrue(salesByQuarters.Any());
             Assert.That(salesByQuarters.Count() >= 1);
         }
 
@@ -245,10 +237,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task SummaryOfSalesByYearsTest()
         {
-            IList<SummaryOfSalesByYear> salesByYears = await this.SummaryOfSalesByYears();
+            IList<SummaryOfSalesByYear> salesByYears = await SummaryOfSalesByYears();
 
             Assert.IsNotNull(salesByYears);
-
+            Assert.IsTrue(salesByYears.Any());
             Assert.That(salesByYears.Count() >= 1);
         }
 
@@ -260,10 +252,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task ProductsAboveAveragePricesTest()
         {
-            IList<ProductsAboveAveragePrice> productAboveAveragePrice = await this.ProductsAboveAveragePrices();
+            IList<ProductsAboveAveragePrice> productAboveAveragePrice = await ProductsAboveAveragePrices();
 
             Assert.IsNotNull(productAboveAveragePrice);
-
+            Assert.IsTrue(productAboveAveragePrice.Any());
             Assert.That(productAboveAveragePrice.Count() >= 1);
         }
 
@@ -275,10 +267,10 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task TenMostExpensiveProductsTest()
         {
-            IList<MostExpensiveProduct> mostExpensiveProducts = await this.TenMostExpensiveProducts();
+            IList<MostExpensiveProduct> mostExpensiveProducts = await TenMostExpensiveProducts();
 
             Assert.IsNotNull(mostExpensiveProducts);
-
+            Assert.IsTrue(mostExpensiveProducts.Any());
             Assert.That(mostExpensiveProducts.Count() == 10);
         }
 
@@ -292,10 +284,9 @@ namespace Northwind.Tests.Sql
         {
             // yes - 1997!
             // TODO - update the dates in the database automatically to more current values.
-            IList<EmployeeSalesByCountry> employeeSales = await this.EmployeeSalesByCountries(new DateTime(1997, 1, 1), new DateTime(1997, 12, 31));
+            IList<EmployeeSalesByCountry> employeeSales = await EmployeeSalesByCountries(new DateTime(1997, 1, 1), new DateTime(1997, 12, 31));
 
-            Assert.IsNotNull(employeeSales);
-
+            Assert.IsNotNull(employeeSales);            
             Assert.That(employeeSales.Any());
         }
 
@@ -307,14 +298,14 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task SalesByCategoryReportTest()
         {
-            Category category = this.NorthwindContext.Categories.First();
+            Category category = NorthwindContext.Categories.FirstOrDefault();
 
             Assert.IsNotNull(category);
 
-            IList<SaleByCategoryReport> saleByCategories = await this.SalesByCategory(category.CategoryName, 1997);
+            IList<SaleByCategoryReport> saleByCategories = await SalesByCategory(category.CategoryName, 1997);
 
             Assert.IsNotNull(saleByCategories);
-
+            Assert.IsTrue(saleByCategories.Any());
             Assert.That(saleByCategories.Count() >= 1);
         }
 
@@ -326,7 +317,7 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task SalesByYearTest()
         {
-            IList<SaleByYear> saleByYears = await this.SalesByYear(new DateTime(1997, 1, 1), new DateTime(1997, 12, 31));
+            IList<SaleByYear> saleByYears = await SalesByYear(new DateTime(1997, 1, 1), new DateTime(1997, 12, 31));
 
             Assert.IsNotNull(saleByYears);
 
@@ -341,13 +332,15 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task CustomerOdersTest()
         {
-            Customer customer = this.NorthwindContext.Customers.First();
+            Customer? customer = NorthwindContext.Customers.FirstOrDefault();
 
             Assert.IsNotNull(customer);
 
-            IList<CustomerOrders> customerOrders = await this.CustomerOders(customer.CustomerId);
+            IList<CustomerOrders> customerOrders = await CustomerOders(customer.CustomerId);
 
             Assert.IsNotNull(customerOrders);
+
+            Assert.IsTrue(customerOrders.Any());
 
             Assert.IsNotNull(customerOrders.Count() >= 1);
         }
@@ -360,11 +353,11 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task CustomerOrderDetailTest()
         {
-            Order order = this.NorthwindContext.Orders.First();
+            Order order = NorthwindContext.Orders.FirstOrDefault();
 
             Assert.IsNotNull(order);
 
-            var serviceValue = await this.CustomerOrderDetail(order.OrderId);
+            IList<CustomerOrderDetail> serviceValue = await CustomerOrderDetail(order.OrderId);
 
             Assert.IsTrue(serviceValue.Any());
         }
@@ -377,11 +370,11 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task CustomerOrderHistoryTest()
         {
-            Customer customer = this.NorthwindContext.Customers.First();
+            Customer customer = NorthwindContext.Customers.FirstOrDefault();
 
             Assert.IsNotNull(customer);
 
-            IList<CustomerOrderHistory> serviceValue = await this.CustomerOrderHistory(customer.CustomerId);
+            IList<CustomerOrderHistory> serviceValue = await CustomerOrderHistory(customer.CustomerId);
 
             Assert.IsTrue(serviceValue.Any());
         }
@@ -394,7 +387,7 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task QuarterlyOrdersTest()
         {
-            IList<QuarterlyOrder> serviceValue = await this.QuarterlyOrders();
+            IList<QuarterlyOrder> serviceValue = await QuarterlyOrders();
 
             Assert.IsNotNull(serviceValue);
 
@@ -409,7 +402,7 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task SalesByCategoryTest()
         {
-            IList<SalesByCategory> serviceValue = await this.SalesByCategory();
+            IList<SalesByCategory> serviceValue = await SalesByCategory();
 
             Assert.IsNotNull(serviceValue);
 
