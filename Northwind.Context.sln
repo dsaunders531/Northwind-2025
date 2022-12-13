@@ -23,7 +23,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{19EC04EA-BA1C-408E-ACCD-4A410F20695C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Tests.Sql", "Northwind.Tests.Sql\Northwind.Tests.Sql.csproj", "{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Tests.Sql", "Northwind.Tests.Sql\Northwind.Tests.Sql.csproj", "{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Context.InMemory", "Northwind.Context.InMemory\Northwind.Context.InMemory.csproj", "{FCA87818-D1F3-42C5-82E0-8177E884F37E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Tests.InMemory", "Northwind.Tests.InMemory\Northwind.Tests.InMemory.csproj", "{C2146455-D7E2-4F86-B20A-238210081E74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Migrate.CLI", "Northwind.Migrate.CLI\Northwind.Migrate.CLI.csproj", "{71550B7B-5BFD-4292-81D6-2E1C77F3569F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,12 +53,25 @@ Global
 		{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCA87818-D1F3-42C5-82E0-8177E884F37E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCA87818-D1F3-42C5-82E0-8177E884F37E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCA87818-D1F3-42C5-82E0-8177E884F37E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCA87818-D1F3-42C5-82E0-8177E884F37E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2146455-D7E2-4F86-B20A-238210081E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2146455-D7E2-4F86-B20A-238210081E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2146455-D7E2-4F86-B20A-238210081E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2146455-D7E2-4F86-B20A-238210081E74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71550B7B-5BFD-4292-81D6-2E1C77F3569F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71550B7B-5BFD-4292-81D6-2E1C77F3569F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71550B7B-5BFD-4292-81D6-2E1C77F3569F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71550B7B-5BFD-4292-81D6-2E1C77F3569F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE} = {19EC04EA-BA1C-408E-ACCD-4A410F20695C}
+		{C2146455-D7E2-4F86-B20A-238210081E74} = {19EC04EA-BA1C-408E-ACCD-4A410F20695C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6EA215D7-C8D4-4457-971A-3D4B6581EFFE}

@@ -102,3 +102,6 @@ dotnet_naming_style.pascal_case.capitalization = pascal_case
 
 # SA0001: XML comment analysis disabled
 dotnet_diagnostic.SA0001.severity = suggestion
+
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = suggestion
