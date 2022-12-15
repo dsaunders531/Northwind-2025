@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Patterns.Extensions
 {
@@ -10,8 +11,16 @@ namespace Patterns.Extensions
     {
         public static string ToJson(this object me)
         {
-            return JsonSerializer.Serialize(me);
+            return JsonSerializer.Serialize(me, JsonExtensions.JsonSerializerOptions);
         }
+
+        public static JsonSerializerOptions JsonSerializerOptions => new JsonSerializerOptions()
+        {
+            IgnoreReadOnlyFields = true,
+            IgnoreReadOnlyProperties = true,
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.Strict,
+            ReferenceHandler = ReferenceHandler.Preserve            
+        };
 
         /// <summary>
         /// Convert a string JSON to an object.
@@ -22,6 +31,6 @@ namespace Patterns.Extensions
         /// <remarks>The return type must not be an interface.</remarks>
         public static T JsonConvert<T>(this string value)
             where T : class
-            => JsonSerializer.Deserialize<T>(value) ?? Activator.CreateInstance<T>();
+            => JsonSerializer.Deserialize<T>(value, JsonExtensions.JsonSerializerOptions) ?? Activator.CreateInstance<T>();
     }
 }

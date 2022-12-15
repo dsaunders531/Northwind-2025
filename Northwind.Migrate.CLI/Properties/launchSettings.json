@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Northwind.Migrate.CLI": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
