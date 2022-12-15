@@ -20,9 +20,17 @@ namespace Northwind.Context.InMemory.Contexts
         }
 
         private string PathToStateFiles { get; set; }
+        
+        /// <summary>
+        /// You can store the datafiles in the bin folder or in the users roaming profile
+        /// </summary>
+        /// <returns></returns>
         private string BaseFilePath()
         {
-            return string.IsNullOrWhiteSpace(PathToStateFiles) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), GetType().ToString()) : PathToStateFiles;
+            return Path.Combine(Environment.CurrentDirectory,"Resources")
+                                ?? (string.IsNullOrWhiteSpace(PathToStateFiles) 
+                                        ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), GetType().ToString()) 
+                                        : PathToStateFiles);
         }
         public override void Dispose()
         {
