@@ -40,7 +40,7 @@ namespace Northwind.Migrate.CLI
 
         private static void PerformMigration()
         {
-            var config = new ConfigurationManager();
+            ConfigurationManager config = new ConfigurationManager();
             config.AddJsonFile("appsettings.json", false);
             string connection = config.GetConnectionString("sourceDatabase");
 
