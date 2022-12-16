@@ -5,6 +5,7 @@
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models;
 using Northwind.Context.MsSql.Commands;
+using Northwind.Context.MsSql.Parameters;
 
 namespace Northwind.Context.MsSql.Services
 {
@@ -25,9 +26,14 @@ namespace Northwind.Context.MsSql.Services
             return new AlphabeticalListOfProductsCommand(Connection).Run();
         }
 
-        public Task<IList<CategorySalesFor1997>> CategorySalesFor1997s()
+        public Task<IList<CategorySalesForYear>> CategorySalesFor1997s()
         {
             return new CategorySalesFor1997Command(Connection).Run();
+        }
+
+        public Task<IList<CategorySalesForYear>> CategorySalesForYear(int year)
+        {
+            return new CategorySalesForYearCommand(Connection, year).Run();
         }
 
         public Task<IList<CurrentProductList>> CurrentProductLists()
@@ -90,9 +96,14 @@ namespace Northwind.Context.MsSql.Services
             return new ProductsAboveAveragePriceCommand(Connection).Run();
         }
 
-        public Task<IList<ProductSalesFor1997>> ProductSalesFor1997s()
+        public Task<IList<ProductSalesForYear>> ProductSalesFor1997s()
         {
             return new ProductSalesFor1997Command(Connection).Run();
+        }
+
+        public Task<IList<ProductSalesForYear>> ProductSalesForYear(int year)
+        {
+            return new ProductSalesForYearCommand(Connection, year).Run();
         }
 
         public Task<IList<ProductsByCategory>> ProductsByCategories()
@@ -114,14 +125,33 @@ namespace Northwind.Context.MsSql.Services
             return new SalesTotalsByAmountCommand(Connection).Run();
         }
 
+        public Task<IList<SalesTotalsByAmount>> SalesTotalsByAmounts(DateTime start, DateTime end)
+        {
+            return new SalesTotalsByAmountWithDatesCommand(Connection, new Patterns.StartAndEndDate() { StartDate = start, EndDate = end }).Run();
+        }
+
         public Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters()
         {
             return new SummaryOfSalesByQuarterCommand(Connection).Run();
         }
 
+        public Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters(int year, int quarter)
+        {
+            return new SummaryOfSalesByQuarterWithDatesCommand(Connection, new YearAndQuarterParameters()
+            {
+                Quarter = quarter,
+                Year = year
+            }).Run();
+        }
+
         public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears()
         {
             return new SummaryOfSalesByYearCommand(Connection).Run();
+        }
+
+        public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears(int year)
+        {
+            return new SummaryOfSalesForYearCommand(Connection, year).Run();
         }
 
         public Task<IList<MostExpensiveProduct>> TenMostExpensiveProducts()
@@ -134,9 +164,27 @@ namespace Northwind.Context.MsSql.Services
             return new QuarterlyOrdersCommand(Connection).Run();
         }
 
+        public Task<IList<QuarterlyOrder>> QuarterlyOrders(int year, int quarter)
+        {
+            return new QuarterlyOrdersWithDatesCommand(Connection, new YearAndQuarterParameters()
+            {
+                Quarter = quarter,
+                Year = year
+            }).Run();
+        }
+
         public Task<IList<SalesByCategory>> SalesByCategory()
         {
             return new SalesByCategoryCommand(Connection).Run();
+        }
+
+        public Task<IList<SalesByCategory>> SalesByCategories(int year, int quarter)
+        {
+            return new SalesByCategoryReportDatesCommand(Connection, new YearAndQuarterParameters()
+            {
+                Year = year,
+                Quarter = quarter
+            }).Run();
         }
     }
 }

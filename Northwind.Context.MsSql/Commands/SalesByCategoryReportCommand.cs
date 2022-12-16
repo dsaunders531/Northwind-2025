@@ -4,6 +4,7 @@
 
 using Microsoft.Data.SqlClient;
 using Northwind.Context.Models;
+using Northwind.Context.MsSql.Parameters;
 
 namespace Northwind.Context.MsSql.Commands
 {

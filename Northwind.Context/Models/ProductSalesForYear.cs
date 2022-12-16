@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Northwind.Context.Models
 {
     [Keyless]
-    public partial class ProductSalesFor1997
+    public partial class ProductSalesForYear
     {
         [StringLength(15)]
         public string CategoryName { get; set; } = null!;
