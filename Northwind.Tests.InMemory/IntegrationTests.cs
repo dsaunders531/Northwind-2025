@@ -1,4 +1,5 @@
-﻿using Northwind.Context.InMemory.Contexts;
+﻿using Northwind.Context;
+using Northwind.Context.InMemory.Contexts;
 using Northwind.Context.Services;
 
 namespace Northwind.Tests.InMemory
@@ -8,8 +9,14 @@ namespace Northwind.Tests.InMemory
         [SetUp]
         public override void Setup()
         {
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
+
             NorthwindContext = new NorthwindContextInMemory(string.Empty);
             NorthwindService = new NorthwindService(NorthwindContext);
+
+            NorthwindContext.Database.EnsureCreated();
+            //NorthwindContext.Database.Migrate(); // not supported for in-memory
+            NorthwindContext.BringUpToDate(DateTime.UtcNow);
         }
     }
 }

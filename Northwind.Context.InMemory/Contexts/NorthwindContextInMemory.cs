@@ -1,15 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Northwind.Context.Contexts;
 using Northwind.Context.Models;
 using Patterns.Extensions;
-using static System.Formats.Asn1.AsnWriter;
-using static System.Net.WebRequestMethods;
-using System;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using File = System.IO.File;
 
 namespace Northwind.Context.InMemory.Contexts
-{    
+{
 #warning Do not use in production
     public sealed class NorthwindContextInMemory : NorthwindContext
     {

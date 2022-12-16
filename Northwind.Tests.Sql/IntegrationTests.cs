@@ -3,6 +3,7 @@
 // </copyright>
 
 using Microsoft.EntityFrameworkCore;
+using Northwind.Context;
 using Northwind.Context.Contexts;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models;
@@ -34,12 +35,19 @@ namespace Northwind.Tests.Sql
         [SetUp]
         public virtual void Setup()
         {
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
+
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
             string connection = "Data Source=LAPTOP10\\SQLEXPRESS;Initial Catalog=Northwind-2025;Integrated Security=True;MultipleActiveResultSets=true;";
             DbContextOptions<NorthwindContext> contextOptions = new DbContextOptionsBuilder<NorthwindContext>().UseSqlServer(connection).Options;
 
             NorthwindService = new NorthwindServiceSql(connection);
             NorthwindContext = new NorthwindContextSql(contextOptions);
+
+            // Make sure the database and all migrations have been applied
+            NorthwindContext.Database.EnsureCreated();
+            NorthwindContext.Database.Migrate();
+            NorthwindContext.BringUpToDate(DateTime.UtcNow);
         }
 
         [TearDown]
@@ -72,16 +80,36 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task CategorySalesFor1997sTest()
         {
-            IList<CategorySalesFor1997> sales = await CategorySalesFor1997s();
+            IList<CategorySalesForYear> sales = await CategorySalesFor1997s();
+
+            Assert.IsNotNull(sales);
+            Assert.IsFalse(sales.Any());
+            Assert.That(sales.Count.Equals(0)); // its an old report so there should be no data.
+        }
+
+        [Obsolete]
+        public Task<IList<CategorySalesForYear>> CategorySalesFor1997s()
+        {
+            return NorthwindService.CategorySalesFor1997s();
+        }
+
+        [Test]
+        public async Task CategorySalesForYear()
+        {
+            DateTime currentDate = DateTime.UtcNow;
+
+            int year = currentDate.Month == 1 ? currentDate.Year - 1 : currentDate.Year;
+
+            IList<CategorySalesForYear> sales = await CategorySalesForYear(year);
 
             Assert.IsNotNull(sales);
             Assert.IsTrue(sales.Any());
-            Assert.That(sales.Count() >= 1);
+            Assert.That(sales.Count >= 1);
         }
 
-        public Task<IList<CategorySalesFor1997>> CategorySalesFor1997s()
+        public Task<IList<CategorySalesForYear>> CategorySalesForYear(int year)
         {
-            return NorthwindService.CategorySalesFor1997s();
+            return NorthwindService.CategorySalesForYear(year);
         }
 
         [Test]
@@ -91,7 +119,7 @@ namespace Northwind.Tests.Sql
 
             Assert.IsNotNull(products);
             Assert.IsTrue(products.Any());
-            Assert.That(products.Count() >= 1);
+            Assert.That(products.Count >= 1);
         }
 
         public Task<IList<CurrentProductList>> CurrentProductLists()
@@ -106,7 +134,7 @@ namespace Northwind.Tests.Sql
 
             Assert.IsNotNull(customersByCities);
             Assert.IsTrue(customersByCities.Any());
-            Assert.That(customersByCities.Count() >= 1);
+            Assert.That(customersByCities.Count >= 1);
         }
 
         public Task<IList<CustomerAndSuppliersByCity>> CustomerAndSuppliersByCities()
@@ -121,7 +149,7 @@ namespace Northwind.Tests.Sql
 
             Assert.IsNotNull(invoices);
             Assert.IsTrue(invoices.Any());
-            Assert.That(invoices.Count() >= 1);
+            Assert.That(invoices.Count >= 1);
         }
 
         public Task<IList<Invoice>> Invoices()
@@ -136,7 +164,7 @@ namespace Northwind.Tests.Sql
 
             Assert.IsNotNull(orderDetails);
             Assert.IsTrue(orderDetails.Any());
-            Assert.That(orderDetails.Count() >= 1);
+            Assert.That(orderDetails.Count >= 1);
         }
 
         public Task<IList<OrderDetailsExtended>> OrderDetailsExtendeds()
@@ -151,7 +179,7 @@ namespace Northwind.Tests.Sql
 
             Assert.IsNotNull(orderSubtotals);
             Assert.IsTrue(orderSubtotals.Any());
-            Assert.That(orderSubtotals.Count() >= 1);
+            Assert.That(orderSubtotals.Count >= 1);
         }
 
         public Task<IList<OrderSubtotal>> OrderSubtotals()
@@ -166,7 +194,7 @@ namespace Northwind.Tests.Sql
 
             Assert.IsNotNull(orders);
             Assert.IsTrue(orders.Any());
-            Assert.That(orders.Count() >= 1);
+            Assert.That(orders.Count >= 1);
         }
 
         public Task<IList<OrdersQry>> OrdersQries()
@@ -177,16 +205,36 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task ProductSalesFor1997sTest()
         {
-            IList<ProductSalesFor1997> productSales = await ProductSalesFor1997s();
+            IList<ProductSalesForYear> productSales = await ProductSalesFor1997s();
+
+            Assert.IsNotNull(productSales);
+            Assert.IsFalse(productSales.Any());
+            Assert.That(productSales.Count == 0); // its not 1997 anymore
+        }
+
+        [Obsolete]
+        public Task<IList<ProductSalesForYear>> ProductSalesFor1997s()
+        {
+            return NorthwindService.ProductSalesFor1997s();
+        }
+
+        [Test]
+        public async Task ProductSalesForYearTest()
+        {
+            DateTime currentDate = DateTime.UtcNow;
+
+            int year = currentDate.Month == 1 ? currentDate.Year - 1 : currentDate.Year;
+
+            IList<ProductSalesForYear> productSales = await ProductSalesForYear(year);
 
             Assert.IsNotNull(productSales);
             Assert.IsTrue(productSales.Any());
-            Assert.That(productSales.Count() >= 1);
+            Assert.That(productSales.Count >= 1);
         }
 
-        public Task<IList<ProductSalesFor1997>> ProductSalesFor1997s()
+        public Task<IList<ProductSalesForYear>> ProductSalesForYear(int year)
         {
-            return NorthwindService.ProductSalesFor1997s();
+            return NorthwindService.ProductSalesForYear(year);
         }
 
         [Test]
@@ -196,7 +244,7 @@ namespace Northwind.Tests.Sql
 
             Assert.IsNotNull(categories);
             Assert.IsTrue(categories.Any());
-            Assert.That(categories.Count() >= 1);
+            Assert.That(categories.Count >= 1);
         }
 
         public Task<IList<ProductsByCategory>> ProductsByCategories()
@@ -210,13 +258,34 @@ namespace Northwind.Tests.Sql
             IList<SalesTotalsByAmount> salesTotals = await SalesTotalsByAmounts();
 
             Assert.IsNotNull(salesTotals);
-            Assert.IsTrue(salesTotals.Any());
-            Assert.That(salesTotals.Count() >= 1);
+            Assert.IsFalse(salesTotals.Any());
+            Assert.That(salesTotals.Count == 0); // hard coded date
         }
 
+        [Obsolete]
         public Task<IList<SalesTotalsByAmount>> SalesTotalsByAmounts()
         {
             return NorthwindService.SalesTotalsByAmounts();
+        }
+
+        public Task<IList<SalesTotalsByAmount>> SalesTotalsByAmounts(DateTime start, DateTime end)
+        {
+            return NorthwindService.SalesTotalsByAmounts(start, end);
+        }
+
+        [Test]
+        public async Task SalesTotalsByAmountsWithDatesTest()
+        {
+            DateTime current = DateTime.UtcNow;
+
+            DateTime start = new DateTime(current.Month == 1 ? current.Year - 1 : current.Year, 1, 1);
+            DateTime end = start.AddYears(1).Date.AddTicks(-1);
+
+            IList<SalesTotalsByAmount> salesTotals = await SalesTotalsByAmounts(start, end);
+
+            Assert.IsNotNull(salesTotals);
+            Assert.IsTrue(salesTotals.Any());
+            Assert.That(salesTotals.Count >= 1);
         }
 
         [Test]
@@ -226,12 +295,33 @@ namespace Northwind.Tests.Sql
 
             Assert.IsNotNull(salesByQuarters);
             Assert.IsTrue(salesByQuarters.Any());
-            Assert.That(salesByQuarters.Count() >= 1);
+            Assert.That(salesByQuarters.Count >= 1);
         }
 
+        [Obsolete]
         public Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters()
         {
             return NorthwindService.SummaryOfSalesByQuarters();
+        }
+
+        [Test]
+        public async Task SummaryOfSalesByQuartersWithDatesTest()
+        {
+            DateTime currentDate = DateTime.UtcNow;
+
+            int year = currentDate.Month == 1 ? currentDate.Year - 1 : currentDate.Year;
+            int quarter = currentDate.Month == 1 ? 4 : 2;
+            
+            IList<SummaryOfSalesByQuarter> salesByQuarters = await SummaryOfSalesByQuarters(year, quarter);
+
+            Assert.IsNotNull(salesByQuarters);
+            Assert.IsTrue(salesByQuarters.Any());
+            Assert.That(salesByQuarters.Count >= 1);
+        }
+
+        public Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters(int year, int quarter)
+        {
+            return NorthwindService.SummaryOfSalesByQuarters(year, quarter);
         }
 
         [Test]
@@ -241,12 +331,32 @@ namespace Northwind.Tests.Sql
 
             Assert.IsNotNull(salesByYears);
             Assert.IsTrue(salesByYears.Any());
-            Assert.That(salesByYears.Count() >= 1);
+            Assert.That(salesByYears.Count >= 1);
         }
 
+        [Obsolete]
         public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears()
         {
             return NorthwindService.SummaryOfSalesByYears();
+        }
+
+        [Test]
+        public async Task SummaryOfSalesByYearTest()
+        {
+            DateTime currentDate = DateTime.UtcNow;
+
+            int year = currentDate.Month == 1 ? currentDate.Year - 1 : currentDate.Year;
+
+            IList<SummaryOfSalesByYear> salesByYears = await SummaryOfSalesByYears(year);
+
+            Assert.IsNotNull(salesByYears);
+            Assert.IsTrue(salesByYears.Any());
+            Assert.That(salesByYears.Count >= 1);
+        }
+
+        public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears(int year)
+        {
+            return NorthwindService.SummaryOfSalesByYears(year);
         }
 
         [Test]
@@ -256,7 +366,7 @@ namespace Northwind.Tests.Sql
 
             Assert.IsNotNull(productAboveAveragePrice);
             Assert.IsTrue(productAboveAveragePrice.Any());
-            Assert.That(productAboveAveragePrice.Count() >= 1);
+            Assert.That(productAboveAveragePrice.Count >= 1);
         }
 
         public Task<IList<ProductsAboveAveragePrice>> ProductsAboveAveragePrices()
@@ -271,7 +381,7 @@ namespace Northwind.Tests.Sql
 
             Assert.IsNotNull(mostExpensiveProducts);
             Assert.IsTrue(mostExpensiveProducts.Any());
-            Assert.That(mostExpensiveProducts.Count() == 10);
+            Assert.That(mostExpensiveProducts.Count == 10);
         }
 
         public Task<IList<MostExpensiveProduct>> TenMostExpensiveProducts()
@@ -282,11 +392,13 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task EmployeeSalesByCountriesTest()
         {
-            // yes - 1997!
-            // TODO - update the dates in the database automatically to more current values.
-            IList<EmployeeSalesByCountry> employeeSales = await EmployeeSalesByCountries(new DateTime(1997, 1, 1), new DateTime(1997, 12, 31));
+            DateTime currentDate = DateTime.UtcNow;
+            DateTime start = currentDate.Month == 1 ? new DateTime(currentDate.Year - 1, 1, 1) : new DateTime(currentDate.Year, 1, 1);
+            DateTime end = start.AddYears(1).Date.AddTicks(-1);
 
-            Assert.IsNotNull(employeeSales);            
+            IList<EmployeeSalesByCountry> employeeSales = await EmployeeSalesByCountries(start, end);
+
+            Assert.IsNotNull(employeeSales);
             Assert.That(employeeSales.Any());
         }
 
@@ -298,15 +410,17 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task SalesByCategoryReportTest()
         {
+            DateTime current = DateTime.UtcNow;
+
             Category category = NorthwindContext.Categories.FirstOrDefault();
 
             Assert.IsNotNull(category);
 
-            IList<SaleByCategoryReport> saleByCategories = await SalesByCategory(category.CategoryName, 1997);
+            IList<SaleByCategoryReport> saleByCategories = await SalesByCategory(category.CategoryName, current.Month == 1 ? current.Year - 1 : current.Year);
 
             Assert.IsNotNull(saleByCategories);
             Assert.IsTrue(saleByCategories.Any());
-            Assert.That(saleByCategories.Count() >= 1);
+            Assert.That(saleByCategories.Count >= 1);
         }
 
         public Task<IList<SaleByCategoryReport>> SalesByCategory(string categoryName, int year)
@@ -317,11 +431,14 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task SalesByYearTest()
         {
-            IList<SaleByYear> saleByYears = await SalesByYear(new DateTime(1997, 1, 1), new DateTime(1997, 12, 31));
+            DateTime current = DateTime.UtcNow;
+            int year = current.Month == 1 ? current.Year - 1 : current.Year;
+
+            IList<SaleByYear> saleByYears = await SalesByYear(new DateTime(year, 1, 1), new DateTime(year, 12, 31));
 
             Assert.IsNotNull(saleByYears);
 
-            Assert.That(saleByYears.Count() >= 1);
+            Assert.That(saleByYears.Count >= 1);
         }
 
         public Task<IList<SaleByYear>> SalesByYear(DateTime fromDate, DateTime toDate)
@@ -342,7 +459,7 @@ namespace Northwind.Tests.Sql
 
             Assert.IsTrue(customerOrders.Any());
 
-            Assert.IsNotNull(customerOrders.Count() >= 1);
+            Assert.IsNotNull(customerOrders.Count >= 1);
         }
 
         public Task<IList<CustomerOrders>> CustomerOders(string customerId)
@@ -391,12 +508,33 @@ namespace Northwind.Tests.Sql
 
             Assert.IsNotNull(serviceValue);
 
-            Assert.IsTrue(serviceValue.Any());
+            Assert.IsFalse(serviceValue.Any()); // hard-coded dates
         }
 
+        [Obsolete]
         public Task<IList<QuarterlyOrder>> QuarterlyOrders()
         {
             return NorthwindService.QuarterlyOrders();
+        }
+
+        [Test]
+        public async Task QuarterlyOrdersWithDatesTest()
+        {
+            DateTime currentDate = DateTime.UtcNow;
+
+            int year = currentDate.Month == 1 ? currentDate.Year - 1 : currentDate.Year;
+            int quarter = currentDate.Month == 1 ? 4 : 2;
+
+            IList<QuarterlyOrder> serviceValue = await QuarterlyOrders(year, quarter);
+
+            Assert.IsNotNull(serviceValue);
+
+            Assert.IsTrue(serviceValue.Any());
+        }
+
+        public Task<IList<QuarterlyOrder>> QuarterlyOrders(int year, int quarter)
+        {
+            return NorthwindService.QuarterlyOrders(year, quarter);
         }
 
         [Test]
@@ -406,12 +544,33 @@ namespace Northwind.Tests.Sql
 
             Assert.IsNotNull(serviceValue);
 
-            Assert.IsTrue(serviceValue.Any());
+            Assert.IsFalse(serviceValue.Any()); // hard coded dates
         }
 
+        [Obsolete]
         public Task<IList<SalesByCategory>> SalesByCategory()
         {
             return NorthwindService.SalesByCategory();
+        }
+
+        [Test]
+        public async Task SalesByCategoryWithDatesTest()
+        {
+            DateTime currentDate = DateTime.UtcNow;
+
+            int year = currentDate.Month == 1 ? currentDate.Year - 1 : currentDate.Year;
+            int quarter = currentDate.Month == 1 ? 4 : 2;
+
+            IList<SalesByCategory> serviceValue = await SalesByCategories(year, quarter);
+
+            Assert.IsNotNull(serviceValue);
+
+            Assert.IsTrue(serviceValue.Any());
+        }
+
+        public Task<IList<SalesByCategory>> SalesByCategories(int year, int quarter)
+        {
+            return NorthwindService.SalesByCategories(year, quarter);
         }
     }
 }
