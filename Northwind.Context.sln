@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Context.InMemory"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Tests.InMemory", "Northwind.Tests.InMemory\Northwind.Tests.InMemory.csproj", "{C2146455-D7E2-4F86-B20A-238210081E74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Migrate.CLI", "Northwind.Migrate.CLI\Northwind.Migrate.CLI.csproj", "{71550B7B-5BFD-4292-81D6-2E1C77F3569F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Migrate.CLI", "Northwind.Migrate.CLI\Northwind.Migrate.CLI.csproj", "{71550B7B-5BFD-4292-81D6-2E1C77F3569F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Api", "Northwind.Api\Northwind.Api.csproj", "{87E69ED3-3699-4F0B-9974-A2746AA3A960}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +67,10 @@ Global
 		{71550B7B-5BFD-4292-81D6-2E1C77F3569F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71550B7B-5BFD-4292-81D6-2E1C77F3569F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71550B7B-5BFD-4292-81D6-2E1C77F3569F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87E69ED3-3699-4F0B-9974-A2746AA3A960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87E69ED3-3699-4F0B-9974-A2746AA3A960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87E69ED3-3699-4F0B-9974-A2746AA3A960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87E69ED3-3699-4F0B-9974-A2746AA3A960}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
