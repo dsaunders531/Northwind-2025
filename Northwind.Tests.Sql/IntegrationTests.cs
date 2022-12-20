@@ -39,21 +39,29 @@ namespace Northwind.Tests.Sql
 
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
             string connection = "Data Source=LAPTOP10\\SQLEXPRESS;Initial Catalog=Northwind-2025;Integrated Security=True;MultipleActiveResultSets=true;";
-            DbContextOptions<NorthwindContext> contextOptions = new DbContextOptionsBuilder<NorthwindContext>().UseSqlServer(connection).Options;
 
-            NorthwindService = new NorthwindServiceSql(connection);
-            NorthwindContext = new NorthwindContextSql(contextOptions);
+            if (NorthwindService == default)
+            {
+                NorthwindService = new NorthwindServiceSql(connection);
+            }
 
-            // Make sure the database and all migrations have been applied
-            NorthwindContext.Database.EnsureCreated();
-            NorthwindContext.Database.Migrate();
-            NorthwindContext.BringUpToDate(DateTime.UtcNow);
+            if (NorthwindContext == default)
+            {
+                DbContextOptions<NorthwindContext> contextOptions = new DbContextOptionsBuilder<NorthwindContext>().UseSqlServer(connection).Options;
+
+                NorthwindContext = new NorthwindContextSql(contextOptions);
+
+                // Make sure the database and all migrations have been applied
+                NorthwindContext.Database.EnsureCreated();
+                NorthwindContext.Database.Migrate();
+                NorthwindContext.BringUpToDate(DateTime.UtcNow);
+            }
         }
 
         [TearDown]
         public virtual void Teardown()
         {
-            NorthwindContext.Dispose();
+            //NorthwindContext.Dispose();
         }
 
         [Test]

@@ -11,12 +11,19 @@ namespace Northwind.Tests.InMemory
         {
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
-            NorthwindContext = new NorthwindContextInMemory(string.Empty);
-            NorthwindService = new NorthwindService(NorthwindContext);
+            if (NorthwindContext == default)
+            {
+                NorthwindContext = new NorthwindContextInMemory(string.Empty);
 
-            NorthwindContext.Database.EnsureCreated();
-            //NorthwindContext.Database.Migrate(); // not supported for in-memory
-            NorthwindContext.BringUpToDate(DateTime.UtcNow);
+                NorthwindContext.Database.EnsureCreated();
+                //NorthwindContext.Database.Migrate(); // not supported for in-memory
+                NorthwindContext.BringUpToDate(DateTime.UtcNow);
+            }
+
+            if (NorthwindService == default)
+            {
+                NorthwindService = new NorthwindService(NorthwindContext);
+            }           
         }
     }
 }
