@@ -7,6 +7,7 @@ using Northwind.Context.Contexts;
 using Northwind.Context.Extensions;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models;
+using Patterns;
 
 namespace Northwind.Context.Services
 {
@@ -49,9 +50,14 @@ namespace Northwind.Context.Services
                 .ToList() as IList<AlphabeticalListOfProduct> ?? new List<AlphabeticalListOfProduct>());
         }
 
-        public async Task<IList<CategorySalesForYear>> CategorySalesFor1997s()
+        public Task<IList<CategorySalesForYear>> CategorySalesFor1997s()
         {
-            IList<ProductSalesForYear> values = await ProductSalesFor1997s();
+            return CategorySalesForYear(1997);
+        }
+
+        public async Task<IList<CategorySalesForYear>> CategorySalesForYear(int year)
+        {
+            IList<ProductSalesForYear> values = await ProductSalesForYear(year);
 
             if (values.Any())
             {
@@ -77,8 +83,7 @@ namespace Northwind.Context.Services
             return Task.FromResult(Context.Products
                                         .Where(w => w.Discontinued == false)
                                         .Select(s => new CurrentProductList() { ProductId = s.ProductId, ProductName = s.ProductName })
-                                        .AsEnumerable()
-                                        .GroupBy(y => y.ProductName)
+                                        .OrderBy(o => o.ProductName)                                                                         
                                         .ToList() as IList<CurrentProductList> ?? new List<CurrentProductList>());
         }
 
@@ -321,8 +326,13 @@ namespace Northwind.Context.Services
 
         public Task<IList<ProductSalesForYear>> ProductSalesFor1997s()
         {
-            DateTime start = new DateTime(1997, 1, 1).Date;
-            DateTime end = new DateTime(1998, 1, 1).Date.AddTicks(-1);
+            return ProductSalesForYear(1997);
+        }
+
+        public Task<IList<ProductSalesForYear>> ProductSalesForYear(int year)
+        {
+            DateTime start = new DateTime(year, 1, 1).Date;
+            DateTime end = start.AddYears(1).Date.AddTicks(-1);
 
             return ProductSales(start, end);
         }
@@ -381,6 +391,14 @@ namespace Northwind.Context.Services
             return QuarterlyOrders(start, end);
         }
 
+        public Task<IList<QuarterlyOrder>> QuarterlyOrders(int year, int quarter)
+        {
+            StartAndEndDate dates = new StartAndEndDate(year, quarter);
+
+            return QuarterlyOrders(dates.StartDate, dates.EndDate);
+        }
+
+
         public Task<IList<QuarterlyOrder>> QuarterlyOrders(DateTime start, DateTime end)
         {
             return Task.FromResult(Context.Orders
@@ -404,6 +422,13 @@ namespace Northwind.Context.Services
             DateTime end = new DateTime(1998, 1, 1).Date.AddTicks(-1);
 
             return SalesByCategory(start, end);
+        }
+
+        public Task<IList<SalesByCategory>> SalesByCategories(int year, int quarter)
+        {
+            StartAndEndDate dates = new StartAndEndDate(year, quarter);
+
+            return SalesByCategory(dates.StartDate, dates.EndDate);
         }
 
         public Task<IList<SalesByCategory>> SalesByCategory(DateTime start, DateTime end)
@@ -435,14 +460,19 @@ namespace Northwind.Context.Services
                                                 .Include(p => p.Product)
                                                     .ThenInclude(c => c.Category)
                                                 .Include(o => o.Order)
+                                                .AsEnumerable()
                                                 .Where(w => ((w.Product ?? new Product()).Category ?? new Category()).CategoryName == categoryName && ((w.Order ?? new Order()).OrderDate ?? DateTime.UtcNow).Year == year)
-                                                .Select(s => new { s.Product.ProductName, extendedPrice = s.ExtendedPrice() ?? 0 })
+                                                .AsEnumerable()
+                                                .Select(s => new { s.Product.ProductName, extendedPrice = s.ExtendedPrice() ?? 0 })                                                
+                                                .AsEnumerable()
                                                 .GroupBy(g => g.ProductName)
+                                                .AsEnumerable()
                                                 .Select(s => new SaleByCategoryReport()
                                                 {
                                                     ProductName = s.Key,
                                                     TotalPurchased = s.Sum(u => u.extendedPrice)
                                                 })
+                                                .AsEnumerable()
                                                 .OrderByDescending(y => y.TotalPurchased)
                                                     .ThenBy(b => b.ProductName)
                                                 .ToList() as IList<SaleByCategoryReport> ?? new List<SaleByCategoryReport>());
@@ -508,12 +538,24 @@ namespace Northwind.Context.Services
                     .ToList() as IList<SalesTotalsByAmount> ?? new List<SalesTotalsByAmount>());
         }
 
+        public Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters(int year, int quarter)
+        {
+            StartAndEndDate dates = new StartAndEndDate(year, quarter);
+
+            return SummaryOfSalesByQuarters(dates);
+        }
+
         public Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters()
+        {
+            return SummaryOfSalesByQuarters(new StartAndEndDate() { StartDate = DateTime.MinValue, EndDate = DateTime.MaxValue });
+        }
+
+        public Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters(StartAndEndDate dates)
         {
             return Task.FromResult(
                 Context.OrderDetails
                     .Include(o => o.Order)
-                    .Where(w => w.Order.ShippedDate.HasValue)
+                    .Where(w => w.Order.ShippedDate.HasValue && w.Order.ShippedDate >= dates.StartDate && w.Order.ShippedDate <= dates.EndDate)
                     .Select(s1 => new SummaryOfSalesByQuarter()
                     {
                         ShippedDate = s1.Order.ShippedDate,
@@ -534,12 +576,22 @@ namespace Northwind.Context.Services
                     .ToList() as IList<SummaryOfSalesByQuarter> ?? new List<SummaryOfSalesByQuarter>());
         }
 
+        public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears(int year)
+        {
+            return this.SummaryOfSalesByYears(new StartAndEndDate(year));
+        }
+
         public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears()
+        {
+            return this.SummaryOfSalesByYears(new StartAndEndDate() { StartDate = DateTime.MinValue, EndDate = DateTime.MaxValue });
+        }
+
+        public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears(StartAndEndDate dates)
         {
             return Task.FromResult(
                 Context.OrderDetails
                     .Include(o => o.Order)
-                    .Where(w => w.Order.ShippedDate.HasValue)
+                    .Where(w => w.Order.ShippedDate.HasValue && w.Order.ShippedDate >= dates.StartDate && w.Order.ShippedDate <= dates.EndDate)
                     .Select(s1 => new SummaryOfSalesByYear()
                     {
                         ShippedDate = s1.Order.ShippedDate,
@@ -567,36 +619,6 @@ namespace Northwind.Context.Services
                                         .Take(10)
                                         .Select(s => new MostExpensiveProduct() { Name = s.ProductName, UnitPrice = s.UnitPrice ?? 0 })
                                         .ToList() as IList<MostExpensiveProduct> ?? new List<MostExpensiveProduct>());
-        }
-
-        public Task<IList<CategorySalesForYear>> CategorySalesForYear(int year)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<ProductSalesForYear>> ProductSalesForYear(int year)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters(int year, int quarter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears(int year)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<QuarterlyOrder>> QuarterlyOrders(int year, int quarter)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<SalesByCategory>> SalesByCategories(int year, int quarter)
-        {
-            throw new NotImplementedException();
         }
     }
 }

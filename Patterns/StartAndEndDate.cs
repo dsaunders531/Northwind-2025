@@ -10,6 +10,50 @@ namespace Patterns
     /// <remarks>Implements standard behavoir - start is always at 00:00 and end is always at 23:59 on the day.</remarks>
     public class StartAndEndDate
     {
+        public StartAndEndDate() { }
+
+        /// <summary>
+        /// Calculate the start and end days for a year.
+        /// </summary>
+        /// <param name="year"></param>
+        public StartAndEndDate(int year)
+        {
+            this.startDate = new DateTime(year, 1, 1).Date;
+            this.endDate = startDate.AddYears(1).AddTicks(-1);
+        }
+
+        /// <summary>
+        /// Calculate the start and end days for a year and quarter.
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="quarter"></param>
+        public StartAndEndDate(int year, int quarter)
+        {
+            int startmonth = quarter;//  1 = 1, 2 = 4, 3 = 7, 4 = 10            
+            
+            switch (startmonth)
+            {
+                case 1:
+                    startmonth = 1;
+
+                    break;
+                case 2:
+                    startmonth = 4;
+
+                    break;
+                case 3:
+                    startmonth = 7;
+                    break;
+                case 4:
+                default:
+                    startmonth = 10;
+                    break;
+            }
+
+            this.startDate = new DateTime(year, startmonth, 1).Date;
+            this.endDate = this.startDate.AddMonths(3).AddDays(1).AddTicks(-1);
+        }
+
         private DateTime startDate;
 
         private DateTime endDate;
@@ -22,6 +66,13 @@ namespace Patterns
         /// <summary>
         /// Gets or sets always return the end date as the last moment of the day.
         /// </summary>
-        public DateTime EndDate { get => endDate.Date.AddDays(1).AddTicks(-1); set => endDate = value; }
+        public DateTime EndDate
+        {
+            get
+            {
+                return endDate < DateTime.MaxValue ? endDate.Date.AddDays(1).AddTicks(-1) : DateTime.MaxValue;
+            }
+            set => endDate = value;
+        }
     }
 }
