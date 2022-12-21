@@ -1,5 +1,5 @@
 ﻿using Northwind.Context.Contexts;
-using Northwind.Context.Models;
+using Northwind.Context.Models.Database;
 
 namespace Northwind.Context
 {

@@ -1,4 +1,4 @@
-﻿using Northwind.Context.Models;
+﻿using Northwind.Context.Models.Database;
 
 namespace Northwind.Context.Extensions
 {

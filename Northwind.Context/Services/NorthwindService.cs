@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Northwind.Context.Contexts;
 using Northwind.Context.Extensions;
 using Northwind.Context.Interfaces;
-using Northwind.Context.Models;
+using Northwind.Context.Models.Database;
+using Northwind.Context.Models.Reporting;
 using Patterns;
 
 namespace Northwind.Context.Services

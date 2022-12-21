@@ -3,7 +3,7 @@
 // </copyright>
 
 using Microsoft.Data.SqlClient;
-using Northwind.Context.Models;
+using Northwind.Context.Models.Reporting;
 using Patterns;
 
 namespace Northwind.Context.MsSql.Commands

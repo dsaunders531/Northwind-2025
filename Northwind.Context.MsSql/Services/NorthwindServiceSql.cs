@@ -3,7 +3,7 @@
 // </copyright>
 
 using Northwind.Context.Interfaces;
-using Northwind.Context.Models;
+using Northwind.Context.Models.Reporting;
 using Northwind.Context.MsSql.Commands;
 using Northwind.Context.MsSql.Parameters;
 

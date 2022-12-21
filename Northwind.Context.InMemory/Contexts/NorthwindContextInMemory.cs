@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Northwind.Context.Contexts;
-using Northwind.Context.Models;
+using Northwind.Context.Models.Database;
 using Patterns.Extensions;
 using File = System.IO.File;
 
