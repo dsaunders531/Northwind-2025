@@ -2,6 +2,9 @@
 // Copyright (c) Duncan Saunders. All rights reserved.
 // </copyright>
 
+using System.Runtime.CompilerServices;
+using System.Xml.XPath;
+
 namespace Patterns
 {
     /// <summary>
@@ -74,5 +77,5 @@ namespace Patterns
             }
             set => endDate = value;
         }
-    }
+    }    
 }
