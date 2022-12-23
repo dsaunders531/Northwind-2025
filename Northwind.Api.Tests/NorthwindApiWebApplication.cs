@@ -1,11 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Hosting;
-using NLog;
-using NLog.Web;
-using Northwind.Context.Contexts;
-using Northwind.Context.InMemory.Contexts;
-using Northwind.Context.Interfaces;
-using Northwind.Context.Services;
 
 namespace Northwind.Api
 {

@@ -11,27 +11,26 @@ using Northwind.Context.Models.Reporting;
 using Northwind.Context.MsSql.Contexts;
 using Northwind.Context.MsSql.Services;
 
-
 namespace Northwind.Tests.Sql
 {
     /// <summary>
     /// Test the sql commands and service (functions which do not use the EF context).
     /// </summary>
     /// <remarks>
-    /// Since we are just implementing existing stored procs and views. 
-    /// All these tests do is check that the functions and methods work without error.    
+    /// Since we are just implementing existing stored procs and views.
+    /// All these tests do is check that the functions and methods work without error.
     /// </remarks>
     public class IntegrationTests : INorthwindService
     {
         /// <summary>
         /// Gets or sets the interface for the service is implemented in the test class, when it changes we have to update the tests too!
         /// </summary>
-        protected INorthwindService NorthwindService { get; set; }
+        protected INorthwindService? NorthwindService { get; set; }
 
         /// <summary>
         /// Gets or sets the context to get values which are not in the service.
         /// </summary>
-        protected NorthwindContext NorthwindContext { get; set; }
+        protected NorthwindContext? NorthwindContext { get; set; }
 
         [SetUp]
         public virtual void Setup()
@@ -62,7 +61,7 @@ namespace Northwind.Tests.Sql
         [TearDown]
         public virtual void Teardown()
         {
-            //NorthwindContext.Dispose();
+            // NorthwindContext.Dispose();
         }
 
         [Test]
@@ -87,6 +86,7 @@ namespace Northwind.Tests.Sql
         }
 
         [Test]
+        [Obsolete]
         public async Task CategorySalesFor1997sTest()
         {
             IList<CategorySalesForYear> sales = await CategorySalesFor1997s();
@@ -212,6 +212,7 @@ namespace Northwind.Tests.Sql
         }
 
         [Test]
+        [Obsolete]
         public async Task ProductSalesFor1997sTest()
         {
             IList<ProductSalesForYear> productSales = await ProductSalesFor1997s();
@@ -262,6 +263,7 @@ namespace Northwind.Tests.Sql
         }
 
         [Test]
+        [Obsolete]
         public async Task SalesTotalsByAmountsTest()
         {
             IList<SalesTotalsByAmount> salesTotals = await SalesTotalsByAmounts();
@@ -298,6 +300,7 @@ namespace Northwind.Tests.Sql
         }
 
         [Test]
+        [Obsolete]
         public async Task SummaryOfSalesByQuartersTest()
         {
             IList<SummaryOfSalesByQuarter> salesByQuarters = await SummaryOfSalesByQuarters();
@@ -320,7 +323,7 @@ namespace Northwind.Tests.Sql
 
             int year = currentDate.Month == 1 ? currentDate.Year - 1 : currentDate.Year;
             int quarter = currentDate.Month == 1 ? 4 : 2;
-            
+
             IList<SummaryOfSalesByQuarter> salesByQuarters = await SummaryOfSalesByQuarters(year, quarter);
 
             Assert.IsNotNull(salesByQuarters);
@@ -334,6 +337,7 @@ namespace Northwind.Tests.Sql
         }
 
         [Test]
+        [Obsolete]
         public async Task SummaryOfSalesByYearsTest()
         {
             IList<SummaryOfSalesByYear> salesByYears = await SummaryOfSalesByYears();
@@ -421,7 +425,7 @@ namespace Northwind.Tests.Sql
         {
             DateTime current = DateTime.UtcNow;
 
-            Category category = NorthwindContext.Categories.FirstOrDefault();
+            Category? category = NorthwindContext.Categories.FirstOrDefault();
 
             Assert.IsNotNull(category);
 
@@ -496,7 +500,7 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task CustomerOrderHistoryTest()
         {
-            Customer customer = NorthwindContext.Customers.FirstOrDefault();
+            Customer? customer = NorthwindContext.Customers.FirstOrDefault();
 
             Assert.IsNotNull(customer);
 
@@ -511,6 +515,7 @@ namespace Northwind.Tests.Sql
         }
 
         [Test]
+        [Obsolete]
         public async Task QuarterlyOrdersTest()
         {
             IList<QuarterlyOrder> serviceValue = await QuarterlyOrders();
@@ -547,6 +552,7 @@ namespace Northwind.Tests.Sql
         }
 
         [Test]
+        [Obsolete]
         public async Task SalesByCategoryTest()
         {
             IList<SalesByCategory> serviceValue = await SalesByCategory();
