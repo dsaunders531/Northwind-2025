@@ -35,9 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Api", "Northwind.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Patterns.Tests", "Northwind.Patterns.Tests\Northwind.Patterns.Tests.csproj", "{F93DC1A1-29F3-4AB2-9A84-66EE330B699C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Services.Tests", "Northwind.Services.Tests\Northwind.Services.Tests.csproj", "{A3AD4785-6FB9-4674-BD99-D15696AC659E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Services.Tests", "Northwind.Services.Tests\Northwind.Services.Tests.csproj", "{A3AD4785-6FB9-4674-BD99-D15696AC659E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Api.Tests", "Northwind.Api.Tests\Northwind.Api.Tests.csproj", "{3B03356F-52C8-48A8-B083-001263AC6132}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Api.Tests", "Northwind.Api.Tests\Northwind.Api.Tests.csproj", "{3B03356F-52C8-48A8-B083-001263AC6132}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

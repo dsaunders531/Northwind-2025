@@ -8,3 +8,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:Prefix local calls with this", Justification = "Makes code less readable")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1629:Documentation text should end with a period", Justification = "Not always suitable")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Not always - if it is obvious what the element does.")]
+[assembly: SuppressMessage("Assertion", "NUnit2045:Use Assert.Multiple", Justification = "Easier to have one by one tests")]

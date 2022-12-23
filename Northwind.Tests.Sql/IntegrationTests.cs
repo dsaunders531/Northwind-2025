@@ -82,7 +82,7 @@ namespace Northwind.Tests.Sql
 
         public Task<IList<AlphabeticalListOfProduct>> AlphabeticalListOfProducts()
         {
-            return NorthwindService.AlphabeticalListOfProducts();
+            return NorthwindService?.AlphabeticalListOfProducts();
         }
 
         [Test]
@@ -483,7 +483,7 @@ namespace Northwind.Tests.Sql
         [Test]
         public async Task CustomerOrderDetailTest()
         {
-            Order order = NorthwindContext.Orders.FirstOrDefault();
+            Order? order = NorthwindContext.Orders.FirstOrDefault();
 
             Assert.IsNotNull(order);
 

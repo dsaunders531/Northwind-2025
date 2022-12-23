@@ -1,3 +1,7 @@
+// <copyright file="ApiTests.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models.Api;
 using Patterns;
@@ -26,7 +30,7 @@ namespace Northwind.Api.Tests
                 _app = new NorthwindApiWebApplication();
 
                 _client = _app.CreateClient();
-            }                        
+            }
         }
 
         [Test]
@@ -43,7 +47,7 @@ namespace Northwind.Api.Tests
 
                 Assert.That(err.Title, Has.Length.GreaterThan(0));
 
-                Assert.That(err.Errors, Has.Count.GreaterThan(0));                
+                Assert.That(err.Errors, Has.Count.GreaterThan(0));
             }
             else
             {
@@ -63,7 +67,7 @@ namespace Northwind.Api.Tests
 
             result = await GetProducts(result.TotalPages, SortBy.Name | SortBy.Ascending, string.Empty);
 
-            Assert.That(result.Page.Count(), Is.EqualTo(itemsOnLastPage));
+            Assert.That(result.Page, Has.Length.EqualTo(itemsOnLastPage));
         }
 
         [Test]
@@ -102,11 +106,13 @@ namespace Northwind.Api.Tests
 
             foreach (ProductApi item in result.Page)
             {
-                Assert.IsTrue(item.ProductName.ToLowerInvariant().Contains("chef anton"));
+                Assert.That(item.ProductName.ToLowerInvariant(), Does.Contain("chef anton"));
             }
         }
 
-        public async Task<IPagedResponse<ProductApi>?> GetProducts(int page, SortBy sort, string searchTerm)
+#pragma warning disable NUnit1028 // The non-test method is public
+        public async Task<IPagedResponse<ProductApi>> GetProducts(int page, SortBy sort, string searchTerm)
+#pragma warning restore NUnit1028 // The non-test method is public
         {
             HttpResponseMessage response = await _client.GetAsync($"/Products?page={page}&sort={(int)sort}&searchTerm={searchTerm}");
 
@@ -117,9 +123,9 @@ namespace Northwind.Api.Tests
                 throw new HttpRequestException($"Error: {err.Title}. {err.Errors.FirstOrDefault().Value.FirstOrDefault()}");
             }
 
-            response.EnsureSuccessStatusCode();
+            _ = response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<PagedResponse<ProductApi>>() as IPagedResponse<ProductApi>;
+            return await response.Content.ReadFromJsonAsync<PagedResponse<ProductApi>>();
         }
 
         [Test]
@@ -133,10 +139,12 @@ namespace Northwind.Api.Tests
             Assert.That(product?.ProductName, Is.EqualTo("Tunnbröd"));
 
             // get a product which does not exist.
-            Assert.ThrowsAsync<KeyNotFoundException>(() => GetProductById(321));            
+            _ = Assert.ThrowsAsync<KeyNotFoundException>(() => GetProductById(321));
         }
 
+#pragma warning disable NUnit1028 // The non-test method is public
         public async Task<ProductApi?> GetProductById(int productId)
+#pragma warning restore NUnit1028 // The non-test method is public
         {
             HttpResponseMessage response = await _client.GetAsync($"/Products/{productId}");
 
@@ -146,10 +154,10 @@ namespace Northwind.Api.Tests
             }
             else
             {
-                response.EnsureSuccessStatusCode();
+                _ = response.EnsureSuccessStatusCode();
 
                 return await response.Content.ReadFromJsonAsync<ProductApi>();
-            }            
+            }
         }
 
         [Test]
@@ -160,7 +168,9 @@ namespace Northwind.Api.Tests
             Assert.That(result, Has.Length.GreaterThanOrEqualTo(2));
         }
 
+#pragma warning disable NUnit1028 // The non-test method is public
         public async Task<string[]> SearchProducts(string term)
+#pragma warning restore NUnit1028 // The non-test method is public
         {
             HttpResponseMessage response = await _client.GetAsync($"/Products/search?term={term}");
 
@@ -170,8 +180,8 @@ namespace Northwind.Api.Tests
 
                 throw new HttpRequestException($"Error: {err.Title}. {err.Errors.FirstOrDefault().Value.FirstOrDefault()}");
             }
-            
-            return await response.Content.ReadFromJsonAsync<string[]>();
+
+            return await response.Content.ReadFromJsonAsync<string[]>() ?? Array.Empty<string>();
         }
 
         [Test]
@@ -194,11 +204,13 @@ namespace Northwind.Api.Tests
             Assert.That(result.Page.First().CategoryName.First(), Is.LessThanOrEqualTo(result.Page.Last().CategoryName.First()));
         }
 
-        public async Task<IPagedResponse<CategoryApi>?> GetCategories(int page, SortBy sort)
+#pragma warning disable NUnit1028 // The non-test method is public
+        public async Task<IPagedResponse<CategoryApi>> GetCategories(int page, SortBy sort)
+#pragma warning restore NUnit1028 // The non-test method is public
         {
             HttpResponseMessage response = await _client.GetAsync($"/Categories?page={page}&sort={(int)sort}");
 
-            response.EnsureSuccessStatusCode();
+            _ = response.EnsureSuccessStatusCode();
 
             string content = await response.Content.ReadAsStringAsync();
 
@@ -219,13 +231,15 @@ namespace Northwind.Api.Tests
             Assert.That(products.Page.First().ProductName.First(), Is.LessThanOrEqualTo(products.Page.Last().ProductName.First()));
         }
 
-        public async Task<IPagedResponse<ProductApi>?> GetProductsInCategory(int categoryId, int page, SortBy sort)
+#pragma warning disable NUnit1028 // The non-test method is public
+        public async Task<IPagedResponse<ProductApi>> GetProductsInCategory(int categoryId, int page, SortBy sort)
+#pragma warning restore NUnit1028 // The non-test method is public
         {
             HttpResponseMessage response = await _client.GetAsync($"/Categories/{categoryId}/products");
 
-            response.EnsureSuccessStatusCode();
+            _ = response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<PagedResponse<ProductApi>>() as IPagedResponse<ProductApi>;
+            return await response.Content.ReadFromJsonAsync<PagedResponse<ProductApi>>();
         }
     }
 }
