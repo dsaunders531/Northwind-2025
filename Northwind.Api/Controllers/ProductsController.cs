@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models.Api;
 using Patterns;
-using System.ComponentModel.DataAnnotations;
 
 namespace Northwind.Api.Controllers
 {

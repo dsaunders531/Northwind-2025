@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace Patterns
 {
@@ -14,10 +9,10 @@ namespace Patterns
     {
         public HttpErrorResponse()
         {
-            this.Type = string.Empty;
-            this.Title = string.Empty;
-            this.TraceId = string.Empty;
-            this.Errors = new Dictionary<string, string[]>();
+            Type = string.Empty;
+            Title = string.Empty;
+            TraceId = string.Empty;
+            Errors = new Dictionary<string, string[]>();
         }
 
         public string Type { get; set; }

@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models.Api;
 using Patterns;
 using Patterns.Extensions;
-using System.Diagnostics.Contracts;
 using System.Net;
 using System.Net.Http.Json;
 
