@@ -19,8 +19,8 @@ namespace Northwind.Api.Controllers
         /// <param name="logger"></param>
         public CategoriesController(INorthwindProductsService service, ILogger<CategoriesController> logger)
         {
-            this.Service = service;
-            this.Logger = logger;
+            Service = service;
+            Logger = logger;
         }
 
         private INorthwindProductsService Service { get; set; }

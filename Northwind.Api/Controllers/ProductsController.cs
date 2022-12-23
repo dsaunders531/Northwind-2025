@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// <copyright file="ProductsController.cs" company="Duncan Saunders">
+// Copyright (c) Duncan Saunders. All rights reserved.
+// </copyright>
+
+using Microsoft.AspNetCore.Mvc;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models.Api;
-using Northwind.Context.Models.Database;
 using Patterns;
+using System.ComponentModel.DataAnnotations;
 
 namespace Northwind.Api.Controllers
 {
@@ -20,8 +24,8 @@ namespace Northwind.Api.Controllers
         /// <param name="logger"></param>
         public ProductsController(INorthwindProductsService service, ILogger<ProductsController> logger)
         {
-            this.Service = service;
-            this.Logger = logger;
+            Service = service;
+            Logger = logger;
         }
 
         private INorthwindProductsService Service { get; set; }
@@ -38,16 +42,16 @@ namespace Northwind.Api.Controllers
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IPagedResponse<ProductApi>))]
-        public async Task<ActionResult<IPagedResponse<ProductApi>>> Products([FromQuery] string searchTerm, [FromQuery] int page = 1, [FromQuery] SortBy sort = SortBy.Name | SortBy.CategoryNameAscending)
+        public async Task<ActionResult<IPagedResponse<ProductApi>>> Products([FromQuery] string? searchTerm, [FromQuery] int page = 1, [FromQuery] SortBy sort = SortBy.Name | SortBy.Ascending)
         {
             try
             {
-                return new JsonResult(await Service.GetProducts(page, sort, searchTerm));
+                return new JsonResult(await Service.GetProducts(page, sort, searchTerm ?? string.Empty));
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, $"Error in GET Products. {ex.Message}");
-                
+
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
@@ -61,11 +65,11 @@ namespace Northwind.Api.Controllers
         [Route("{productId}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductApi))]
-        public async Task<ActionResult<ProductApi>> Product([FromRoute]int productId)
+        public async Task<ActionResult<ProductApi>> Product([FromRoute] int productId)
         {
             try
             {
-                ProductApi result = await Service.GetProductById(productId);
+                ProductApi? result = await Service.GetProductById(productId);
 
                 if (result == default)
                 {
@@ -74,7 +78,7 @@ namespace Northwind.Api.Controllers
                 else
                 {
                     return new JsonResult(result);
-                }                
+                }
             }
             catch (Exception ex)
             {

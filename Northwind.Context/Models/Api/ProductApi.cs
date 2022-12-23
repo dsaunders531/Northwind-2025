@@ -8,18 +8,18 @@ namespace Northwind.Context.Models.Api
     {
         public ProductApi()
         {
-            this.ProductName = string.Empty;
+            ProductName = string.Empty;
         }
 
         private ProductApi(Product model)
         {
-            this.CategoryId = model.CategoryId;
-            this.Discontinued = model.Discontinued;
-            this.ProductId = model.ProductId;
-            this.ProductName = model.ProductName ?? string.Empty;
-            this.QuantityPerUnit = model.QuantityPerUnit ?? "0";
-            this.UnitPrice = model.UnitPrice ?? decimal.MaxValue;
-            this.UnitsInStock = model.UnitsInStock ?? 0;
+            CategoryId = model.CategoryId;
+            Discontinued = model.Discontinued;
+            ProductId = model.ProductId;
+            ProductName = model.ProductName ?? string.Empty;
+            QuantityPerUnit = model.QuantityPerUnit ?? "0";
+            UnitPrice = model.UnitPrice ?? decimal.MaxValue;
+            UnitsInStock = model.UnitsInStock ?? 0;
         }
 
         public static ProductApi Create(Product model)

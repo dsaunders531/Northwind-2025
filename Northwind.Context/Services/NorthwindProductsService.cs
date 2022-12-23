@@ -12,7 +12,7 @@ namespace Northwind.Context.Services
     {
         public NorthwindProductsService(NorthwindContext context)
         {
-            this.Context = context;
+            Context = context;
         }
 
         private NorthwindContext Context { get; set; }
@@ -75,9 +75,19 @@ namespace Northwind.Context.Services
 
         public Task<IPagedResponse<ProductApi>> GetProducts(int page, SortBy sort, string searchTerm)
         {
-            IQueryable<Product> foundProducts = Context.Products
-                                                            .Where(w => w.ProductName.ToLowerInvariant()
-                                                            .Contains(searchTerm.ToLowerInvariant())).AsQueryable();
+            IQueryable<Product> foundProducts;
+
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                foundProducts = Context.Products;
+            }
+            else
+            {
+                foundProducts = Context.Products
+                                            .Where(w => w.ProductName.ToLowerInvariant()
+                                            .Contains(searchTerm.ToLowerInvariant())).AsQueryable();
+
+            }
 
             int totalItems = foundProducts.Count();
             int totalPages = TotalPages(totalItems);
@@ -188,11 +198,18 @@ namespace Northwind.Context.Services
 
         public Task<string[]> SearchProducts(string term)
         {
-            return Task.FromResult(Context.Products
+            if (string.IsNullOrWhiteSpace(term))
+            {
+                return Task.FromResult(Array.Empty<string>());
+            }
+            else
+            {
+                return Task.FromResult(Context.Products
                                             .Where(s => s.ProductName.ToLowerInvariant().Contains(term.ToLowerInvariant()))
                                             .Select(s => s.ProductName)
                                             .OrderBy(o => o)
                                             .ToArray() ?? Array.Empty<string>());
+            }            
         }
     }
 }

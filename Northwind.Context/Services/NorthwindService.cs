@@ -579,12 +579,12 @@ namespace Northwind.Context.Services
 
         public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears(int year)
         {
-            return this.SummaryOfSalesByYears(new StartAndEndDate(year));
+            return SummaryOfSalesByYears(new StartAndEndDate(year));
         }
 
         public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears()
         {
-            return this.SummaryOfSalesByYears(new StartAndEndDate() { StartDate = DateTime.MinValue, EndDate = DateTime.MaxValue });
+            return SummaryOfSalesByYears(new StartAndEndDate() { StartDate = DateTime.MinValue, EndDate = DateTime.MaxValue });
         }
 
         public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears(StartAndEndDate dates)

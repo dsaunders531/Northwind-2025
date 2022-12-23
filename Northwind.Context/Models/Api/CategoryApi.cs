@@ -7,14 +7,14 @@ namespace Northwind.Context.Models.Api
     {
         public CategoryApi() 
         {
-            this.CategoryName = string.Empty;
+            CategoryName = string.Empty;
         }
 
         private CategoryApi(Category model)
         {
-            this.CategoryName = model.CategoryName;
-            this.CategoryId = model.CategoryId;
-            this.Description = model.Description ?? string.Empty;
+            CategoryName = model.CategoryName;
+            CategoryId = model.CategoryId;
+            Description = model.Description ?? string.Empty;
         }
 
         public static CategoryApi Create(Category model)

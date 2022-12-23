@@ -2,8 +2,6 @@
 // Copyright (c) Duncan Saunders. All rights reserved.
 // </copyright>
 
-using Northwind.Context.Models.Database;
-
 namespace Northwind.Context.Models.Interfaces
 {
     public interface IProduct

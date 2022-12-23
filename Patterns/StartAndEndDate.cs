@@ -2,9 +2,6 @@
 // Copyright (c) Duncan Saunders. All rights reserved.
 // </copyright>
 
-using System.Runtime.CompilerServices;
-using System.Xml.XPath;
-
 namespace Patterns
 {
     /// <summary>
@@ -21,8 +18,8 @@ namespace Patterns
         /// <param name="year"></param>
         public StartAndEndDate(int year)
         {
-            this.startDate = new DateTime(year, 1, 1).Date;
-            this.endDate = startDate.AddYears(1).AddTicks(-1);
+            startDate = new DateTime(year, 1, 1).Date;
+            endDate = startDate.AddYears(1).AddTicks(-1);
         }
 
         /// <summary>
@@ -53,8 +50,8 @@ namespace Patterns
                     break;
             }
 
-            this.startDate = new DateTime(year, startmonth, 1).Date;
-            this.endDate = this.startDate.AddMonths(3).AddDays(1).AddTicks(-1);
+            startDate = new DateTime(year, startmonth, 1).Date;
+            endDate = startDate.AddMonths(3).AddTicks(-1);
         }
 
         private DateTime startDate;

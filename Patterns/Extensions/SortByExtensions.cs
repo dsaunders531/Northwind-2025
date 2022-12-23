@@ -2,9 +2,6 @@
 // Copyright (c) Duncan Saunders. All rights reserved.
 // </copyright>
 
-using System.Runtime.CompilerServices;
-using System.Xml.XPath;
-
 namespace Patterns.Extensions
 {
 
@@ -32,6 +29,10 @@ namespace Patterns.Extensions
             if (sort.HasFlag(SortBy.Price))
             {
                 result = SortBy.Price;
+            }
+            else if (sort.HasFlag(SortBy.Name))
+            {
+                result = SortBy.Name;
             }
             else
             {

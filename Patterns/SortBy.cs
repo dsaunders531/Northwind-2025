@@ -16,13 +16,14 @@ namespace Patterns
         Name = 4,
         Price = 8,
         Popularity = 16,
-        Product = 32,
-        Category = 64,
-        ProductNameAscending = SortBy.Product | SortBy.Name | SortBy.Ascending,
-        ProductNameDescending = SortBy.Product | SortBy.Name | SortBy.Descending,
-        ProductPriceAscending = SortBy.Product | SortBy.Price | SortBy.Ascending,
-        ProductPriceDescending = SortBy.Product | SortBy.Price | SortBy.Descending,
-        CategoryNameAscending = SortBy.Category | SortBy.Name | SortBy.Ascending,
-        CategoryNameDescending = SortBy.Category | SortBy.Name | SortBy.Descending,
+        // the api requires every valid combination to be registered.
+        // this may get complicated as the options increase.
+        // however, by not including combinations - these will be rejected by any api calls.
+        NameAscending = SortBy.Ascending | SortBy.Name, // 5
+        NameDescending = SortBy.Descending | SortBy.Name, // 6
+        PriceAscending = SortBy.Ascending | SortBy.Price, // 9
+        PriceDecending = SortBy.Descending | SortBy.Price, // 10
+        PopularityAscending = SortBy.Ascending | SortBy.Popularity, // 17
+        PopularityDescending = SortBy.Descending | SortBy.Popularity // 18
     }
 }

@@ -19,7 +19,9 @@ namespace Patterns.Extensions
             IgnoreReadOnlyFields = true,
             IgnoreReadOnlyProperties = true,
             NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.Strict,
-            ReferenceHandler = ReferenceHandler.Preserve            
+            ReferenceHandler = ReferenceHandler.Preserve,
+            PropertyNameCaseInsensitive = true
+
         };
 
         /// <summary>
@@ -30,7 +32,16 @@ namespace Patterns.Extensions
         /// <returns>An object.</returns>
         /// <remarks>The return type must not be an interface.</remarks>
         public static T JsonConvert<T>(this string value)
-            where T : class
-            => JsonSerializer.Deserialize<T>(value, JsonExtensions.JsonSerializerOptions) ?? Activator.CreateInstance<T>();
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new JsonException("Cannot convert an empty string!");
+            }
+            else
+            {
+                return JsonSerializer.Deserialize<T>(value, JsonExtensions.JsonSerializerOptions) ?? Activator.CreateInstance<T>();
+            }            
+        }
+            
     }
 }
