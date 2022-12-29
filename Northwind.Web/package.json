@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "my-webpack-project",
+  "name": "northwind-web",
   "private": true,
   "devDependencies": {
     "@webpack-cli/generators": "^3.0.1",
@@ -15,7 +15,7 @@
     "webpack-cli": "^5.0.1",
     "workbox-webpack-plugin": "^6.5.4"
   },
-  "description": "My webpack project",
+  "description": "Northwind Web App",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
