@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @await RenderSectionAsync("Metas", required: false)
     <title>@ViewData["Title"] - Northwind.Web</title>
-    <link rel="preload" href="~/css/bootstrap.min.css" as="style" asp-append-version="true"/>
-    <link rel="preload" href="~/css/site.css" as="style" asp-append-version="true" />
+    <link rel="preload" href="~/css/bootstrap.min.css" as="style"/>
+    <link rel="preload" href="~/css/site.css" as="style" />
 
     <link rel="preload" href="~/lib/bootstrap/5.3/dist/js/bootstrap.bundle.min.js" as="script"/>
     <link rel="preload" href="~/js/site.js" as="script" />
 
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
     @await RenderSectionAsync("Style", required: false)
 </head>
 <body>
@@ -57,7 +57,7 @@
         </div>
     </footer>  
     <script src="~/lib/bootstrap/5.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" ></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
