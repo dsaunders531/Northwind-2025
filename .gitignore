@@ -348,4 +348,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-/Northwind.Web/dist/main.js
+
+# Javascript files we will not be using
+/Northwind.Web/dist/*.js
