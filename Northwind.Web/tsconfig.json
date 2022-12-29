@@ -2,9 +2,26 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "jsx": "react",
     "module": "es6",
     "target": "es5",
-    "allowJs": true
+    "allowJs": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "preserveConstEnums": true,
+    "moduleResolution": "NodeNext"
   },
-  "files": ["src/index.ts"]
+  "exclude": [
+    "node_modules",
+    "wwwroot",
+    "**/*.spec.ts"
+  ],
+  "include": [
+    "src/**/*"
+  ],  
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Recommended"
 }
