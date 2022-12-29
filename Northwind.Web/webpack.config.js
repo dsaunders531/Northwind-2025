@@ -1,4 +1,4 @@
-/// <binding BeforeBuild='Run - Development' />
+/// <binding BeforeBuild='Run - Production' ProjectOpened='Watch - Production' />
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
 const path = require('path');
@@ -8,9 +8,10 @@ const isProduction = process.env.NODE_ENV == 'production';
 const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
 
 const config = {
+    devtool: false,
     entry: './src/index.ts',
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'wwwroot/js'),
     },
     plugins: [
         // Add your plugins here
@@ -37,7 +38,7 @@ const config = {
             },
 
             // Add your rules for custom modules here
-            // Learn more about loaders from https://webpack.js.org/loaders/
+            // Learn more about loaders from https://webpack.js.org/loaders/            
         ],
     },
     resolve: {
