@@ -1,1 +1,1 @@
-﻿///<binding BeforeBuild='wwwroot/lib/bootstrap/5.3/scss/bootstrap.scss' />
+﻿///<binding BeforeBuild='Scss' AfterBuild='.JS' />
