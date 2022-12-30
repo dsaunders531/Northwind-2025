@@ -10,7 +10,9 @@ self.addEventListener("install", (event) => {
     event.waitUntil(
         addResourcesToCache([
             "/css/bootstrap.min.css",
-            "/lib/bootstrap/5.3/dist/js/bootstrap.bundle.min.js"
+            "/lib/bootstrap/5.3/dist/js/bootstrap.bundle.min.js",
+            "/lib/fontawesome-free-6.2.1-web/css/solid.min.css",
+            "/lib/fontawesome-free-6.2.1-web/css/fontawesome.min.css"
         ])
     );
 });
