@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,12 +7,16 @@
     <title>@ViewData["Title"] - Northwind.Web</title>
     <link rel="preload" href="~/css/bootstrap.min.css" as="style"/>
     <link rel="preload" href="~/css/site.css" as="style" />
+    <link rel="preload" href="~/lib/fontawesome-free-6.2.1-web/css/fontawesome.min.css" as="style" />
+    <link rel="preload" href="~/lib/fontawesome-free-6.2.1-web/css/solid.min.css" as="style"/>
 
     <link rel="preload" href="~/lib/bootstrap/5.3/dist/js/bootstrap.bundle.min.js" as="script"/>
     <link rel="preload" href="~/js/site.js" as="script" />
 
     <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/fontawesome-free-6.2.1-web/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/lib/fontawesome-free-6.2.1-web/css/solid.min.css" />
     @await RenderSectionAsync("Style", required: false)
 </head>
 <body>
@@ -31,6 +35,34 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a>
+                        </li>                        
+                    </ul>
+                    <ul class="navbar-nav align-content-end">
+                        @*Add the site theme toggle*@
+                        <li class="nav-item dropdown">
+                            <a id="bd-theme" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-circle-half-stroke"> </i>
+                                <span class="d-sm-none ms-2">Toggle theme</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme">
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light">
+                                        <i class="fa-solid fa-sun"></i>
+                                        <span>&nbsp;Light</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
+                                        <i class="fa-solid fa-moon"></i>
+                                        <span>&nbsp;Dark</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto">
+                                        <span>Auto</span>
+                                    </button>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -53,10 +85,19 @@
     </div>
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @(DateTime.UtcNow.Year) - Northwind.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            <br />
+            <div class="row">
+                <div class="col-9">
+                    &copy; @(DateTime.UtcNow.Year) - Northwind.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>    
+                </div>
+                <div class="col-3">
+                    @await RenderSectionAsync("FooterColumn", required: false)
+                </div>
+            </div>            
         </div>
     </footer>  
     <script src="~/lib/bootstrap/5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/bootstrap-5_3-color-mode-toggle.js"></script>
     <script src="~/js/site.js" ></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -11,14 +11,14 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p id="message">Check your console!</p>
-    @*This is needed for the install me function*@
-    <div class="row">
-        <div class="col-4 offset-4">
-            <button class="btn btn-lg btn-primary" id="install-me">Add to home screen</button>
-        </div>
-    </div>
+    <p id="message">Check your console!</p>    
 </div>
+
+@section FooterColumn
+{
+    @*This is needed for the install me function*@   
+    <button class="btn btn-sm btn-primary" id="install-me">Add to home screen</button>    
+}
 
 @section Scripts
 {
