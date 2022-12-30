@@ -8,10 +8,8 @@
     <link rel="manifest" href="~/manifest.webmanifest" crossorigin="use-credentials">
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p id="message">Check your console!</p>    
+<div class="text-center">   
+    <div id="app">Check your console!</div>    
 </div>
 
 @section FooterColumn
@@ -25,9 +23,10 @@
     <script type="text/javascript">
         if ("serviceWorker" in navigator) {
             window.addEventListener("load", () => {
-                var workerpaths = ["/js/service-worker.js", "service-worker.js"];
+               @* In production - add "/app/service-worker.js" to cache the app locally. Otherwise, it breaks debugging and watching. *@
+               var workerpaths = ["service-worker.js"];                      
 
-                for (var i = 0; i < workerpaths.length; i++)
+               for (var i = 0; i < workerpaths.length; i++)
                 {
                     navigator.serviceWorker
                         .register(workerpaths[i])
@@ -42,6 +41,6 @@
         }
     </script>
          
-    <script src="/js/main.js" type="text/javascript"></script>
+    <script src="~/app/main.js" type="text/javascript"></script>
     <script src="~/installme.js" type="text/javascript"></script>
 }

@@ -4,18 +4,32 @@
     <TypeScriptSourceRoot></TypeScriptSourceRoot>
     <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoEmitOnError>False</TypeScriptNoEmitOnError>
+    <TypeScriptTarget>ES6</TypeScriptTarget>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutDir></TypeScriptOutDir>
+    <TypeScriptMapRoot></TypeScriptMapRoot>
+    <TypeScriptSourceMap>False</TypeScriptSourceMap>
   </PropertyGroup>
 
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TypeScriptSourceRoot></TypeScriptSourceRoot>
     <TypeScriptCompileOnSaveEnabled>False</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoEmitOnError>False</TypeScriptNoEmitOnError>
+    <TypeScriptTarget>ES6</TypeScriptTarget>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutDir></TypeScriptOutDir>
+    <TypeScriptMapRoot></TypeScriptMapRoot>
+    <TypeScriptSourceMap>False</TypeScriptSourceMap>
   </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <TypeScriptJSXEmit>none</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>none</TypeScriptModuleKind>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,8 +41,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="src\lib\" />
     <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\app\" />
   </ItemGroup>
 
   <ItemGroup>

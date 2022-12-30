@@ -2,11 +2,12 @@
 
 const cacheName = "v1";
 
+const devmode = true; // do not store files locally.
+
 // A list of paths not to cache
-const excludePaths = [];
 
 self.addEventListener("install", (event) => {
-    console.info('Installing template.js Service Worker');
+    console.info('Installing Service Worker');
     event.waitUntil(
         addResourcesToCache([
             "/css/bootstrap.min.css",
@@ -18,7 +19,7 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    console.info("Fetching Service Worker Content");
+    console.trace("Fetching Service Worker Content");
     event.respondWith(
         cacheFirst({ request: event.request, preloadReponsePromise: event.preloadReponse })
     );
@@ -45,14 +46,6 @@ const putInCache = async (request, response) => {
 const cacheFirst = async ({ request, preloadReponsePromise }) => {
     var blocked = false;
 
-    for (var i = 0; i < excludePaths.length; i++) {
-        if (request.substring(0, excludePaths[i].length == excludePaths[i])) 
-        {
-            blocked = true;
-            break;
-        }
-    }
-
     if (blocked) {
         console.info("Url is blocked from cache - getting from network");
         try {
@@ -76,15 +69,20 @@ const cacheFirst = async ({ request, preloadReponsePromise }) => {
 
         const preloadResponse = await preloadReponsePromise;
         if (preloadResponse) {
-            console.info('using preload response', preloadResponse);
+            console.trace('Using preload response', preloadResponse);
             putInCache(request, preloadResponse.clone());
             return preloadResponse;
         }
 
         try {
-            console.warn("Getting from network");
+            console.trace("Getting " + request + " from network");
             const responseFromNetwork = await fetch(request);
-            putInCache(request, responseFromNetwork.clone())
+
+            if (!devmode) {
+                // this stores the request for next time.
+                putInCache(request, responseFromNetwork.clone())
+            }
+            
             return responseFromNetwork;
         } catch (e) {
             console.error("Getting from network failed: " + JSON.stringify(e));

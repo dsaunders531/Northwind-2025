@@ -1,27 +1,31 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
+    "noEmitOnError": true,
+    "noEmit": true,
     "removeComments": true,
     "sourceMap": true,
-    "jsx": "react",
-    "module": "es6",
-    "target": "es5",
     "allowJs": true,
+    "watch": false,
+    "target": "ESNext",
+    "module": "System",
+    "lib": [
+      "ESNext",
+      "dom"
+    ],
+    "moduleResolution": "node",
+    "outFile": "Build/main.js",
+    "jsx": "react",
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "preserveConstEnums": true,
-    "moduleResolution": "NodeNext"
+    "types": [ "react", "node", "react-dom" ]
   },
+  "include": [
+    "src/**/*"
+  ],
   "exclude": [
     "node_modules",
     "wwwroot",
     "**/*.spec.ts"
-  ],
-  "include": [
-    "src/**/*"
-  ],  
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Recommended"
+  ]
 }
