@@ -7,6 +7,7 @@ namespace Northwind.Web
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 
             var app = builder.Build();
@@ -25,6 +26,8 @@ namespace Northwind.Web
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.MapControllerRoute(name: "default", pattern: "{contoller}/{action=Index}/{id?}");
 
             app.MapRazorPages();
 
