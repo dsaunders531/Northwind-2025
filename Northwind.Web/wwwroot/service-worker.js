@@ -2,10 +2,6 @@
 
 const cacheName = "v1";
 
-const devmode = true; // do not store files locally.
-
-// A list of paths not to cache
-
 self.addEventListener("install", (event) => {
     console.info('Installing Service Worker');
     event.waitUntil(
@@ -43,57 +39,39 @@ const putInCache = async (request, response) => {
     await cache.put(request, response);
 }
 
-const cacheFirst = async ({ request, preloadReponsePromise }) => {
-    var blocked = false;
+const cacheFirst = async ({ request, preloadReponsePromise }) => {   
+    const responseFromCache = await caches.match(request);
 
-    if (blocked) {
-        console.info("Url is blocked from cache - getting from network");
-        try {
-            await fetch(request);
-        } catch (e) {
-            console.error("Getting from network failed: " + JSON.stringify(e));
-            // when even the fallback response is not available,
-            // there is nothing we can do, but we must always
-            // return a Response object
-            return new Response('Network error happened', {
-                status: 408,
-                headers: { 'Content-Type': 'text/plain' },
-            });
-        }        
+    if (responseFromCache) {
+        return responseFromCache;
     }
     else {
-        const responseFromCache = await caches.match(request);
-        if (responseFromCache) {
-            return responseFromCache;
-        }
-
         const preloadResponse = await preloadReponsePromise;
         if (preloadResponse) {
             console.trace('Using preload response', preloadResponse);
             putInCache(request, preloadResponse.clone());
             return preloadResponse;
         }
+        else {
+            try {
+                console.trace("Getting " + request + " from network");
+                const responseFromNetwork = await fetch(request);
 
-        try {
-            console.trace("Getting " + request + " from network");
-            const responseFromNetwork = await fetch(request);
-
-            if (!devmode) {
                 // this stores the request for next time.
                 putInCache(request, responseFromNetwork.clone())
-            }
-            
-            return responseFromNetwork;
-        } catch (e) {
-            console.error("Getting from network failed: " + JSON.stringify(e));
-            // when even the fallback response is not available,
-            // there is nothing we can do, but we must always
-            // return a Response object
-            return new Response('Network error happened', {
-                status: 408,
-                headers: { 'Content-Type': 'text/plain' },
-            });
-        }
+                
+                return responseFromNetwork;
+            } catch (e) {
+                console.error("Getting from network failed: " + JSON.stringify(e));
+                // when even the fallback response is not available,
+                // there is nothing we can do, but we must always
+                // return a Response object
+                return new Response('Network error happened', {
+                    status: 408,
+                    headers: { 'Content-Type': 'text/plain' },
+                });
+            }    
+        }        
     }    
 };
 

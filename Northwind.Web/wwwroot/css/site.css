@@ -16,3 +16,11 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.string-transform-title-case::first-letter {
+    text-transform: uppercase !important;
+}
+
+.string-transform-title-case {
+    text-transform: capitalize !important;
+}

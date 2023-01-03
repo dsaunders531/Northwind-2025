@@ -4,11 +4,27 @@
 
 import React from 'react';
 import { HelloWorld } from './Components/HelloWorld';
+import { TestMe } from './Components/TestComponent';
+import { AppRoute } from './Lib/AppRoute';
 
-const AppRoutes = [
+const AppRoutes: AppRoute[] = [
     {
+        name: "home",
+        path: "/",
         index: true,
-        element: <HelloWorld />
+        element: <HelloWorld />,
+        requireAuth: false,
+        iconClass: "fa-solid fa-house",
+        sortOrder: 0
+    },
+    {
+        name: "test",
+        path: "/test",
+        index: false,
+        element: <TestMe />,
+        requireAuth: false,
+        iconClass: '',
+        sortOrder: 1
     }
 ];
 

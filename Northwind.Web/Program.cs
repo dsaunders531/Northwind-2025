@@ -27,9 +27,13 @@ namespace Northwind.Web
 
             app.UseAuthorization();
 
-            app.MapControllerRoute(name: "default", pattern: "{contoller}/{action=Index}/{id?}");
+            //app.MapDefaultControllerRoute();
+            // Gets in a muddle with Pages so name the route we have in controllers.
+            app.MapControllerRoute(name: "test", pattern: "api/test");
 
             app.MapRazorPages();
+
+            //app.MapFallbackToPage("/Index");
 
             app.Run();
         }

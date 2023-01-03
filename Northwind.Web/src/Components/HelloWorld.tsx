@@ -1,6 +1,12 @@
 ﻿// HelloWorld.tsx
 import React from 'react';
 
-export const HelloWorld: React.FC = () => (
-    <h1><i className="fa-solid fa-sun"></i> Hello World!</h1>
-);
+export class HelloWorld extends React.Component {
+    static displayName = HelloWorld.name;
+
+    render() {
+        return (
+            <h1><i className="fa-solid fa-sun"></i> Hello World!</h1>
+        );
+    }
+}

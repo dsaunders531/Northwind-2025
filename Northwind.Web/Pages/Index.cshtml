@@ -20,28 +20,30 @@
 }
 
 @section Scripts
-{
-    <script type="text/javascript">
-        if ("serviceWorker" in navigator) {
-            window.addEventListener("load", () => {
-               @* In production - add "/app/service-worker.js" to cache the app locally. Otherwise, it breaks debugging and watching. *@
-               var workerpaths = ["service-worker.js"];                      
+{   
+    @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+    {
+        <script type="text/javascript">
+            if ("serviceWorker" in navigator) {
+                window.addEventListener("load", () => {                   
+                    var workerpaths = ["service-worker.js", "/app/service-worker.js"];
 
-               for (var i = 0; i < workerpaths.length; i++)
-                {
-                    navigator.serviceWorker
-                        .register(workerpaths[i])
-                        .then((registration) => {
-                            console.log("Service Worker registered: ", registration);
-                        })
-                        .catch((registrationError) => {
-                            console.error("Service Worker registration failed: ", registrationError);
-                        });
-                }               
-            });
-        }
-    </script>
-         
+                   for (var i = 0; i < workerpaths.length; i++)
+                    {
+                        navigator.serviceWorker
+                            .register(workerpaths[i])
+                            .then((registration) => {
+                                console.log("Service Worker registered: ", registration);
+                            })
+                            .catch((registrationError) => {
+                                console.error("Service Worker registration failed: ", registrationError);
+                            });
+                    }
+                });
+            }
+        </script>
+    }
+            
     <script src="~/app/main.js" type="text/javascript"></script>
     <script src="~/installme.js" type="text/javascript"></script>
 }
