@@ -27,9 +27,8 @@ namespace Northwind.Web
 
             app.UseAuthorization();
 
-            app.MapDefaultControllerRoute();            
+            app.MapDefaultControllerRoute();      
             app.MapRazorPages();
-
 
             app.MapFallbackToPage("/App"); // this acts as a fallback
 
