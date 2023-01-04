@@ -1,49 +1,25 @@
 ﻿@page
 @model IndexModel
+
+@*Changes here need to be copied to App.cshtml*@
+
 @{
     ViewData["Title"] = "Home page";
 }
+
 @section Metas
 {
-    <link rel="manifest" href="~/manifest.webmanifest" crossorigin="use-credentials">
-    <base href="~/" />
+    <partial name="_AppMetas"></partial>
 }
 
-<div class="text-center">   
-    <div id="app">Check your console!</div>    
-</div>
+<partial name="_AppContent"></partial>
 
 @section FooterColumn
 {
-    @*This is needed for the install me function*@   
-    <button class="btn btn-sm btn-primary" id="install-me">Add to home screen</button>    
+    <partial name="_InstallApp"></partial>
 }
 
 @section Scripts
-{   
-    @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
-    {
-        <script type="text/javascript">
-            if ("serviceWorker" in navigator) {
-                window.addEventListener("load", () => {                   
-                    var workerpaths = ["service-worker.js", "/app/service-worker.js"];
-
-                   for (var i = 0; i < workerpaths.length; i++)
-                    {
-                        navigator.serviceWorker
-                            .register(workerpaths[i])
-                            .then((registration) => {
-                                console.log("Service Worker registered: ", registration);
-                            })
-                            .catch((registrationError) => {
-                                console.error("Service Worker registration failed: ", registrationError);
-                            });
-                    }
-                });
-            }
-        </script>
-    }
-            
-    <script src="~/app/main.js" type="text/javascript"></script>
-    <script src="~/installme.js" type="text/javascript"></script>
+{
+    <partial name="_AppScripts"></partial>
 }

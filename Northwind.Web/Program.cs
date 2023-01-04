@@ -23,17 +23,15 @@ namespace Northwind.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseRouting();
+            app.UseRouting();            
 
             app.UseAuthorization();
 
-            //app.MapDefaultControllerRoute();
-            // Gets in a muddle with Pages so name the route we have in controllers.
-            app.MapControllerRoute(name: "test", pattern: "api/test");
-
+            app.MapDefaultControllerRoute();            
             app.MapRazorPages();
 
-            //app.MapFallbackToPage("/Index");
+
+            app.MapFallbackToPage("/App"); // this acts as a fallback
 
             app.Run();
         }

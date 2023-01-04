@@ -30,8 +30,19 @@ export class NavMenu extends React.Component<EmptyObject, MenuState>
     }
 
     componentDidMount() {
+        // this covers cases where the user goes directly to a route (eg: bookmark)
+        // and it only exists client-side.
         // work out what the active tab is...
-        this.UpdateActiveTab('');
+        let currentPath: string = window.location.pathname;
+        
+        // is current path in our routes?
+        if (AppRoutes.some((value: AppRoute) => { return value.path == currentPath })) {
+            currentPath = currentPath.substring(1, currentPath.length);
+            this.UpdateActiveTab(currentPath);
+        }
+        else {
+            this.UpdateActiveTab('');
+        }
     }
 
     getLinkClasses(routeName: string) {
