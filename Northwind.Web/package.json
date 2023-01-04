@@ -27,7 +27,9 @@
     "webpack-cli": "^5.0.1",
     "workbox-webpack-plugin": "^6.5.4",
     "webpack-dev-server": "4.11.1",
-    "@webpack-cli/generators": "^3.0.1"
+    "cross-env": "7.0.3",
+    "react-scripts": "5.0.1",
+    "@types/jest": "29.2.5"
   },
   "dependencies": {
     "react": "18.0.0",
@@ -39,6 +41,9 @@
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "tscheck": "tsc"
-  }
+    "tscheck": "tsc",
+    "test": "cross-env CI=true react-scripts test --env=jsdom"
+  },
+  
+  "-vs-binding":{"BeforeBuild":["tscheck","test"]}
 }

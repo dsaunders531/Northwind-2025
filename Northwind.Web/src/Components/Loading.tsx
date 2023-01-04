@@ -1,5 +1,5 @@
 ﻿// Loading component
-import React, { Component } from 'react';
+import React from 'react';
 
 export class Loading extends React.Component {
     static displayName = Loading.name;
