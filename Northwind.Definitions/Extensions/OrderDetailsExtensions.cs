@@ -2,7 +2,7 @@
 
 namespace Northwind.Context.Extensions
 {
-    internal static class OrderDetailsExtensions
+    public static class OrderDetailsExtensions
     {
         /// <summary>
         /// This formula is used often.

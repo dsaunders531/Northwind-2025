@@ -11,7 +11,7 @@ using Patterns;
 
 namespace Northwind.Services.Tests
 {
-    public class NorthwindProductServiceTests : INorthwindProductsService
+    public class NorthwindProductServiceTests : Context.Interfaces.INorthwindProductsService
     {
         private NorthwindContext? _context;
         

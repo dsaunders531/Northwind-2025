@@ -3,7 +3,7 @@
 namespace Northwind.Context.Extensions
 {
 
-    internal static class EmployeeExtensions
+    public static class EmployeeExtensions
     {
         public static string FullName(this Employee employee)
         {
