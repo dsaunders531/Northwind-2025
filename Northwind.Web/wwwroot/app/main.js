@@ -3817,9 +3817,9 @@ __webpack_require__.r(__webpack_exports__);
 class HelloWorld extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
   static displayName = HelloWorld.name;
   render() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
       className: "fa-solid fa-sun"
-    }), " Hello World!");
+    }), " Hello World!"));
   }
 }
 
