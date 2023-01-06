@@ -27,17 +27,8 @@ namespace Northwind.Api.Client
 
         private Uri BaseUrl { get; set; }
 
-        private void BeforeAction()
-        {
-            this.Client.BaseAddress = this.BaseUrl;
-            this.Client.DefaultRequestHeaders.Clear(); // There are none right now.
-            this.Client.Timeout = TimeSpan.FromSeconds(3d);
-        }
-
         public async Task<global::Patterns.IPagedResponse<CategoryApi>> GetCategories(int page, global::Patterns.SortBy sort)
-        {
-            this.BeforeAction();
-
+        {            
             HttpResponseMessage response = await this.Client.GetAsync(new Uri(this.BaseUrl, $"Categories?page={page}&sort={sort}"));
 
             response.EnsureSuccessStatusCode();
@@ -46,9 +37,7 @@ namespace Northwind.Api.Client
         }
 
         public async Task<ProductApi?> GetProductById(int productId)
-        {
-            this.BeforeAction();
-
+        {            
             HttpResponseMessage response = await this.Client.GetAsync(new Uri(this.BaseUrl, $"Products/{productId}"));
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -63,8 +52,6 @@ namespace Northwind.Api.Client
 
         public async Task<global::Patterns.IPagedResponse<ProductApi>> GetProducts(int page, global::Patterns.SortBy sort, string searchTerm)
         {
-            this.BeforeAction();
-
             HttpResponseMessage response = await this.Client.GetAsync(new Uri(this.BaseUrl, $"Products?page={page}&sort={sort}&searchTerm={searchTerm}"));
 
             response.EnsureSuccessStatusCode();
@@ -73,9 +60,7 @@ namespace Northwind.Api.Client
         }
 
         public async Task<global::Patterns.IPagedResponse<ProductApi>> GetProductsInCategory(int categoryId, int page, global::Patterns.SortBy sort)
-        {
-            this.BeforeAction();
-
+        {    
             HttpResponseMessage response = await this.Client.GetAsync(new Uri(this.BaseUrl, $"Categories/{categoryId}/products?page={page}&sort={sort}"));
 
             response.EnsureSuccessStatusCode();
@@ -85,8 +70,6 @@ namespace Northwind.Api.Client
 
         public async Task<string[]> SearchProducts(string term)
         {
-            this.BeforeAction();
-
             HttpResponseMessage response = await this.Client.GetAsync(new Uri(this.BaseUrl, $"Products/search?term={term}"));
 
             response.EnsureSuccessStatusCode();

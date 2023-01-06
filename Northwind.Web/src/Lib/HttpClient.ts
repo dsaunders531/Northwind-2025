@@ -14,8 +14,12 @@ export class HttpClient {
                 });
             console.info(response.statusText);
 
-            const result: T = await response.json();
+            let result: T = {} as T;
 
+            if (response.ok) {
+                result = await response.json();
+            }
+            
             return result;     
         } catch (e) {
             console.error('Error getting data from ' + url);

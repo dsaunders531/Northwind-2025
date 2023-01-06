@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Extensions.Logging;
@@ -28,6 +29,11 @@ namespace Northwind.Web
                 builder.Host.UseNLog();
 
                 // Add services to the container.
+                IConfiguration configuration = new ConfigurationBuilder()
+                                                .AddEnvironmentVariables()
+                                                .AddJsonFile("appsettings.json", false, false)
+                                                .Build();
+
                 builder.Services.AddHttpClient();
 
                 builder.Services.AddSingleton<INorthwindProductsService, NorthwindApiProxy>();
