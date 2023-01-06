@@ -17,7 +17,7 @@ export class CategoriesService {
             return await HttpClient.Get<IPagedResponse<CategoryApi>>(url);    
             
         } catch (e) {            
-            throw new Error('Cannot get data from Api!', { cause: e });
+            throw new Error('Cannot get Categories from Api!', { cause: e });
         }        
     }
 
@@ -31,7 +31,7 @@ export class CategoriesService {
             return await HttpClient.Get<IPagedResponse<ProductApi>>(url);
 
         } catch (e) {
-            throw new Error('Cannot get data from Api!', { cause: e });
+            throw new Error('Cannot get ProductsInCategories from Api!', { cause: e });
         }
     }
 }

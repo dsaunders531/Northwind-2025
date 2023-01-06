@@ -3,18 +3,20 @@
 
 import React from 'react';
 import { HelloWorld } from './Components/HelloWorld';
+import { Products } from './Components/Products';
 import { TestMe } from './Components/TestComponent';
 import { AppRoute } from './Lib/AppRoute';
+import { SortBy } from './Lib/IPagedResponse';
 
 const AppRoutes: AppRoute[] = [
     {
         name: "home",
         path: "/",
         index: true,
-        element: <HelloWorld />,
+        element: <Products />,
         requireAuth: false,
         iconClass: "fa-solid fa-house",
-        sortOrder: 0
+        sortOrder: 0        
     },
     {
         name: "test",

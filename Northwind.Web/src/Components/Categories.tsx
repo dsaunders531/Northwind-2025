@@ -1,4 +1,5 @@
-﻿// Show the categories
+﻿
+// Show the categories
 
 // TODO this needs paging, filter and sort options (as components which can be reused for the product things)
 
