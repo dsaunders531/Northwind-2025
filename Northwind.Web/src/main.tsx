@@ -6,7 +6,7 @@ import { App } from './App';
 import { BrowserRouter } from 'react-router-dom';
 
 try {    
-    console.info("Stating up...");    
+    console.info("Starting up...");    
 
     const rootNode: HTMLElement = document.getElementById('app');
 

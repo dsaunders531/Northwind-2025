@@ -1,6 +1,7 @@
 ﻿// App.tsx
+// Note the fallback route - it just navigates to / - you might want a not found component.
 import { Layout } from './Layout';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
 import React, { Component, ReactNode } from 'react';
 import { EmptyObject } from './Lib/EmptyObject';
@@ -15,12 +16,13 @@ export class App extends React.Component<EmptyObject, EmptyObject>
     {
         return (
             <Layout>
-                <Routes>
+                <Routes>                       
                     {AppRoutes.map((route, index) => {
                         const { element, ...rest } = route;
                         return <Route key={index} {...rest} element={element} />;
-                    })}
-                </Routes>
+                    })}    
+                    <Route path="*" element={<Navigate to="/" />} />
+                </Routes>                
             </Layout>
         );
     }
