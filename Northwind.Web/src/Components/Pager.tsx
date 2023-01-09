@@ -1,5 +1,6 @@
 ﻿// paging component
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { IPagedResponse, SortBy } from '../Lib/IPagedResponse';
 
 export class Pager<T> extends React.Component<IPagedResponse<T>, IPagedResponse<T>>
@@ -9,15 +10,18 @@ export class Pager<T> extends React.Component<IPagedResponse<T>, IPagedResponse<
     constructor(props: IPagedResponse<T>) {
         super(props);
 
+        this.onLinkClick = this.onLinkClick.bind(this);
+
         this.state = {
-            currentPage: props.currentPage,
-            itemsPerPage: props.itemsPerPage,
-            totalPages: props.totalPages,
-            totalItems: props.totalItems,
+            currentPage: this.props.currentPage,
+            itemsPerPage: this.props.itemsPerPage,
+            totalPages: this.props.totalPages,
+            totalItems: this.props.totalItems,
             page: [] as T[],
-            searchTerm: props.searchTerm,
-            sortOrder: props.sortOrder
-        };        
+            searchTerm: this.props.searchTerm,
+            sortOrder: this.props.sortOrder,
+            onCurrentPageChanged: (page: number) => this.props.onCurrentPageChanged(page)
+        };  
     }
 
     state: IPagedResponse<T> = {
@@ -27,9 +31,17 @@ export class Pager<T> extends React.Component<IPagedResponse<T>, IPagedResponse<
         currentPage: 0,
         searchTerm: '',
         sortOrder: SortBy.Name | SortBy.Ascending,
-        page: []
+        page: [],
+        onCurrentPageChanged: (page: number) => this.props.onCurrentPageChanged(page)
     }
 
+    onLinkClick(page: number) {
+        if ((page > 0 && page <= this.state.totalPages) && page != this.state.currentPage) {                        
+            this.props.onCurrentPageChanged(page);
+
+            this.setState((state) => ({ currentPage: page }));
+        }
+    }
 
     getPageNoAtPosition(pos: number) {
         // return the page number at a position in the list.
@@ -38,7 +50,7 @@ export class Pager<T> extends React.Component<IPagedResponse<T>, IPagedResponse<
         if (this.state.currentPage < pageItems) {
             return pos;
         }
-        else if ((this.state.currentPage + (pageItems -1)) > this.state.totalPages) {
+        else if ((this.state.currentPage + (pageItems - 1)) > this.state.totalPages) {
             switch (pos) {
                 case 1:
                     return this.state.totalPages - 2;
@@ -58,7 +70,6 @@ export class Pager<T> extends React.Component<IPagedResponse<T>, IPagedResponse<
                     return this.state.currentPage + 1;
             }
         }
-
     }
 
     getPageUrl(pageNo: number) {
@@ -74,7 +85,7 @@ export class Pager<T> extends React.Component<IPagedResponse<T>, IPagedResponse<
 
         return url + '?' + params.toString();
     }
-
+    
     render() {  
         if (this.state.totalPages <= 1) {
             return <div></div>
@@ -83,47 +94,40 @@ export class Pager<T> extends React.Component<IPagedResponse<T>, IPagedResponse<
             return (
                 <nav aria-label="Page Navigation">
                     <ul className="pagination justify-content-center">
-                        <li className="page-item" title="Move to start">
-                            <a className={this.state.currentPage == 1 ? 'page-link disabled' : 'page-link'}
-                                href={this.getPageUrl(1)}>
+                        <li className="page-item" title="Move to start" onClick={(e) => this.onLinkClick(1)}>
+                            <Link className={this.state.currentPage == 1 ? 'page-link disabled' : 'page-link'} to={this.getPageUrl(1)}>
                                 <i className="fa-solid fa-angles-left"></i>
-                            </a>
+                            </Link>
                         </li>
-                        <li className="page-item" title="Move back">
-                            <a className={this.state.currentPage == 1 ? 'page-link disabled' : 'page-link'}
-                                href={this.getPageUrl(this.state.currentPage - 1)}>
+                        <li className="page-item" title="Move back" onClick={(e) => this.onLinkClick(this.state.currentPage - 1)}>
+                            <Link className={this.state.currentPage == 1 ? 'page-link disabled' : 'page-link'} to={this.getPageUrl(this.state.currentPage - 1)}>
                                 <i className="fa-solid fa-chevron-left"></i>
-                            </a>
+                            </Link>
                         </li>
-                        <li className="page-item">
-                            <a className={this.state.currentPage == this.getPageNoAtPosition(1) ? 'page-link active' : 'page-link'} 
-                                href={this.getPageUrl(this.getPageNoAtPosition(1))}>
+                        <li className="page-item" onClick={(e) => this.onLinkClick(this.getPageNoAtPosition(1))}>
+                            <Link className={this.state.currentPage == this.getPageNoAtPosition(1) ? 'page-link active' : 'page-link'} to={this.getPageUrl(this.getPageNoAtPosition(1))}>
                                 {this.getPageNoAtPosition(1)}
-                            </a>
+                            </Link>                            
                         </li>
-                        <li className="page-item">
-                            <a className={this.state.currentPage == this.getPageNoAtPosition(2) ? 'page-link active' : 'page-link'} 
-                                href={this.getPageUrl(this.getPageNoAtPosition(2))}>
+                        <li className="page-item" onClick={(e) => this.onLinkClick(this.getPageNoAtPosition(2))}>
+                            <Link className={this.state.currentPage == this.getPageNoAtPosition(2) ? 'page-link active' : 'page-link'} to={this.getPageUrl(this.getPageNoAtPosition(2))}>
                                 {this.getPageNoAtPosition(2)}
-                            </a>
+                            </Link>                           
                         </li>
-                        <li className="page-item">
-                            <a className={this.state.currentPage == this.getPageNoAtPosition(3) ? 'page-link active' : 'page-link'} 
-                                href={this.getPageUrl(this.getPageNoAtPosition(3))}>
+                        <li className="page-item" onClick={(e) => this.onLinkClick(this.getPageNoAtPosition(3))}>
+                            <Link className={this.state.currentPage == this.getPageNoAtPosition(3) ? 'page-link active' : 'page-link'} to={this.getPageUrl(this.getPageNoAtPosition(3))}>
                                 {this.getPageNoAtPosition(3)}
-                            </a>
+                            </Link>
                         </li>
-                        <li className="page-item" title="Move next">
-                            <a className={this.state.currentPage == this.state.totalPages ? 'page-link disabled' : 'page-link'}
-                                href={this.getPageUrl(this.state.currentPage + 1)}>
+                        <li className="page-item" title="Move next" onClick={(e) => this.onLinkClick(this.state.currentPage + 1)}>
+                            <Link className={this.state.currentPage == this.state.totalPages ? 'page-link disabled' : 'page-link'} to={this.getPageUrl(this.state.currentPage + 1)}>
                                 <i className="fa-solid fa-chevron-right"></i>
-                            </a>
+                            </Link>
                         </li>
-                        <li className="page-item" title="Move to end">
-                            <a className={this.state.currentPage == this.state.totalPages ? 'page-link disabled' : 'page-link'}
-                                href={this.getPageUrl(this.state.totalPages)}>
+                        <li className="page-item" title="Move to end" onClick={(e) => this.onLinkClick(this.state.totalPages)}>
+                            <Link className={this.state.currentPage == this.state.totalPages ? 'page-link disabled' : 'page-link'} to={this.getPageUrl(this.state.totalPages)}>
                                 <i className="fa-solid fa-angles-right"></i>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </nav>);            
