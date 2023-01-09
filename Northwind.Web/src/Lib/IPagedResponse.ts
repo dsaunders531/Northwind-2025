@@ -6,8 +6,10 @@ export type IPagedResponse<T> = {
     itemsPerPage: number,
     currentPage: number,
     searchTerm: string,
-    sortOrder: SortBy
-    page: T[]
+    sortOrder: SortBy,
+    page: T[],
+    // handle the currentPage changing
+    onCurrentPageChanged(page: number): void
 }
 
 export const enum SortBy {

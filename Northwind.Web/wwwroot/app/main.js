@@ -3867,22 +3867,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/IPagedResponse */ "./src/Lib/IPagedResponse.ts");
 // paging component
+
 
 
 class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
   static displayName = Pager.name;
   constructor(props) {
     super(props);
+    this.onLinkClick = this.onLinkClick.bind(this);
     this.state = {
-      currentPage: props.currentPage,
-      itemsPerPage: props.itemsPerPage,
-      totalPages: props.totalPages,
-      totalItems: props.totalItems,
+      currentPage: this.props.currentPage,
+      itemsPerPage: this.props.itemsPerPage,
+      totalPages: this.props.totalPages,
+      totalItems: this.props.totalItems,
       page: [],
-      searchTerm: props.searchTerm,
-      sortOrder: props.sortOrder
+      searchTerm: this.props.searchTerm,
+      sortOrder: this.props.sortOrder,
+      onCurrentPageChanged: page => this.props.onCurrentPageChanged(page)
     };
   }
   state = {
@@ -3892,8 +3896,17 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
     currentPage: 0,
     searchTerm: '',
     sortOrder: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending,
-    page: []
+    page: [],
+    onCurrentPageChanged: page => this.props.onCurrentPageChanged(page)
   };
+  onLinkClick(page) {
+    if (page > 0 && page <= this.state.totalPages && page != this.state.currentPage) {
+      this.props.onCurrentPageChanged(page);
+      this.setState(state => ({
+        currentPage: page
+      }));
+    }
+  }
   getPageNoAtPosition(pos) {
     // return the page number at a position in the list.
     const pageItems = 3;
@@ -3938,49 +3951,56 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
         className: "pagination justify-content-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
         className: "page-item",
-        title: "Move to start"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+        title: "Move to start",
+        onClick: e => this.onLinkClick(1)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
         className: this.state.currentPage == 1 ? 'page-link disabled' : 'page-link',
-        href: this.getPageUrl(1)
+        to: this.getPageUrl(1)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
         className: "fa-solid fa-angles-left"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
         className: "page-item",
-        title: "Move back"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+        title: "Move back",
+        onClick: e => this.onLinkClick(this.state.currentPage - 1)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
         className: this.state.currentPage == 1 ? 'page-link disabled' : 'page-link',
-        href: this.getPageUrl(this.state.currentPage - 1)
+        to: this.getPageUrl(this.state.currentPage - 1)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
         className: "fa-solid fa-chevron-left"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
-        className: "page-item"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+        className: "page-item",
+        onClick: e => this.onLinkClick(this.getPageNoAtPosition(1))
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
         className: this.state.currentPage == this.getPageNoAtPosition(1) ? 'page-link active' : 'page-link',
-        href: this.getPageUrl(this.getPageNoAtPosition(1))
+        to: this.getPageUrl(this.getPageNoAtPosition(1))
       }, this.getPageNoAtPosition(1))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
-        className: "page-item"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+        className: "page-item",
+        onClick: e => this.onLinkClick(this.getPageNoAtPosition(2))
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
         className: this.state.currentPage == this.getPageNoAtPosition(2) ? 'page-link active' : 'page-link',
-        href: this.getPageUrl(this.getPageNoAtPosition(2))
+        to: this.getPageUrl(this.getPageNoAtPosition(2))
       }, this.getPageNoAtPosition(2))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
-        className: "page-item"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+        className: "page-item",
+        onClick: e => this.onLinkClick(this.getPageNoAtPosition(3))
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
         className: this.state.currentPage == this.getPageNoAtPosition(3) ? 'page-link active' : 'page-link',
-        href: this.getPageUrl(this.getPageNoAtPosition(3))
+        to: this.getPageUrl(this.getPageNoAtPosition(3))
       }, this.getPageNoAtPosition(3))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
         className: "page-item",
-        title: "Move next"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+        title: "Move next",
+        onClick: e => this.onLinkClick(this.state.currentPage + 1)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
         className: this.state.currentPage == this.state.totalPages ? 'page-link disabled' : 'page-link',
-        href: this.getPageUrl(this.state.currentPage + 1)
+        to: this.getPageUrl(this.state.currentPage + 1)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
         className: "fa-solid fa-chevron-right"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
         className: "page-item",
-        title: "Move to end"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
+        title: "Move to end",
+        onClick: e => this.onLinkClick(this.state.totalPages)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
         className: this.state.currentPage == this.state.totalPages ? 'page-link disabled' : 'page-link',
-        href: this.getPageUrl(this.state.totalPages)
+        to: this.getPageUrl(this.state.totalPages)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
         className: "fa-solid fa-angles-right"
       })))));
@@ -4024,6 +4044,7 @@ class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
     let page = query.get('page') ?? props.page ?? 1;
     let sort = query.get('sort') ?? props.sort ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending;
     let searchTerm = query.get('searchTerm') ?? props.searchTerm ?? '';
+    this.onCurrentPageChanged = this.onCurrentPageChanged.bind(this);
     this.state = {
       isLoading: true,
       currentPage: {
@@ -4033,7 +4054,8 @@ class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
         itemsPerPage: 10,
         totalItems: 0,
         page: [],
-        totalPages: 0
+        totalPages: 0,
+        onCurrentPageChanged: page => this.onCurrentPageChanged(page)
       }
     };
   }
@@ -4041,8 +4063,16 @@ class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
     isLoading: true,
     currentPage: null
   };
+  onCurrentPageChanged(page) {
+    console.info('Page is going to change to ' + page);
+    this.getData(page).then(value => {
+      console.info('Data updated');
+    }).catch(reason => {
+      console.error('Error getting data!' + reason);
+    });
+  }
   componentDidMount() {
-    this.getData(); // async
+    this.getData(this.state.currentPage.currentPage); // async
   }
 
   componentWillUnmount() {
@@ -4075,12 +4105,13 @@ class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
         totalPages: this.state.currentPage.totalPages,
         searchTerm: this.state.currentPage.searchTerm,
         sortOrder: this.state.currentPage.sortOrder,
-        page: []
+        page: [],
+        onCurrentPageChanged: this.onCurrentPageChanged
       }));
     }
   }
-  async getData() {
-    let page = this.state.currentPage?.currentPage ?? 1;
+  async getData(page) {
+    console.info('Getting data...');
     let sort = this.state.currentPage?.sortOrder ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
     let searchTerm = this.state.currentPage?.searchTerm ?? '';
     try {
@@ -4093,7 +4124,8 @@ class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
           itemsPerPage: 10,
           totalItems: 0,
           page: [],
-          totalPages: 0
+          totalPages: 0,
+          onCurrentPageChanged: page => this.onCurrentPageChanged(page)
         }
       });
       const result = await _Services_ProductsService__WEBPACK_IMPORTED_MODULE_2__.ProductsService.Products(searchTerm, page, sort);
@@ -4112,7 +4144,8 @@ class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
           itemsPerPage: 10,
           totalItems: 0,
           page: [],
-          totalPages: 0
+          totalPages: 0,
+          onCurrentPageChanged: page => this.onCurrentPageChanged(page)
         }
       });
     }

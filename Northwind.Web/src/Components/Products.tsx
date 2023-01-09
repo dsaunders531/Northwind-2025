@@ -15,7 +15,7 @@ type ProductsState = {
 type ProductsProps = {
     page?: number,
     sort?: SortBy,
-    searchTerm?: string
+    searchTerm?: string   
 };
 
 export class Products extends React.Component<ProductsProps, ProductsState>
@@ -32,6 +32,8 @@ export class Products extends React.Component<ProductsProps, ProductsState>
         let sort: SortBy = query.get('sort') as unknown as SortBy ?? (props.sort ?? SortBy.Name | SortBy.Ascending);
         let searchTerm: string = query.get('searchTerm') ?? (props.searchTerm ?? '' );
 
+        this.onCurrentPageChanged = this.onCurrentPageChanged.bind(this);
+
         this.state = {
             isLoading: true,
             currentPage: {
@@ -41,18 +43,27 @@ export class Products extends React.Component<ProductsProps, ProductsState>
                 itemsPerPage: 10,
                 totalItems: 0,
                 page: [],
-                totalPages: 0
+                totalPages: 0,
+                onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page)
             }
-        };
+        };        
     }
-
+    
     state: ProductsState = {
         isLoading: true,
         currentPage: null
     }
 
+    onCurrentPageChanged(page: number) {
+        console.info('Page is going to change to ' + page);        
+
+        this.getData(page)
+                .then((value) => { console.info('Data updated'); })
+                .catch((reason) => { console.error('Error getting data!' + reason); });        
+    }
+
     componentDidMount() {
-        this.getData(); // async
+        this.getData(this.state.currentPage.currentPage); // async
     }
 
     componentWillUnmount() {
@@ -99,13 +110,15 @@ export class Products extends React.Component<ProductsProps, ProductsState>
                     searchTerm={this.state.currentPage.searchTerm}
                     sortOrder={this.state.currentPage.sortOrder}
                     page={[] as ProductApi[]}
-                />
+                    onCurrentPageChanged={this.onCurrentPageChanged}
+                />                
             </div>);
         }
     }
 
-    async getData() {
-        let page: number = this.state.currentPage?.currentPage ?? 1;
+    async getData(page: number) {
+        console.info('Getting data...');
+        
         let sort: SortBy = this.state.currentPage?.sortOrder ?? SortBy.Ascending | SortBy.Name;
         let searchTerm: string = this.state.currentPage?.searchTerm ?? '';
 
@@ -119,7 +132,8 @@ export class Products extends React.Component<ProductsProps, ProductsState>
                     itemsPerPage: 10,
                     totalItems: 0,
                     page: [],
-                    totalPages: 0
+                    totalPages: 0,
+                    onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page)
                 }
             });
 
@@ -139,7 +153,8 @@ export class Products extends React.Component<ProductsProps, ProductsState>
                     itemsPerPage: 10,
                     totalItems: 0,
                     page: [],
-                    totalPages: 0
+                    totalPages: 0,
+                    onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page)
                 }
             });
         }
