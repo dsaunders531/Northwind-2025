@@ -10,6 +10,7 @@ export type IPagedResponse<T> = {
     page: T[],
     // handle the currentPage changing
     onCurrentPageChanged(page: number): void
+    onSortChanged(sort: SortBy): void
 }
 
 export const enum SortBy {

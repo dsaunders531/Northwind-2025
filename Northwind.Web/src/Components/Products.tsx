@@ -6,6 +6,7 @@ import { ProductApi } from '../Models/ApiModels';
 import { ProductsService } from '../Services/ProductsService';
 import { Loading } from './Loading';
 import { Pager } from './Pager';
+import { PageFilter } from './PageFilter';
 
 type ProductsState = {
     isLoading: boolean,
@@ -15,7 +16,7 @@ type ProductsState = {
 type ProductsProps = {
     page?: number,
     sort?: SortBy,
-    searchTerm?: string   
+    searchTerm?: string,
 };
 
 export class Products extends React.Component<ProductsProps, ProductsState>
@@ -31,8 +32,9 @@ export class Products extends React.Component<ProductsProps, ProductsState>
         let page: number = query.get('page') as unknown as number ?? (props.page ?? 1);
         let sort: SortBy = query.get('sort') as unknown as SortBy ?? (props.sort ?? SortBy.Name | SortBy.Ascending);
         let searchTerm: string = query.get('searchTerm') ?? (props.searchTerm ?? '' );
-
+        
         this.onCurrentPageChanged = this.onCurrentPageChanged.bind(this);
+        this.onSortOrderChanged = this.onSortOrderChanged.bind(this);
 
         this.state = {
             isLoading: true,
@@ -44,7 +46,8 @@ export class Products extends React.Component<ProductsProps, ProductsState>
                 totalItems: 0,
                 page: [],
                 totalPages: 0,
-                onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page)
+                onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page),
+                onSortChanged: (sort: SortBy) => this.onSortOrderChanged(sort)
             }
         };        
     }
@@ -54,92 +57,140 @@ export class Products extends React.Component<ProductsProps, ProductsState>
         currentPage: null
     }
 
-    onCurrentPageChanged(page: number) {
-        console.info('Page is going to change to ' + page);        
+    onCurrentPageChanged(page: number) {        
+        if (page != this.state.currentPage.currentPage) {
+            console.info('Page is going to change to ' + page);
 
-        this.getData(page)
+            this.getData(page, this.state.currentPage.sortOrder)
                 .then((value) => { console.info('Data updated'); })
-                .catch((reason) => { console.error('Error getting data!' + reason); });        
+                .catch((reason) => { console.error('Error getting data!' + reason); });            
+        }              
+    }
+
+    onSortOrderChanged(sort: SortBy) {
+        if (sort != this.state.currentPage.sortOrder) {
+            console.info('Sort is going to change to ' + sort);
+
+            this.getData(1, sort)
+                .then((value) => { console.info('Data updated'); })
+                .catch((reason) => { console.error('Error getting data!' + reason); });            
+        }        
     }
 
     componentDidMount() {
-        this.getData(this.state.currentPage.currentPage); // async
+        this.getData(this.state.currentPage.currentPage, this.state.currentPage.sortOrder); // async
     }
 
     componentWillUnmount() {
         this.setState({ isLoading: true, currentPage: null });
     }
 
-    render() {
+    getTable() {
         if (this.state.isLoading) {
             return <Loading />
         }
         else {
-            return (<div>
-                <table className="table table-responsive table-striped">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Quantity Per Unit</th>
-                            <th>Unit Price</th>
-                            <th></th>
-                        </tr>                       
-                    </thead>
-                    <tbody>
-                        {this.state.currentPage.page.length == 0 ?
-                            <tr><td>Nothing Found!</td></tr> :
-                            this.state.currentPage.page.map((value: ProductApi, index: number) => {
-                                return <ProductTableRow key={index}
-                                    productId={value.productId}
-                                    productName={value.productName}
-                                    quantityPerUnit={value.quantityPerUnit}
-                                    discontinued={value.discontinued}
-                                    categoryId={value.categoryId}
-                                    unitPrice={value.unitPrice}
-                                    unitsInStock={value.unitsInStock}                                    
-                                />
-                            })
-                        }
-                    </tbody>
-                </table>
-                <Pager<ProductApi> currentPage={this.state.currentPage.currentPage}
-                    itemsPerPage={this.state.currentPage.itemsPerPage}
-                    totalItems={this.state.currentPage.totalItems}
-                    totalPages={this.state.currentPage.totalPages}
-                    searchTerm={this.state.currentPage.searchTerm}
-                    sortOrder={this.state.currentPage.sortOrder}
-                    page={[] as ProductApi[]}
-                    onCurrentPageChanged={this.onCurrentPageChanged}
-                />                
-            </div>);
+            return (<table className="table table-responsive table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Quantity Per Unit</th>
+                        <th>Unit Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {this.state.currentPage.page.length == 0 ?
+                        <tr><td>Nothing Found!</td></tr> :
+                        this.state.currentPage.page.map((value: ProductApi, index: number) => {
+                            return <ProductTableRow key={index}
+                                productId={value.productId}
+                                productName={value.productName}
+                                quantityPerUnit={value.quantityPerUnit}
+                                discontinued={value.discontinued}
+                                categoryId={value.categoryId}
+                                unitPrice={value.unitPrice}
+                                unitsInStock={value.unitsInStock}
+                            />
+                        })
+                    }
+                </tbody>
+            </table>);
         }
     }
 
-    async getData(page: number) {
-        console.info('Getting data...');
-        
-        let sort: SortBy = this.state.currentPage?.sortOrder ?? SortBy.Ascending | SortBy.Name;
+    render() {        
+            return (<div className="row">
+                <div className="col-md-4 col-sm-12">
+                    <PageFilter<ProductApi> currentPage={this.state.currentPage.currentPage}
+                        itemsPerPage={this.state.currentPage.itemsPerPage}
+                        totalItems={this.state.currentPage.totalItems}
+                        totalPages={this.state.currentPage.totalPages}
+                        searchTerm={this.state.currentPage.searchTerm}
+                        sortOrder={this.state.currentPage.sortOrder}
+                        page={[] as ProductApi[]}
+                        onCurrentPageChanged={this.onCurrentPageChanged}
+                        onSortChanged={this.onSortOrderChanged}
+                         />
+                </div>
+                <div className="col-md-8 col-sm-12">
+                    {this.getTable()}                    
+                </div>
+                <div className="col-12">
+                    <Pager<ProductApi> currentPage={this.state.currentPage.currentPage}
+                        itemsPerPage={this.state.currentPage.itemsPerPage}
+                        totalItems={this.state.currentPage.totalItems}
+                        totalPages={this.state.currentPage.totalPages}
+                        searchTerm={this.state.currentPage.searchTerm}
+                        sortOrder={this.state.currentPage.sortOrder}
+                        page={[] as ProductApi[]}
+                        onCurrentPageChanged={this.onCurrentPageChanged}
+                        onSortChanged={this.onSortOrderChanged}
+                    />                
+                </div>               
+            </div>);        
+    }
+
+    async getData(page: number, sort: SortBy) {
+        console.info('Getting page ' + page + ' sorted by ' + sort);
+                
         let searchTerm: string = this.state.currentPage?.searchTerm ?? '';
 
         try {           
-            this.setState({
+            this.setState((state) => ({
                 isLoading: true,
                 currentPage: {
                     currentPage: page,
                     searchTerm: searchTerm,
                     sortOrder: sort,
-                    itemsPerPage: 10,
+                    itemsPerPage: 0,
                     totalItems: 0,
                     page: [],
                     totalPages: 0,
-                    onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page)
+                    onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page),
+                    onSortChanged: (sort: SortBy) => this.onSortOrderChanged(sort)
                 }
-            });
+            }));
 
             const result: IPagedResponse<ProductApi> = await ProductsService.Products(searchTerm, page, sort);
 
-            this.setState({isLoading: false, currentPage: result});
+            this.setState({
+                isLoading: false,
+                currentPage: {
+                    currentPage: result.currentPage,
+                    searchTerm: result.searchTerm,
+                    itemsPerPage: result.itemsPerPage,
+                    totalItems: result.totalItems,
+                    page: result.page,
+                    totalPages: result.totalPages,
+                    sortOrder: result.sortOrder,
+                    onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page),
+                    onSortChanged: (sort: SortBy) => this.onSortOrderChanged(sort)
+                }
+            });
+
+            console.info('Got page ' + this.state.currentPage.currentPage + ' of ' + this.state.currentPage.totalPages);
 
         } catch (e) {
             console.error('Could not get product data!', + e);
@@ -154,7 +205,8 @@ export class Products extends React.Component<ProductsProps, ProductsState>
                     totalItems: 0,
                     page: [],
                     totalPages: 0,
-                    onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page)
+                    onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page),
+                    onSortChanged: (sort: SortBy) => this.onSortOrderChanged(sort)
                 }
             });
         }

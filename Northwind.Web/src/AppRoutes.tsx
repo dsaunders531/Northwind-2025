@@ -2,11 +2,9 @@
 // List out your routes here.
 
 import React from 'react';
-import { HelloWorld } from './Components/HelloWorld';
 import { Products } from './Components/Products';
-import { TestMe } from './Components/TestComponent';
+import { TestMe } from './Components/Playground/TestComponent';
 import { AppRoute } from './Lib/AppRoute';
-import { SortBy } from './Lib/IPagedResponse';
 
 const AppRoutes: AppRoute[] = [
     {

@@ -12,7 +12,7 @@ export class HttpClient {
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'same-origin',
                 });
-            console.info(response.statusText);
+            console.info('Got response: ' + response.status + ' ' + response.statusText);
 
             let result: T = {} as T;
 

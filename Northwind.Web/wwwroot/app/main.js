@@ -3797,7 +3797,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Components_Products__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Components/Products */ "./src/Components/Products.tsx");
-/* harmony import */ var _Components_TestComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Components/TestComponent */ "./src/Components/TestComponent.tsx");
+/* harmony import */ var _Components_Playground_TestComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Components/Playground/TestComponent */ "./src/Components/Playground/TestComponent.tsx");
 // App Routes
 // List out your routes here.
 
@@ -3816,7 +3816,7 @@ const AppRoutes = [{
   name: "test",
   path: "/test",
   index: false,
-  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_TestComponent__WEBPACK_IMPORTED_MODULE_2__.TestMe, null),
+  element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Components_Playground_TestComponent__WEBPACK_IMPORTED_MODULE_2__.TestMe, null),
   requireAuth: false,
   iconClass: '',
   sortOrder: 1
@@ -3843,13 +3843,153 @@ class Loading extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
   static displayName = Loading.name;
   render() {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "d-flex justify-content-center"
+      className: "d-flex justify-content-center align-items-center"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "spinner-border",
       role: "status"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
       className: "visually-hidden"
     }, "Loading...")));
+  }
+}
+
+/***/ }),
+
+/***/ "./src/Components/PageFilter.tsx":
+/*!***************************************!*\
+  !*** ./src/Components/PageFilter.tsx ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PageFilter": () => (/* binding */ PageFilter)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/IPagedResponse */ "./src/Lib/IPagedResponse.ts");
+// A filter for lists which use IPagedResponse
+
+
+
+class PageFilter extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
+  static displayName = PageFilter.name;
+  constructor(props) {
+    super(props);
+    this.onInputChange = this.onInputChange.bind(this);
+    this.state = {
+      currentPage: this.props.currentPage,
+      itemsPerPage: this.props.itemsPerPage,
+      totalPages: this.props.totalPages,
+      totalItems: this.props.totalItems,
+      page: [],
+      searchTerm: this.props.searchTerm,
+      sortOrder: this.props.sortOrder,
+      onCurrentPageChanged: page => this.props.onCurrentPageChanged(page),
+      onSortChanged: sort => this.props.onSortChanged(sort)
+    };
+  }
+  state = {
+    totalItems: 0,
+    totalPages: 0,
+    itemsPerPage: 0,
+    currentPage: 0,
+    searchTerm: '',
+    sortOrder: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending,
+    page: [],
+    onCurrentPageChanged: page => this.props.onCurrentPageChanged(page),
+    onSortChanged: sort => this.props.onSortChanged(sort)
+  };
+  onInputChange(sort) {
+    // this needs to handle asc, desc or select list
+    let newSort = this.props.sortOrder;
+    if (sort & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending || sort & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending) {
+      // the sort order has changed
+      newSort = sort | this.getTypeSort(this.props.sortOrder);
+    } else {
+      // the sort field has changed
+      newSort = sort | this.getAscDescSort(this.props.sortOrder);
+    }
+    if (newSort != this.props.sortOrder) {
+      this.props.onSortChanged(newSort);
+    }
+  }
+  getTypeSort(sort) {
+    if (sort & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name) {
+      return _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
+    } else if (sort & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Popularity) {
+      return _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Popularity;
+    } else if (sort & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Price) {
+      return _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Price;
+    } else {
+      return _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
+    }
+  }
+  getAscDescSort(sort) {
+    if (sort & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending) {
+      return _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending;
+    } else {
+      return _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending;
+    }
+  }
+  getDefaultSortOrder() {
+    // extract just the type (excluding asc or desc from the sort order)
+    let result = this.props.sortOrder ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
+    return this.getTypeSort(result);
+  }
+  render() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "row"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "col-6 col-md-12"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", {
+      className: "form-select",
+      "aria-label": "Order the products list",
+      onChange: e => this.onInputChange(e.target.value),
+      defaultValue: this.getDefaultSortOrder()
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+      value: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name
+    }, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+      value: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Price
+    }, "Price"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", {
+      value: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Popularity
+    }, "Popularity"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "col-6 col-md-12"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "form-check form-check-inline"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+      className: "form-check-input",
+      type: "radio",
+      name: "sortAscDescOpts",
+      id: "sortAsc",
+      value: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending,
+      checked: (this.props.sortOrder ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending) & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending ? true : false,
+      onChange: e => this.onInputChange(e.target.value)
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+      className: "form-check-label",
+      htmlFor: "sortAsc"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+      className: "fa-solid fa-arrow-down-short-wide"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+      className: "d-none d-md-block"
+    }, "Low to High"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "form-check form-check-inline"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
+      className: "form-check-input",
+      type: "radio",
+      name: "sortAscDescOpts",
+      id: "sortDesc",
+      value: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending,
+      checked: (this.props.sortOrder ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending) & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending ? true : false,
+      onChange: e => this.onInputChange(e.target.value)
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
+      className: "form-check-label",
+      htmlFor: "sortDesc"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+      className: "fa-solid fa-arrow-up-wide-short"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
+      className: "d-none d-md-block"
+    }, "High to Low")))));
   }
 }
 
@@ -3869,7 +4009,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/IPagedResponse */ "./src/Lib/IPagedResponse.ts");
-// paging component
+// paging component for lists which use IPagedResponse
 
 
 
@@ -3886,7 +4026,8 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
       page: [],
       searchTerm: this.props.searchTerm,
       sortOrder: this.props.sortOrder,
-      onCurrentPageChanged: page => this.props.onCurrentPageChanged(page)
+      onCurrentPageChanged: page => this.props.onCurrentPageChanged(page),
+      onSortChanged: sort => this.props.onSortChanged(sort)
     };
   }
   state = {
@@ -3897,38 +4038,36 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
     searchTerm: '',
     sortOrder: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending,
     page: [],
-    onCurrentPageChanged: page => this.props.onCurrentPageChanged(page)
+    onCurrentPageChanged: page => this.props.onCurrentPageChanged(page),
+    onSortChanged: sort => this.props.onSortChanged(sort)
   };
   onLinkClick(page) {
-    if (page > 0 && page <= this.state.totalPages && page != this.state.currentPage) {
+    if (page > 0 && page <= this.props.totalPages && page != this.props.currentPage) {
       this.props.onCurrentPageChanged(page);
-      this.setState(state => ({
-        currentPage: page
-      }));
     }
   }
   getPageNoAtPosition(pos) {
     // return the page number at a position in the list.
     const pageItems = 3;
-    if (this.state.currentPage < pageItems) {
+    if (this.props.currentPage < pageItems) {
       return pos;
-    } else if (this.state.currentPage + (pageItems - 1) > this.state.totalPages) {
+    } else if (this.props.currentPage + (pageItems - 1) > this.props.totalPages) {
       switch (pos) {
         case 1:
-          return this.state.totalPages - 2;
+          return this.props.totalPages - 2;
         case 2:
-          return this.state.totalPages - 1;
+          return this.props.totalPages - 1;
         default:
-          return this.state.totalPages;
+          return this.props.totalPages;
       }
     } else {
       switch (pos) {
         case 1:
-          return this.state.currentPage - 1;
+          return this.props.currentPage - 1;
         case 2:
-          return this.state.currentPage;
+          return this.props.currentPage;
         default:
-          return this.state.currentPage + 1;
+          return this.props.currentPage + 1;
       }
     }
   }
@@ -3942,7 +4081,8 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
     return url + '?' + params.toString();
   }
   render() {
-    if (this.state.totalPages <= 1) {
+    if (this.props.totalPages <= 1) {
+      console.warn("No pages to render...");
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null);
     } else {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("nav", {
@@ -3954,53 +4094,53 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
         title: "Move to start",
         onClick: e => this.onLinkClick(1)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
-        className: this.state.currentPage == 1 ? 'page-link disabled' : 'page-link',
+        className: this.props.currentPage == 1 ? 'page-link disabled' : 'page-link',
         to: this.getPageUrl(1)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
         className: "fa-solid fa-angles-left"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
         className: "page-item",
         title: "Move back",
-        onClick: e => this.onLinkClick(this.state.currentPage - 1)
+        onClick: e => this.onLinkClick(this.props.currentPage - 1)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
-        className: this.state.currentPage == 1 ? 'page-link disabled' : 'page-link',
-        to: this.getPageUrl(this.state.currentPage - 1)
+        className: this.props.currentPage == 1 ? 'page-link disabled' : 'page-link',
+        to: this.getPageUrl(this.props.currentPage - 1)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
         className: "fa-solid fa-chevron-left"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
         className: "page-item",
         onClick: e => this.onLinkClick(this.getPageNoAtPosition(1))
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
-        className: this.state.currentPage == this.getPageNoAtPosition(1) ? 'page-link active' : 'page-link',
+        className: this.props.currentPage == this.getPageNoAtPosition(1) ? 'page-link active' : 'page-link',
         to: this.getPageUrl(this.getPageNoAtPosition(1))
       }, this.getPageNoAtPosition(1))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
         className: "page-item",
         onClick: e => this.onLinkClick(this.getPageNoAtPosition(2))
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
-        className: this.state.currentPage == this.getPageNoAtPosition(2) ? 'page-link active' : 'page-link',
+        className: this.props.currentPage == this.getPageNoAtPosition(2) ? 'page-link active' : 'page-link',
         to: this.getPageUrl(this.getPageNoAtPosition(2))
       }, this.getPageNoAtPosition(2))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
         className: "page-item",
         onClick: e => this.onLinkClick(this.getPageNoAtPosition(3))
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
-        className: this.state.currentPage == this.getPageNoAtPosition(3) ? 'page-link active' : 'page-link',
+        className: this.props.currentPage == this.getPageNoAtPosition(3) ? 'page-link active' : 'page-link',
         to: this.getPageUrl(this.getPageNoAtPosition(3))
       }, this.getPageNoAtPosition(3))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
         className: "page-item",
         title: "Move next",
-        onClick: e => this.onLinkClick(this.state.currentPage + 1)
+        onClick: e => this.onLinkClick(this.props.currentPage + 1)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
-        className: this.state.currentPage == this.state.totalPages ? 'page-link disabled' : 'page-link',
-        to: this.getPageUrl(this.state.currentPage + 1)
+        className: this.props.currentPage == this.props.totalPages ? 'page-link disabled' : 'page-link',
+        to: this.getPageUrl(this.props.currentPage + 1)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
         className: "fa-solid fa-chevron-right"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
         className: "page-item",
         title: "Move to end",
-        onClick: e => this.onLinkClick(this.state.totalPages)
+        onClick: e => this.onLinkClick(this.props.totalPages)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
-        className: this.state.currentPage == this.state.totalPages ? 'page-link disabled' : 'page-link',
-        to: this.getPageUrl(this.state.totalPages)
+        className: this.props.currentPage == this.props.totalPages ? 'page-link disabled' : 'page-link',
+        to: this.getPageUrl(this.props.totalPages)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
         className: "fa-solid fa-angles-right"
       })))));
@@ -4010,183 +4150,10 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
 
 /***/ }),
 
-/***/ "./src/Components/Products.tsx":
-/*!*************************************!*\
-  !*** ./src/Components/Products.tsx ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ProductTableRow": () => (/* binding */ ProductTableRow),
-/* harmony export */   "Products": () => (/* binding */ Products)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/IPagedResponse */ "./src/Lib/IPagedResponse.ts");
-/* harmony import */ var _Services_ProductsService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Services/ProductsService */ "./src/Services/ProductsService.ts");
-/* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Loading */ "./src/Components/Loading.tsx");
-/* harmony import */ var _Pager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Pager */ "./src/Components/Pager.tsx");
-// A Product List View
-
-
-
-
-
-
-class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
-  static displayName = Products.name;
-  constructor(props) {
-    super(props);
-
-    // get parameters from query string (or props)
-    const query = new URLSearchParams(window.location.search);
-    let page = query.get('page') ?? props.page ?? 1;
-    let sort = query.get('sort') ?? props.sort ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending;
-    let searchTerm = query.get('searchTerm') ?? props.searchTerm ?? '';
-    this.onCurrentPageChanged = this.onCurrentPageChanged.bind(this);
-    this.state = {
-      isLoading: true,
-      currentPage: {
-        currentPage: page,
-        searchTerm: searchTerm,
-        sortOrder: sort,
-        itemsPerPage: 10,
-        totalItems: 0,
-        page: [],
-        totalPages: 0,
-        onCurrentPageChanged: page => this.onCurrentPageChanged(page)
-      }
-    };
-  }
-  state = {
-    isLoading: true,
-    currentPage: null
-  };
-  onCurrentPageChanged(page) {
-    console.info('Page is going to change to ' + page);
-    this.getData(page).then(value => {
-      console.info('Data updated');
-    }).catch(reason => {
-      console.error('Error getting data!' + reason);
-    });
-  }
-  componentDidMount() {
-    this.getData(this.state.currentPage.currentPage); // async
-  }
-
-  componentWillUnmount() {
-    this.setState({
-      isLoading: true,
-      currentPage: null
-    });
-  }
-  render() {
-    if (this.state.isLoading) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Loading__WEBPACK_IMPORTED_MODULE_3__.Loading, null);
-    } else {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("table", {
-        className: "table table-responsive table-striped"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null, "Id"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null, "Quantity Per Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null, "Unit Price"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tbody", null, this.state.currentPage.page.length == 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, "Nothing Found!")) : this.state.currentPage.page.map((value, index) => {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(ProductTableRow, {
-          key: index,
-          productId: value.productId,
-          productName: value.productName,
-          quantityPerUnit: value.quantityPerUnit,
-          discontinued: value.discontinued,
-          categoryId: value.categoryId,
-          unitPrice: value.unitPrice,
-          unitsInStock: value.unitsInStock
-        });
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Pager__WEBPACK_IMPORTED_MODULE_4__.Pager, {
-        currentPage: this.state.currentPage.currentPage,
-        itemsPerPage: this.state.currentPage.itemsPerPage,
-        totalItems: this.state.currentPage.totalItems,
-        totalPages: this.state.currentPage.totalPages,
-        searchTerm: this.state.currentPage.searchTerm,
-        sortOrder: this.state.currentPage.sortOrder,
-        page: [],
-        onCurrentPageChanged: this.onCurrentPageChanged
-      }));
-    }
-  }
-  async getData(page) {
-    console.info('Getting data...');
-    let sort = this.state.currentPage?.sortOrder ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
-    let searchTerm = this.state.currentPage?.searchTerm ?? '';
-    try {
-      this.setState({
-        isLoading: true,
-        currentPage: {
-          currentPage: page,
-          searchTerm: searchTerm,
-          sortOrder: sort,
-          itemsPerPage: 10,
-          totalItems: 0,
-          page: [],
-          totalPages: 0,
-          onCurrentPageChanged: page => this.onCurrentPageChanged(page)
-        }
-      });
-      const result = await _Services_ProductsService__WEBPACK_IMPORTED_MODULE_2__.ProductsService.Products(searchTerm, page, sort);
-      this.setState({
-        isLoading: false,
-        currentPage: result
-      });
-    } catch (e) {
-      console.error('Could not get product data!', +e);
-      this.setState({
-        isLoading: true,
-        currentPage: {
-          currentPage: page,
-          searchTerm: searchTerm,
-          sortOrder: sort,
-          itemsPerPage: 10,
-          totalItems: 0,
-          page: [],
-          totalPages: 0,
-          onCurrentPageChanged: page => this.onCurrentPageChanged(page)
-        }
-      });
-    }
-  }
-}
-class ProductTableRow extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
-  static displayName = ProductTableRow.name;
-  constructor(props) {
-    super(props);
-    this.state = {
-      productId: props.productId,
-      discontinued: props.discontinued,
-      productName: props.productName,
-      categoryId: props.categoryId,
-      quantityPerUnit: props.quantityPerUnit,
-      unitPrice: props.unitPrice,
-      unitsInStock: props.unitsInStock
-    };
-  }
-  state = {
-    discontinued: true,
-    productId: 0,
-    productName: ''
-  };
-  render() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, this.props.productId), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, this.props.productName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, this.props.quantityPerUnit), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, this.props.unitPrice.toFixed(2)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, this.props.discontinued ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-      className: "text-error fa-solid circle-xmark",
-      title: "This product has been discontinued"
-    }) : '', this.props.unitsInStock < 5 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-      className: "text-warning fa-solid triangle-exclamation",
-      title: "Not many of these left!"
-    }) : ''));
-  }
-}
-
-/***/ }),
-
-/***/ "./src/Components/TestComponent.tsx":
-/*!******************************************!*\
-  !*** ./src/Components/TestComponent.tsx ***!
-  \******************************************/
+/***/ "./src/Components/Playground/TestComponent.tsx":
+/*!*****************************************************!*\
+  !*** ./src/Components/Playground/TestComponent.tsx ***!
+  \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -4195,7 +4162,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Loading */ "./src/Components/Loading.tsx");
+/* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Loading */ "./src/Components/Loading.tsx");
 // A component to test getting values from an api.
 
 
@@ -4243,6 +4210,229 @@ class TestMe extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
     } else {
       console.error(response.statusText);
     }
+  }
+}
+
+/***/ }),
+
+/***/ "./src/Components/Products.tsx":
+/*!*************************************!*\
+  !*** ./src/Components/Products.tsx ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ProductTableRow": () => (/* binding */ ProductTableRow),
+/* harmony export */   "Products": () => (/* binding */ Products)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/IPagedResponse */ "./src/Lib/IPagedResponse.ts");
+/* harmony import */ var _Services_ProductsService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Services/ProductsService */ "./src/Services/ProductsService.ts");
+/* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Loading */ "./src/Components/Loading.tsx");
+/* harmony import */ var _Pager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Pager */ "./src/Components/Pager.tsx");
+/* harmony import */ var _PageFilter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PageFilter */ "./src/Components/PageFilter.tsx");
+// A Product List View
+
+
+
+
+
+
+
+class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
+  static displayName = Products.name;
+  constructor(props) {
+    super(props);
+
+    // get parameters from query string (or props)
+    const query = new URLSearchParams(window.location.search);
+    let page = query.get('page') ?? props.page ?? 1;
+    let sort = query.get('sort') ?? props.sort ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending;
+    let searchTerm = query.get('searchTerm') ?? props.searchTerm ?? '';
+    this.onCurrentPageChanged = this.onCurrentPageChanged.bind(this);
+    this.onSortOrderChanged = this.onSortOrderChanged.bind(this);
+    this.state = {
+      isLoading: true,
+      currentPage: {
+        currentPage: page,
+        searchTerm: searchTerm,
+        sortOrder: sort,
+        itemsPerPage: 10,
+        totalItems: 0,
+        page: [],
+        totalPages: 0,
+        onCurrentPageChanged: page => this.onCurrentPageChanged(page),
+        onSortChanged: sort => this.onSortOrderChanged(sort)
+      }
+    };
+  }
+  state = {
+    isLoading: true,
+    currentPage: null
+  };
+  onCurrentPageChanged(page) {
+    if (page != this.state.currentPage.currentPage) {
+      console.info('Page is going to change to ' + page);
+      this.getData(page, this.state.currentPage.sortOrder).then(value => {
+        console.info('Data updated');
+      }).catch(reason => {
+        console.error('Error getting data!' + reason);
+      });
+    }
+  }
+  onSortOrderChanged(sort) {
+    if (sort != this.state.currentPage.sortOrder) {
+      console.info('Sort is going to change to ' + sort);
+      this.getData(1, sort).then(value => {
+        console.info('Data updated');
+      }).catch(reason => {
+        console.error('Error getting data!' + reason);
+      });
+    }
+  }
+  componentDidMount() {
+    this.getData(this.state.currentPage.currentPage, this.state.currentPage.sortOrder); // async
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isLoading: true,
+      currentPage: null
+    });
+  }
+  getTable() {
+    if (this.state.isLoading) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Loading__WEBPACK_IMPORTED_MODULE_3__.Loading, null);
+    } else {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("table", {
+        className: "table table-responsive table-striped"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null, "Id"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null, "Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null, "Quantity Per Unit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null, "Unit Price"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("th", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tbody", null, this.state.currentPage.page.length == 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, "Nothing Found!")) : this.state.currentPage.page.map((value, index) => {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(ProductTableRow, {
+          key: index,
+          productId: value.productId,
+          productName: value.productName,
+          quantityPerUnit: value.quantityPerUnit,
+          discontinued: value.discontinued,
+          categoryId: value.categoryId,
+          unitPrice: value.unitPrice,
+          unitsInStock: value.unitsInStock
+        });
+      })));
+    }
+  }
+  render() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "row"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "col-md-4 col-sm-12"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_PageFilter__WEBPACK_IMPORTED_MODULE_5__.PageFilter, {
+      currentPage: this.state.currentPage.currentPage,
+      itemsPerPage: this.state.currentPage.itemsPerPage,
+      totalItems: this.state.currentPage.totalItems,
+      totalPages: this.state.currentPage.totalPages,
+      searchTerm: this.state.currentPage.searchTerm,
+      sortOrder: this.state.currentPage.sortOrder,
+      page: [],
+      onCurrentPageChanged: this.onCurrentPageChanged,
+      onSortChanged: this.onSortOrderChanged
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "col-md-8 col-sm-12"
+    }, this.getTable()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "col-12"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Pager__WEBPACK_IMPORTED_MODULE_4__.Pager, {
+      currentPage: this.state.currentPage.currentPage,
+      itemsPerPage: this.state.currentPage.itemsPerPage,
+      totalItems: this.state.currentPage.totalItems,
+      totalPages: this.state.currentPage.totalPages,
+      searchTerm: this.state.currentPage.searchTerm,
+      sortOrder: this.state.currentPage.sortOrder,
+      page: [],
+      onCurrentPageChanged: this.onCurrentPageChanged,
+      onSortChanged: this.onSortOrderChanged
+    })));
+  }
+  async getData(page, sort) {
+    console.info('Getting page ' + page + ' sorted by ' + sort);
+    let searchTerm = this.state.currentPage?.searchTerm ?? '';
+    try {
+      this.setState(state => ({
+        isLoading: true,
+        currentPage: {
+          currentPage: page,
+          searchTerm: searchTerm,
+          sortOrder: sort,
+          itemsPerPage: 0,
+          totalItems: 0,
+          page: [],
+          totalPages: 0,
+          onCurrentPageChanged: page => this.onCurrentPageChanged(page),
+          onSortChanged: sort => this.onSortOrderChanged(sort)
+        }
+      }));
+      const result = await _Services_ProductsService__WEBPACK_IMPORTED_MODULE_2__.ProductsService.Products(searchTerm, page, sort);
+      this.setState({
+        isLoading: false,
+        currentPage: {
+          currentPage: result.currentPage,
+          searchTerm: result.searchTerm,
+          itemsPerPage: result.itemsPerPage,
+          totalItems: result.totalItems,
+          page: result.page,
+          totalPages: result.totalPages,
+          sortOrder: result.sortOrder,
+          onCurrentPageChanged: page => this.onCurrentPageChanged(page),
+          onSortChanged: sort => this.onSortOrderChanged(sort)
+        }
+      });
+      console.info('Got page ' + this.state.currentPage.currentPage + ' of ' + this.state.currentPage.totalPages);
+    } catch (e) {
+      console.error('Could not get product data!', +e);
+      this.setState({
+        isLoading: true,
+        currentPage: {
+          currentPage: page,
+          searchTerm: searchTerm,
+          sortOrder: sort,
+          itemsPerPage: 10,
+          totalItems: 0,
+          page: [],
+          totalPages: 0,
+          onCurrentPageChanged: page => this.onCurrentPageChanged(page),
+          onSortChanged: sort => this.onSortOrderChanged(sort)
+        }
+      });
+    }
+  }
+}
+class ProductTableRow extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
+  static displayName = ProductTableRow.name;
+  constructor(props) {
+    super(props);
+    this.state = {
+      productId: props.productId,
+      discontinued: props.discontinued,
+      productName: props.productName,
+      categoryId: props.categoryId,
+      quantityPerUnit: props.quantityPerUnit,
+      unitPrice: props.unitPrice,
+      unitsInStock: props.unitsInStock
+    };
+  }
+  state = {
+    discontinued: true,
+    productId: 0,
+    productName: ''
+  };
+  render() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, this.props.productId), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, this.props.productName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, this.props.quantityPerUnit), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, this.props.unitPrice.toFixed(2)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("td", null, this.props.discontinued ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+      className: "text-error fa-solid circle-xmark",
+      title: "This product has been discontinued"
+    }) : '', this.props.unitsInStock < 5 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
+      className: "text-warning fa-solid triangle-exclamation",
+      title: "Not many of these left!"
+    }) : ''));
   }
 }
 
@@ -4299,7 +4489,7 @@ class HttpClient {
         },
         credentials: 'same-origin'
       });
-      console.info(response.statusText);
+      console.info('Got response: ' + response.status + ' ' + response.statusText);
       let result = {};
       if (response.ok) {
         result = await response.json();
