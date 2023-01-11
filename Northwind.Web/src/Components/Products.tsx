@@ -1,12 +1,14 @@
 ﻿// A Product List View
 
-import React from 'react';
+import React, { Context, ContextType } from 'react';
 import { IPagedResponse, SortBy } from '../Lib/IPagedResponse';
 import { ProductApi } from '../Models/ApiModels';
 import { ProductsService } from '../Services/ProductsService';
 import { Loading } from './Loading';
 import { Pager } from './Pager';
-import { PageFilter } from './PageFilter';
+import { PageSort } from './PageSort';
+import { PageSearch } from './PageSearch';
+import { EmptyObject } from '../Lib/EmptyObject';
 
 type ProductsState = {
     isLoading: boolean,
@@ -31,10 +33,11 @@ export class Products extends React.Component<ProductsProps, ProductsState>
 
         let page: number = query.get('page') as unknown as number ?? (props.page ?? 1);
         let sort: SortBy = query.get('sort') as unknown as SortBy ?? (props.sort ?? SortBy.Name | SortBy.Ascending);
-        let searchTerm: string = query.get('searchTerm') ?? (props.searchTerm ?? '' );
-        
+        let searchTerm: string = query.get('searchTerm') ?? (props.searchTerm ?? '');
+
         this.onCurrentPageChanged = this.onCurrentPageChanged.bind(this);
         this.onSortOrderChanged = this.onSortOrderChanged.bind(this);
+        this.onSearchTermChanged = this.onSearchTermChanged.bind(this);
 
         this.state = {
             isLoading: true,
@@ -47,21 +50,32 @@ export class Products extends React.Component<ProductsProps, ProductsState>
                 page: [],
                 totalPages: 0,
                 onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page),
-                onSortChanged: (sort: SortBy) => this.onSortOrderChanged(sort)
+                onSortChanged: (sort: SortBy) => this.onSortOrderChanged(sort),
+                onSearchTermChanged: (term: string) => this.onSearchTermChanged(term)
             }
-        };        
+        };
     }
-    
+
     state: ProductsState = {
         isLoading: true,
         currentPage: null
+    }
+
+    onSearchTermChanged(term: string) {
+        if (term != this.state.currentPage.searchTerm) {
+            console.info('Searching for ' + term);
+
+            this.getData(1, this.state.currentPage.sortOrder, term)
+                .then((value) => { console.info('Data updated'); })
+                .catch((reason) => { console.error('Error getting data!' + reason); });  
+        }
     }
 
     onCurrentPageChanged(page: number) {        
         if (page != this.state.currentPage.currentPage) {
             console.info('Page is going to change to ' + page);
 
-            this.getData(page, this.state.currentPage.sortOrder)
+            this.getData(page, this.state.currentPage.sortOrder, this.state.currentPage.searchTerm)
                 .then((value) => { console.info('Data updated'); })
                 .catch((reason) => { console.error('Error getting data!' + reason); });            
         }              
@@ -69,16 +83,16 @@ export class Products extends React.Component<ProductsProps, ProductsState>
 
     onSortOrderChanged(sort: SortBy) {
         if (sort != this.state.currentPage.sortOrder) {
-            console.info('Sort is going to change to ' + sort);
+            console.info('Sort is going to change to ' + sort);            
 
-            this.getData(1, sort)
+            this.getData(1, sort, this.state.currentPage.searchTerm)
                 .then((value) => { console.info('Data updated'); })
                 .catch((reason) => { console.error('Error getting data!' + reason); });            
         }        
     }
 
     componentDidMount() {
-        this.getData(this.state.currentPage.currentPage, this.state.currentPage.sortOrder); // async
+        this.getData(this.state.currentPage.currentPage, this.state.currentPage.sortOrder, this.state.currentPage.searchTerm); // async
     }
 
     componentWillUnmount() {
@@ -102,7 +116,7 @@ export class Products extends React.Component<ProductsProps, ProductsState>
                 </thead>
                 <tbody>
                     {this.state.currentPage.page.length == 0 ?
-                        <tr><td>Nothing Found!</td></tr> :
+                        <tr><td colSpan={5}>Nothing Found!</td></tr> :
                         this.state.currentPage.page.map((value: ProductApi, index: number) => {
                             return <ProductTableRow key={index}
                                 productId={value.productId}
@@ -121,9 +135,9 @@ export class Products extends React.Component<ProductsProps, ProductsState>
     }
 
     render() {        
-            return (<div className="row">
+        return (<div className="row">                
                 <div className="col-md-4 col-sm-12">
-                    <PageFilter<ProductApi> currentPage={this.state.currentPage.currentPage}
+                    <PageSearch currentPage={this.state.currentPage.currentPage}
                         itemsPerPage={this.state.currentPage.itemsPerPage}
                         totalItems={this.state.currentPage.totalItems}
                         totalPages={this.state.currentPage.totalPages}
@@ -132,7 +146,19 @@ export class Products extends React.Component<ProductsProps, ProductsState>
                         page={[] as ProductApi[]}
                         onCurrentPageChanged={this.onCurrentPageChanged}
                         onSortChanged={this.onSortOrderChanged}
-                         />
+                        onSearchTermChanged={this.onSearchTermChanged} />
+                    <hr />
+                    <PageSort<ProductApi> currentPage={this.state.currentPage.currentPage}
+                        itemsPerPage={this.state.currentPage.itemsPerPage}
+                        totalItems={this.state.currentPage.totalItems}
+                        totalPages={this.state.currentPage.totalPages}
+                        searchTerm={this.state.currentPage.searchTerm}
+                        sortOrder={this.state.currentPage.sortOrder}
+                        page={[] as ProductApi[]}
+                        onCurrentPageChanged={this.onCurrentPageChanged}
+                        onSortChanged={this.onSortOrderChanged}
+                        onSearchTermChanged={this.onSearchTermChanged} />
+                    <hr className="d-md-none" />
                 </div>
                 <div className="col-md-8 col-sm-12">
                     {this.getTable()}                    
@@ -147,17 +173,15 @@ export class Products extends React.Component<ProductsProps, ProductsState>
                         page={[] as ProductApi[]}
                         onCurrentPageChanged={this.onCurrentPageChanged}
                         onSortChanged={this.onSortOrderChanged}
-                    />                
+                        onSearchTermChanged={this.onSearchTermChanged} />                
                 </div>               
             </div>);        
     }
 
-    async getData(page: number, sort: SortBy) {
+    async getData(page: number, sort: SortBy, searchTerm: string) {
         console.info('Getting page ' + page + ' sorted by ' + sort);
-                
-        let searchTerm: string = this.state.currentPage?.searchTerm ?? '';
-
-        try {           
+                        
+        try {
             this.setState((state) => ({
                 isLoading: true,
                 currentPage: {
@@ -169,7 +193,8 @@ export class Products extends React.Component<ProductsProps, ProductsState>
                     page: [],
                     totalPages: 0,
                     onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page),
-                    onSortChanged: (sort: SortBy) => this.onSortOrderChanged(sort)
+                    onSortChanged: (sort: SortBy) => this.onSortOrderChanged(sort),
+                    onSearchTermChanged: (term: string) => this.onSearchTermChanged(term)
                 }
             }));
 
@@ -186,14 +211,12 @@ export class Products extends React.Component<ProductsProps, ProductsState>
                     totalPages: result.totalPages,
                     sortOrder: result.sortOrder,
                     onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page),
-                    onSortChanged: (sort: SortBy) => this.onSortOrderChanged(sort)
+                    onSortChanged: (sort: SortBy) => this.onSortOrderChanged(sort),
+                    onSearchTermChanged: (term: string) => this.onSearchTermChanged(term)
                 }
-            });
-
-            console.info('Got page ' + this.state.currentPage.currentPage + ' of ' + this.state.currentPage.totalPages);
-
+            });            
         } catch (e) {
-            console.error('Could not get product data!', + e);
+            console.error('Could not get product data!' + e);
 
             this.setState({
                 isLoading: true,
@@ -206,37 +229,33 @@ export class Products extends React.Component<ProductsProps, ProductsState>
                     page: [],
                     totalPages: 0,
                     onCurrentPageChanged: (page: number) => this.onCurrentPageChanged(page),
-                    onSortChanged: (sort: SortBy) => this.onSortOrderChanged(sort)
+                    onSortChanged: (sort: SortBy) => this.onSortOrderChanged(sort),
+                    onSearchTermChanged: (term: string) => this.onSearchTermChanged(term)
                 }
             });
+        }
+        finally {            
+            const query = '?page=' + this.state.currentPage.currentPage
+                + '&sort=' + this.state.currentPage.sortOrder
+                + (this.state.currentPage.searchTerm != undefined && this.state.currentPage.searchTerm.length > 0 ? '&searchTerm=' + this.state.currentPage.searchTerm : '');            
+            // add this page to history with query parameters
+            window.history.pushState({ page: this.state.currentPage.currentPage, sort: this.state.currentPage.sortOrder }, "Products Page " + this.state.currentPage.currentPage, query);
         }
     }
 }
 
 
-export class ProductTableRow extends React.Component<ProductApi, ProductApi>
+export class ProductTableRow extends React.Component<ProductApi, EmptyObject>
 {
     static displayName = ProductTableRow.name;
 
     constructor(props: ProductApi) {
         super(props); 
 
-        this.state = {
-            productId: props.productId,
-            discontinued: props.discontinued,
-            productName: props.productName,
-            categoryId: props.categoryId,
-            quantityPerUnit: props.quantityPerUnit,
-            unitPrice: props.unitPrice,
-            unitsInStock: props.unitsInStock            
-        };
+        this.state = { };
     }
 
-    state: ProductApi = {
-        discontinued: true,
-        productId: 0,
-        productName: ''
-    };
+    state: EmptyObject = {};
 
     render() {
         return (

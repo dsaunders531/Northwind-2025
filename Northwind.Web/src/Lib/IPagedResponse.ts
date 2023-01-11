@@ -11,6 +11,7 @@ export type IPagedResponse<T> = {
     // handle the currentPage changing
     onCurrentPageChanged(page: number): void
     onSortChanged(sort: SortBy): void
+    onSearchTermChanged(term: string): void
 }
 
 export const enum SortBy {

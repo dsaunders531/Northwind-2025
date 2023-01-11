@@ -1,9 +1,10 @@
 ﻿// paging component for lists which use IPagedResponse
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { EmptyObject } from '../Lib/EmptyObject';
 import { IPagedResponse, SortBy } from '../Lib/IPagedResponse';
 
-export class Pager<T> extends React.Component<IPagedResponse<T>, IPagedResponse<T>>
+export class Pager<T> extends React.Component<IPagedResponse<T>, EmptyObject>
 {
     static displayName = Pager.name;
 
@@ -12,31 +13,11 @@ export class Pager<T> extends React.Component<IPagedResponse<T>, IPagedResponse<
 
         this.onLinkClick = this.onLinkClick.bind(this);
 
-        this.state = {
-            currentPage: this.props.currentPage,
-            itemsPerPage: this.props.itemsPerPage,
-            totalPages: this.props.totalPages,
-            totalItems: this.props.totalItems,
-            page: [] as T[],
-            searchTerm: this.props.searchTerm,
-            sortOrder: this.props.sortOrder,
-            onCurrentPageChanged: (page: number) => this.props.onCurrentPageChanged(page),
-            onSortChanged: (sort: SortBy) => this.props.onSortChanged(sort)
-        };  
+        this.state = {};
     }
 
-    state: IPagedResponse<T> = {
-        totalItems: 0,
-        totalPages: 0,
-        itemsPerPage: 0,
-        currentPage: 0,
-        searchTerm: '',
-        sortOrder: SortBy.Name | SortBy.Ascending,
-        page: [],
-        onCurrentPageChanged: (page: number) => this.props.onCurrentPageChanged(page),
-        onSortChanged: (sort: SortBy) => this.props.onSortChanged(sort)
-    }
-
+    state: EmptyObject = {};
+        
     onLinkClick(page: number) {
         if ((page > 0 && page <= this.props.totalPages) && page != this.props.currentPage) {                        
             this.props.onCurrentPageChanged(page);            
@@ -79,6 +60,11 @@ export class Pager<T> extends React.Component<IPagedResponse<T>, IPagedResponse<
 
         if (params.has('page')) {
             params.delete('page');            
+        }
+
+        // also add the sort parameter if not there. It is part of the interface.
+        if (!params.has('sort')) {
+            params.append('sort', this.props.sortOrder.toString());
         }
 
         params.append('page', pageNo.toString());

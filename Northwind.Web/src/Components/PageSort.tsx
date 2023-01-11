@@ -1,41 +1,22 @@
-﻿// A filter for lists which use IPagedResponse
+﻿// A sort component for lists which use IPagedResponse
 
 import React from 'react';
+import { EmptyObject } from '../Lib/EmptyObject';
 import { IPagedResponse, SortBy } from '../Lib/IPagedResponse';
 
-export class PageFilter<T> extends React.Component<IPagedResponse<T>, IPagedResponse<T>> {
-    static displayName = PageFilter.name;
+export class PageSort<T> extends React.Component<IPagedResponse<T>, EmptyObject> {
+    static displayName = PageSort.name;
 
     constructor(props: IPagedResponse<T>) {
         super(props);
 
         this.onInputChange = this.onInputChange.bind(this);
 
-        this.state = {
-            currentPage: this.props.currentPage,
-            itemsPerPage: this.props.itemsPerPage,
-            totalPages: this.props.totalPages,
-            totalItems: this.props.totalItems,
-            page: [] as T[],
-            searchTerm: this.props.searchTerm,
-            sortOrder: this.props.sortOrder,
-            onCurrentPageChanged: (page: number) => this.props.onCurrentPageChanged(page),
-            onSortChanged: (sort: SortBy) => this.props.onSortChanged(sort)
-        };
+        this.state = {}; // There is no state - use props.        
     }
 
-    state: IPagedResponse<T> = {
-        totalItems: 0,
-        totalPages: 0,
-        itemsPerPage: 0,
-        currentPage: 0,
-        searchTerm: '',
-        sortOrder: SortBy.Name | SortBy.Ascending,
-        page: [],
-        onCurrentPageChanged: (page: number) => this.props.onCurrentPageChanged(page),
-        onSortChanged: (sort: SortBy) => this.props.onSortChanged(sort)
-    }
-
+    state: EmptyObject = {};
+    
     onInputChange(sort: SortBy) {
         // this needs to handle asc, desc or select list
         let newSort: SortBy = this.props.sortOrder;
