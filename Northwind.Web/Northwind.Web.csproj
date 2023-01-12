@@ -57,6 +57,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Northwind.Api.Client\Northwind.Api.Client.csproj" />
+    <ProjectReference Include="..\Northwind.Seo\Northwind.Seo.Rcl.csproj" />
   </ItemGroup>
 
 </Project>

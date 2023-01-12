@@ -2,6 +2,14 @@
 @model ErrorModel
 @{
     ViewData["Title"] = "Error";
+    ViewData["Keywords"] = "Northwind";
+    ViewData["Description"] = "Northwind Error Page";
+    ViewData["RobotsFollow"] = false;
+    ViewData["RobotsIndex"] = false;
+}
+
+@section Metas {
+    <partial name="_SeoMetas" />
 }
 
 <h1 class="text-danger">Error.</h1>

@@ -5,11 +5,16 @@
 
 @{
     ViewData["Title"] = "Home page";
+    ViewData["Keywords"] = "Northwind,Home";
+    ViewData["Description"] = "Northwind Home Page";
+    ViewData["RobotsFollow"] = true;
+    ViewData["RobotsIndex"] = true;
 }
 
 @section Metas
 {
     <partial name="_AppMetas"></partial>
+    <partial name="_SeoMetas" />
 }
 
 <partial name="_AppContent"></partial>

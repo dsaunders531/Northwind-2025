@@ -1,0 +1,3 @@
+﻿<meta name="keywords" content="@ViewData["Keywords"]" />
+<meta name="description" content="@ViewData["Description"]" />
+<meta name="robots" content="@(Convert.ToBoolean(ViewData["RobotsFollow"]) ? "follow" : "nofollow"),@(Convert.ToBoolean(ViewData["RobotsIndex"]) ? "index" : "noindex")" />

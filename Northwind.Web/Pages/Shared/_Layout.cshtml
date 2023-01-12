@@ -1,10 +1,26 @@
-﻿<!DOCTYPE html>
+﻿@using Patterns.Extensions;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <meta name="application-name" content="Northwind" />
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="~/favicon.ico" />
+    <meta name="thumbnail" content="~/favicon.ico" />
+
     @await RenderSectionAsync("Metas", required: false)
     <title>@ViewData["Title"] - Northwind.Web</title>
+    
+    <meta name="publisher" content="Duncan" />
+    <meta name="copyright" content="Copyright, Northwind @DateTime.UtcNow.ToJsonDateTimeString(). All Rights Reserved." />
+    <meta name="author" content="Duncan Saunders" />
+    <meta name="language" content="en" />
+    
     <link rel="preload" href="~/css/bootstrap.min.css" as="style"/>
     <link rel="preload" href="~/css/site.css" as="style" />
     <link rel="preload" href="~/lib/fontawesome-free-6.2.1-web/css/fontawesome.min.css" as="style" />
@@ -17,13 +33,10 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/lib/fontawesome-free-6.2.1-web/css/fontawesome.min.css" />
     <link rel="stylesheet" href="~/lib/fontawesome-free-6.2.1-web/css/solid.min.css" />
-
-    <link rel="icon" href="~/favicon.ico" />
-    <link rel="shortcut icon" href="~/favicon.ico" />
-
+   
     @await RenderSectionAsync("Style", required: false)
 </head>
-<body>
+<body lang="en" dir="ltr">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container">
