@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Extensions.Logging;
@@ -39,7 +40,13 @@ namespace Northwind.Web
                 builder.Services.AddSingleton<INorthwindProductsService, NorthwindApiProxy>();
 
                 builder.Services.AddControllersWithViews();
-                builder.Services.AddRazorPages();
+                IMvcBuilder razorPagesBuilder = builder.Services.AddRazorPages();
+
+
+                if (builder.Environment.IsDevelopment())
+                {
+                    razorPagesBuilder.AddRazorRuntimeCompilation();
+                }
 
                 var app = builder.Build();
 
