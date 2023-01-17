@@ -1,6 +1,7 @@
 ﻿// A Product List View
 
 import React, { Context, ContextType } from 'react';
+import { Link } from 'react-router-dom';
 import { IPagedResponse, SortBy } from '../Lib/IPagedResponse';
 import { ProductApi } from '../Models/ApiModels';
 import { ProductsService } from '../Services/ProductsService';
@@ -255,11 +256,17 @@ export class ProductTableRow extends React.Component<ProductApi, EmptyObject>
 
     state: EmptyObject = {};
 
+    getLinkUrl(productId: number) {
+        return "/Product/" + productId;
+    }
+
     render() {
         return (
             <tr>
                 <td>{this.props.productId}</td>
-                <td>{this.props.productName}</td>
+                <td>
+                    <a href={this.getLinkUrl(this.props.productId)} target="_self">{this.props.productName}</a>
+                </td>
                 <td>{this.props.quantityPerUnit}</td>
                 <td>{this.props.unitPrice.toFixed(2)}</td>
                 <td>

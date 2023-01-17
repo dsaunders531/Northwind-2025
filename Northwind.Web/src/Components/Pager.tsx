@@ -69,7 +69,20 @@ export class Pager<T> extends React.Component<IPagedResponse<T>, EmptyObject>
 
         return url + '?' + params.toString();
     }
-    
+
+    getLinkClassesForPosition(position: number) {
+        let result: string = 'page-link';
+
+        if (this.props.currentPage == this.getPageNoAtPosition(position)) {
+            result += ' active';
+        }
+        else if (this.props.totalPages < position) {
+            result += ' disabled';
+        }
+
+        return result;
+    }
+
     render() {  
         if (this.props.totalPages <= 1) {
             console.warn("No pages to render...");
@@ -90,17 +103,17 @@ export class Pager<T> extends React.Component<IPagedResponse<T>, EmptyObject>
                             </Link>
                         </li>
                         <li className="page-item" onClick={(e) => this.onLinkClick(this.getPageNoAtPosition(1))}>
-                            <Link className={this.props.currentPage == this.getPageNoAtPosition(1) ? 'page-link active' : 'page-link'} to={this.getPageUrl(this.getPageNoAtPosition(1))}>
+                            <Link className={this.getLinkClassesForPosition(1)} to={this.getPageUrl(this.getPageNoAtPosition(1))}>
                                 {this.getPageNoAtPosition(1)}
                             </Link>                            
                         </li>
                         <li className="page-item" onClick={(e) => this.onLinkClick(this.getPageNoAtPosition(2))}>
-                            <Link className={this.props.currentPage == this.getPageNoAtPosition(2) ? 'page-link active' : 'page-link'} to={this.getPageUrl(this.getPageNoAtPosition(2))}>
+                            <Link className={this.getLinkClassesForPosition(2)} to={this.getPageUrl(this.getPageNoAtPosition(2))}>
                                 {this.getPageNoAtPosition(2)}
                             </Link>                           
                         </li>
                         <li className="page-item" onClick={(e) => this.onLinkClick(this.getPageNoAtPosition(3))}>
-                            <Link className={this.props.currentPage == this.getPageNoAtPosition(3) ? 'page-link active' : 'page-link'} to={this.getPageUrl(this.getPageNoAtPosition(3))}>
+                            <Link className={this.getLinkClassesForPosition(3)} to={this.getPageUrl(this.getPageNoAtPosition(3))}>
                                 {this.getPageNoAtPosition(3)}
                             </Link>
                         </li>
