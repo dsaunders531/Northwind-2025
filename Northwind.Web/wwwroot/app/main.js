@@ -4181,6 +4181,15 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
     params.append('page', pageNo.toString());
     return url + '?' + params.toString();
   }
+  getLinkClassesForPosition(position) {
+    let result = 'page-link';
+    if (this.props.currentPage == this.getPageNoAtPosition(position)) {
+      result += ' active';
+    } else if (this.props.totalPages < position) {
+      result += ' disabled';
+    }
+    return result;
+  }
   render() {
     if (this.props.totalPages <= 1) {
       console.warn("No pages to render...");
@@ -4216,7 +4225,7 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
             className: "page-item",
             onClick: e => this.onLinkClick(this.getPageNoAtPosition(1)),
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
-              className: this.props.currentPage == this.getPageNoAtPosition(1) ? 'page-link active' : 'page-link',
+              className: this.getLinkClassesForPosition(1),
               to: this.getPageUrl(this.getPageNoAtPosition(1)),
               children: this.getPageNoAtPosition(1)
             })
@@ -4224,7 +4233,7 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
             className: "page-item",
             onClick: e => this.onLinkClick(this.getPageNoAtPosition(2)),
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
-              className: this.props.currentPage == this.getPageNoAtPosition(2) ? 'page-link active' : 'page-link',
+              className: this.getLinkClassesForPosition(2),
               to: this.getPageUrl(this.getPageNoAtPosition(2)),
               children: this.getPageNoAtPosition(2)
             })
@@ -4232,7 +4241,7 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
             className: "page-item",
             onClick: e => this.onLinkClick(this.getPageNoAtPosition(3)),
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
-              className: this.props.currentPage == this.getPageNoAtPosition(3) ? 'page-link active' : 'page-link',
+              className: this.getLinkClassesForPosition(3),
               to: this.getPageUrl(this.getPageNoAtPosition(3)),
               children: this.getPageNoAtPosition(3)
             })
@@ -4609,12 +4618,19 @@ class ProductTableRow extends (react__WEBPACK_IMPORTED_MODULE_0___default().Comp
     super(props);
   }
   state = {};
+  getLinkUrl(productId) {
+    return "/Product/" + productId;
+  }
   render() {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("tr", {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {
         children: this.props.productId
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {
-        children: this.props.productName
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("a", {
+          href: this.getLinkUrl(this.props.productId),
+          target: "_self",
+          children: this.props.productName
+        })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {
         children: this.props.quantityPerUnit
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {

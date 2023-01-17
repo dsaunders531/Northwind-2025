@@ -241,5 +241,22 @@ namespace Northwind.Api.Tests
 
             return await response.Content.ReadFromJsonAsync<PagedResponse<ProductApi>>();
         }
+
+        [Test]
+        public async Task GetCategoryTest()
+        {
+            CategoryApi result = await GetCategory(2);
+
+            Assert.That(result, Is.Not.Null);
+        }
+
+        public async Task<CategoryApi> GetCategory(int categoryId)
+        {
+            HttpResponseMessage response = await _client.GetAsync($"/Categories/{categoryId}");
+
+            _ = response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<CategoryApi>();
+        }
     }
 }

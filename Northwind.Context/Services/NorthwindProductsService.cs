@@ -211,5 +211,10 @@ namespace Northwind.Context.Services
                                             .ToArray() ?? Array.Empty<string>());
             }            
         }
+
+        public Task<CategoryApi> GetCategory(int categoryId)
+        {
+            return Task.FromResult(CategoryApi.Create(this.Context.Categories.FirstOrDefault(f => f.CategoryId == categoryId) ?? new Category()));
+        }
     }
 }

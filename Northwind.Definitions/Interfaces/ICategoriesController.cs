@@ -8,5 +8,6 @@ namespace Northwind.Definitions.Interfaces
     {
         Task<ActionResult<IPagedResponse<CategoryApi>>> Categories([FromQuery] int page = 1, [FromQuery] SortBy sort = SortBy.NameAscending);
         Task<ActionResult<IPagedResponse<ProductApi>>> ProductsInCategories([FromRoute] int categoryId, [FromQuery] int page = 1, [FromQuery] SortBy sort = SortBy.NameAscending);
+        Task<ActionResult<CategoryApi>> Category([FromRoute] int categoryId);
     }
 }

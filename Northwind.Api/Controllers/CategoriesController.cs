@@ -51,6 +51,24 @@ namespace Northwind.Api.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("{categoryId}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryApi))]
+        public async Task<ActionResult<CategoryApi>> Category([FromRoute] int categoryId)
+        {
+            try
+            {
+                return new JsonResult(await Service.GetCategory(categoryId));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, $"Error in GET Category. {ex.Message}");
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         /// <summary>
         /// Get a list of products within a category.
         /// </summary>

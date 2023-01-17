@@ -36,6 +36,15 @@ namespace Northwind.Api.Client
             return (await response.Content.ReadFromJsonAsync<PagedResponse<CategoryApi>>() ?? new PagedResponse<CategoryApi>()) as IPagedResponse<CategoryApi>;
         }
 
+        public async Task<CategoryApi> GetCategory(int categoryId)
+        {
+            HttpResponseMessage response = await this.Client.GetAsync(new Uri(this.BaseUrl, $"Categories/{categoryId}"));
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<CategoryApi>() ?? new CategoryApi();
+        }
+
         public async Task<ProductApi?> GetProductById(int productId)
         {            
             HttpResponseMessage response = await this.Client.GetAsync(new Uri(this.BaseUrl, $"Products/{productId}"));

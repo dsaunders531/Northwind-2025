@@ -14,5 +14,7 @@ namespace Northwind.Context.Interfaces
         Task<IPagedResponse<CategoryApi>> GetCategories(int page, SortBy sort);
 
         Task<IPagedResponse<ProductApi>> GetProductsInCategory(int categoryId, int page, SortBy sort);
+
+        Task<CategoryApi> GetCategory(int categoryId);
     }
 }

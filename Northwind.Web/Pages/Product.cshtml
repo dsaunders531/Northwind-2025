@@ -1,0 +1,43 @@
+﻿@page "{productId:int}"
+@model ProductModel
+@{
+    ViewData["Title"] = $"{Model.Product.ProductName} from Northwind";
+    ViewData["Keywords"] = $"{Model.Product.ProductName},Northwind";
+    ViewData["Description"] = Model.Product.ProductName;
+    ViewData["RobotsFollow"] = true;
+    ViewData["RobotsIndex"] = true;
+}
+
+@section Metas
+{ 
+    <partial name="_SeoMetas" />
+}
+
+<div class="row">
+    <div class="col-12">
+        <a href="#" onclick="window.history.back();">Back to search results</a>
+    </div>    
+</div>
+<hr />
+<div class="row">
+    <div class="col-12">
+        <h2>@Model.Product.ProductName</h2>
+    </div>
+    <div class="col-6">
+        @((Model.Product.UnitPrice ?? 0m).ToString("C2"))
+    </div>
+    <div class="col-6">
+        @Model.Product.QuantityPerUnit
+    </div>
+    <div class="col-12" >
+        @if (Model.Product.Discontinued)
+        {
+            <i className="text-error fa-solid circle-xmark" title="This product has been discontinued"></i>
+        }
+        @if (Model.Product.UnitsInStock < 5)
+        {
+            <i className="text-warning fa-solid triangle-exclamation" title="Not many of these left!"></i>
+        }
+    </div>    
+</div>
+

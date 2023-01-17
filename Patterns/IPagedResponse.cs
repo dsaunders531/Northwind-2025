@@ -4,15 +4,19 @@
 
 namespace Patterns
 {
-    public interface IPagedResponse<T>
-        where T : class
+    public interface IPagedResponse
     {
         int TotalItems { get; }
         int TotalPages { get; }
         int ItemsPerPage { get; }
         int CurrentPage { get; }
         SortBy SortOrder { get; }
-        string SearchTerm { get; }
+        string SearchTerm { get; } 
+    }
+
+    public interface IPagedResponse<T> : IPagedResponse
+        where T : class
+    {        
         T[] Page { get; }
     }
 }
