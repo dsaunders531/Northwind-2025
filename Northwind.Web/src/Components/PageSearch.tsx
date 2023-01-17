@@ -16,8 +16,6 @@ export class PageSearch<T> extends React.Component<IPagedResponse<T>, SearchStat
         super(props);
 
         this.onSearchChange = this.onSearchChange.bind(this);
-
-        this.state = { timerRef: -1, term: '' }; 
     }
 
     state: SearchState = { timerRef: -1, term: '' };
@@ -86,7 +84,8 @@ export class PageSearch<T> extends React.Component<IPagedResponse<T>, SearchStat
                             aria-describedby="pageSearch"
                             list="pageSearchItems"
                             spellCheck={false}
-                            autoComplete='on'                            
+                            autoComplete='on'  
+                            data-testid="search-input"
                         ></input>
                     </div>                    
                 </div>

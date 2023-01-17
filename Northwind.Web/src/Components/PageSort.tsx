@@ -10,9 +10,7 @@ export class PageSort<T> extends React.Component<IPagedResponse<T>, EmptyObject>
     constructor(props: IPagedResponse<T>) {
         super(props);
 
-        this.onInputChange = this.onInputChange.bind(this);
-
-        this.state = {}; // There is no state - use props.        
+        this.onInputChange = this.onInputChange.bind(this);            
     }
 
     state: EmptyObject = {};
@@ -73,10 +71,11 @@ export class PageSort<T> extends React.Component<IPagedResponse<T>, EmptyObject>
                     <select className="form-select"
                         aria-label="Order the products list"
                         onChange={(e) => this.onInputChange(e.target.value as unknown as SortBy)}
-                        defaultValue={this.getDefaultSortOrder()}>
-                        <option value={SortBy.Name}>Name</option>
-                        <option value={SortBy.Price}>Price</option>
-                        <option value={SortBy.Popularity}>Popularity</option>
+                        defaultValue={this.getDefaultSortOrder()}
+                        data-testid="sort-select">
+                        <option value={SortBy.Name} data-testid="sort-by-name">Name</option>
+                        <option value={SortBy.Price} data-testid="sort-by-price">Price</option>
+                        <option value={SortBy.Popularity} data-testid="sort-by-popularity">Popularity</option>
                     </select>
                 </div>
                 <div className="col-6 col-md-12">

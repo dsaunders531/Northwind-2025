@@ -96,7 +96,7 @@ export class Products extends React.Component<ProductsProps, ProductsState>
     }
 
     componentWillUnmount() {
-        this.setState({ isLoading: true, currentPage: null });
+        //this.setState({ isLoading: true, currentPage: null });
     }
 
     getTable() {
@@ -251,8 +251,6 @@ export class ProductTableRow extends React.Component<ProductApi, EmptyObject>
 
     constructor(props: ProductApi) {
         super(props); 
-
-        this.state = { };
     }
 
     state: EmptyObject = {};

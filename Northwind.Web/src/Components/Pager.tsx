@@ -12,8 +12,6 @@ export class Pager<T> extends React.Component<IPagedResponse<T>, EmptyObject>
         super(props);
 
         this.onLinkClick = this.onLinkClick.bind(this);
-
-        this.state = {};
     }
 
     state: EmptyObject = {};

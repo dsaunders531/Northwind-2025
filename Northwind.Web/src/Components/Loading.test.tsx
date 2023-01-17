@@ -1,6 +1,8 @@
-﻿import React from "react";
-import { createRoot, Root } from 'react-dom/client';
-import { Loading } from "./Loading";
+﻿import { Loading } from "./Loading";
+
+import React from "react";
+import { act } from "@testing-library/react";
+import { createRoot, Root } from "react-dom/client";
 
 let container: HTMLDivElement = null;
 let root: Root = null;
@@ -14,14 +16,24 @@ beforeEach(() => {
 
 afterEach(() => {
     // cleanup on exiting
-    root.unmount();    
+    root.unmount();        
+    container.remove();
     container = null;    
     root = null;
 });
 
 it('loading renders loading text', async () => {    
-    root.render(<Loading />);    
+    act(() => {
+        root.render(<Loading />);    
+    });
 
-    expect(container.textContent).toBe('');          
+    expect(container.textContent).toBe('Loading...');              
+});
+
+it('renders a spinner', async () => {
+    act(() => {
+        root.render(<Loading />);
+    });
+    
     expect(container.querySelectorAll('.spinner-border')).not.toBeNull();
 });
