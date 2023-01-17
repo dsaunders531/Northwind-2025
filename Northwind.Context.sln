@@ -41,9 +41,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Api.Tests", "Nort
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Web", "Northwind.Web\Northwind.Web.csproj", "{4B74A623-7078-44F7-AA81-9D8A28A7B66F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Api.Client", "Northwind.Api.Client\Northwind.Api.Client.csproj", "{54D04DF5-7ABE-4A4B-AF17-D6A411D51782}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Api.Client", "Northwind.Api.Client\Northwind.Api.Client.csproj", "{54D04DF5-7ABE-4A4B-AF17-D6A411D51782}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Definitions", "Northwind.Definitions\Northwind.Definitions.csproj", "{D94FD883-772E-4F64-A2C4-4A18D0C6C6C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Definitions", "Northwind.Definitions\Northwind.Definitions.csproj", "{D94FD883-772E-4F64-A2C4-4A18D0C6C6C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Seo.Rcl", "Northwind.Seo\Northwind.Seo.Rcl.csproj", "{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +109,10 @@ Global
 		{D94FD883-772E-4F64-A2C4-4A18D0C6C6C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D94FD883-772E-4F64-A2C4-4A18D0C6C6C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D94FD883-772E-4F64-A2C4-4A18D0C6C6C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Northwind.Definitions": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:64296;http://localhost:64297"
+    }
+  }
+}
