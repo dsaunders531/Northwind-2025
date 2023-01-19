@@ -3,8 +3,8 @@
 
 import React from 'react';
 import { Products } from './Components/Products';
-import { TestMe } from './Components/Playground/TestComponent';
 import { AppRoute } from './Lib/AppRoute';
+import { Categories } from './Components/Categories';
 
 const AppRoutes: AppRoute[] = [
     {
@@ -17,10 +17,10 @@ const AppRoutes: AppRoute[] = [
         sortOrder: 0        
     },
     {
-        name: "test",
-        path: "/test",
+        name: "departments",
+        path: "/departments",
         index: false,
-        element: <TestMe />,
+        element: <Categories />,
         requireAuth: false,
         iconClass: '',
         sortOrder: 1

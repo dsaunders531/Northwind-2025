@@ -3802,7 +3802,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Components_Products__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Components/Products */ "./src/Components/Products.tsx");
-/* harmony import */ var _Components_Playground_TestComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Components/Playground/TestComponent */ "./src/Components/Playground/TestComponent.tsx");
+/* harmony import */ var _Components_Categories__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Components/Categories */ "./src/Components/Categories.tsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 // App Routes
 // List out your routes here.
@@ -3820,15 +3820,196 @@ const AppRoutes = [{
   iconClass: "fa-solid fa-house",
   sortOrder: 0
 }, {
-  name: "test",
-  path: "/test",
+  name: "departments",
+  path: "/departments",
   index: false,
-  element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Components_Playground_TestComponent__WEBPACK_IMPORTED_MODULE_2__.TestMe, {}),
+  element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Components_Categories__WEBPACK_IMPORTED_MODULE_2__.Categories, {}),
   requireAuth: false,
   iconClass: '',
   sortOrder: 1
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppRoutes);
+
+/***/ }),
+
+/***/ "./src/Components/Categories.tsx":
+/*!***************************************!*\
+  !*** ./src/Components/Categories.tsx ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Categories": () => (/* binding */ Categories)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/IPagedResponse */ "./src/Lib/IPagedResponse.ts");
+/* harmony import */ var _Services_CategoriesService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Services/CategoriesService */ "./src/Services/CategoriesService.ts");
+/* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Loading */ "./src/Components/Loading.tsx");
+/* harmony import */ var _Pager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Pager */ "./src/Components/Pager.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+// Show the categories
+
+// TODO this needs paging, filter and sort options (as components which can be reused for the product things)
+
+
+
+
+
+
+
+
+class Categories extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
+  static displayName = Categories.name;
+  constructor(props) {
+    super(props);
+
+    // get parameters from query string (or props)
+    const query = new URLSearchParams(window.location.search);
+    let page = query.get('page') ?? props.page ?? 1;
+    this.onCurrentPageChanged = this.onCurrentPageChanged.bind(this);
+    this.onSortOrderChanged = this.onSortOrderChanged.bind(this);
+    this.onSearchTermChanged = this.onSearchTermChanged.bind(this);
+    this.state = {
+      isLoading: true,
+      currentPage: {
+        currentPage: page,
+        searchTerm: '',
+        sortOrder: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending,
+        itemsPerPage: 10,
+        totalItems: 0,
+        page: [],
+        totalPages: 0,
+        onCurrentPageChanged: page => this.onCurrentPageChanged(page),
+        onSortChanged: sort => this.onSortOrderChanged(sort),
+        onSearchTermChanged: term => this.onSearchTermChanged(term)
+      }
+    };
+  }
+  state = {
+    isLoading: true,
+    currentPage: null
+  };
+  componentDidMount() {
+    this.getData(this.state.currentPage.currentPage); // async
+  }
+
+  componentWillUnmount() {
+    //this.setState((state) => ({ isLoading: true, currentPage: null }));
+  }
+  onSearchTermChanged(term) {
+    // not supported.
+    throw new Error('Operation Not Supported');
+  }
+  onCurrentPageChanged(page) {
+    if (page != this.state.currentPage.currentPage) {
+      console.info('Page is going to change to ' + page);
+      this.getData(page).then(value => {
+        console.info('Data updated');
+      }).catch(reason => {
+        console.error('Error getting data!' + reason);
+      });
+    }
+  }
+  onSortOrderChanged(sort) {
+    // not supported.
+    throw new Error('Operation Not Supported');
+  }
+  getLinkUrl(categoryId) {
+    return '/category/' + categoryId.toString();
+  }
+  render() {
+    if (this.state.isLoading) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Loading__WEBPACK_IMPORTED_MODULE_3__.Loading, {});
+    } else if (this.state.currentPage == null) {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        className: "row",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          className: "col-12",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h3", {
+            children: "Nothing Found"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("small", {
+              children: "You might want to check the console in case there are errors."
+            })
+          })]
+        })
+      });
+    } else {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        className: "row",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: "col-12",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("table", {
+            className: "table table-responsive table-striped",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("thead", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
+                  children: "Name"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
+                  children: "Description"
+                })]
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("tbody", {
+              children: this.state.currentPage.page.length == 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("tr", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
+                  children: "Nothing Found!"
+                })
+              }) : this.state.currentPage.page.map((value, index) => {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("tr", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+                      href: this.getLinkUrl(value.categoryId),
+                      target: "_self",
+                      children: value.categoryName
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("td", {
+                    children: value.description
+                  })]
+                }, index);
+              })
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          className: "col-12",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Pager__WEBPACK_IMPORTED_MODULE_4__.Pager, {
+            totalItems: this.state.currentPage.totalItems,
+            totalPages: this.state.currentPage.totalPages,
+            itemsPerPage: this.state.currentPage.itemsPerPage,
+            currentPage: this.state.currentPage.currentPage,
+            searchTerm: this.state.currentPage.searchTerm,
+            sortOrder: this.state.currentPage.sortOrder,
+            page: [],
+            onCurrentPageChanged: this.onCurrentPageChanged,
+            onSortChanged: this.onSortOrderChanged,
+            onSearchTermChanged: this.onSearchTermChanged
+          })
+        })]
+      });
+    }
+  }
+  async getData(page) {
+    try {
+      let sort = this.state.currentPage?.sortOrder ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
+      this.setState(state => ({
+        isLoading: true,
+        currentPage: null
+      }));
+      const result = await _Services_CategoriesService__WEBPACK_IMPORTED_MODULE_2__.CategoriesService.Categories(page, sort);
+      this.setState(state => ({
+        isLoading: false,
+        currentPage: result
+      }));
+    } catch (e) {
+      console.error('Could not get category data!' + e);
+      this.setState(state => ({
+        isLoading: false,
+        currentPage: null
+      }));
+    }
+  }
+}
 
 /***/ }),
 
@@ -4270,91 +4451,6 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
           })]
         })
       });
-    }
-  }
-}
-
-/***/ }),
-
-/***/ "./src/Components/Playground/TestComponent.tsx":
-/*!*****************************************************!*\
-  !*** ./src/Components/Playground/TestComponent.tsx ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "TestMe": () => (/* binding */ TestMe)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Loading */ "./src/Components/Loading.tsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-// A component to test getting values from an api.
-
-
-
-
-class TestMe extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
-  static displayName = TestMe.name;
-  state = {
-    isLoading: true,
-    values: []
-  };
-  componentDidMount() {
-    this.getData(); // async
-  }
-
-  componentWillUnmount() {
-    this.setState(state => ({
-      isLoading: true,
-      values: []
-    }));
-  }
-  render() {
-    if (this.state.isLoading) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_Loading__WEBPACK_IMPORTED_MODULE_1__.Loading, {});
-    } else {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("table", {
-          className: "table table-responsive table-striped",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-                children: "Id"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
-                children: "Name"
-              })]
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
-            children: this.state.values.map((value, index) => {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
-                  children: value.id
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("td", {
-                  children: value.name
-                })]
-              }, index);
-            })
-          })]
-        })
-      });
-    }
-  }
-  async getData() {
-    this.setState(state => ({
-      isLoading: true,
-      values: []
-    }));
-    const response = await window.fetch('/api/test');
-    if (response.ok) {
-      const result = await response.json();
-      this.setState(state => ({
-        isLoading: false,
-        values: result
-      }));
-    } else {
-      console.error(response.statusText);
     }
   }
 }
@@ -4833,6 +4929,53 @@ class NavMenu extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
         }, index);
       })
     });
+  }
+}
+
+/***/ }),
+
+/***/ "./src/Services/CategoriesService.ts":
+/*!*******************************************!*\
+  !*** ./src/Services/CategoriesService.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CategoriesService": () => (/* binding */ CategoriesService)
+/* harmony export */ });
+/* harmony import */ var _AppConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AppConfig */ "./src/AppConfig.ts");
+/* harmony import */ var _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/IPagedResponse */ "./src/Lib/IPagedResponse.ts");
+/* harmony import */ var _Lib_HttpClient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Lib/HttpClient */ "./src/Lib/HttpClient.ts");
+// Categories Service
+
+
+
+class CategoriesService {
+  static displayName = CategoriesService.name;
+  static async Categories(page, sort) {
+    page = page ?? 1;
+    sort = sort ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
+    const url = _AppConfig__WEBPACK_IMPORTED_MODULE_0__["default"].apiUrl + "Categories?page=" + page + "&sort=" + sort;
+    try {
+      return await _Lib_HttpClient__WEBPACK_IMPORTED_MODULE_2__.HttpClient.Get(url);
+    } catch (e) {
+      throw new Error('Cannot get Categories from Api!', {
+        cause: e
+      });
+    }
+  }
+  static async ProductsInCategories(categoryId, page, sort) {
+    page = page ?? 1;
+    sort = sort ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
+    const url = _AppConfig__WEBPACK_IMPORTED_MODULE_0__["default"].apiUrl + "Categories/" + categoryId + "/products?page=" + page + "&sort=" + sort;
+    try {
+      return await _Lib_HttpClient__WEBPACK_IMPORTED_MODULE_2__.HttpClient.Get(url);
+    } catch (e) {
+      throw new Error('Cannot get ProductsInCategories from Api!', {
+        cause: e
+      });
+    }
   }
 }
 

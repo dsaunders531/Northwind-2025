@@ -19,7 +19,7 @@ type ProductsState = {
 type ProductsProps = {
     page?: number,
     sort?: SortBy,
-    searchTerm?: string,
+    searchTerm?: string
 };
 
 export class Products extends React.Component<ProductsProps, ProductsState>
