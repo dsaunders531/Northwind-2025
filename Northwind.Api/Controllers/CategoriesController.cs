@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models.Api;
+using Northwind.Definitions.Interfaces;
 using Patterns;
 
 namespace Northwind.Api.Controllers
@@ -10,7 +11,7 @@ namespace Northwind.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class CategoriesController : ControllerBase
+    public class CategoriesController : ControllerBase, ICategoriesController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CategoriesController"/> class.
@@ -45,6 +46,24 @@ namespace Northwind.Api.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, $"Error in GET Categories. {ex.Message}");
+
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpGet]
+        [Route("{categoryId}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryApi))]
+        public async Task<ActionResult<CategoryApi>> Category([FromRoute] int categoryId)
+        {
+            try
+            {
+                return new JsonResult(await Service.GetCategory(categoryId));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, $"Error in GET Category. {ex.Message}");
 
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }

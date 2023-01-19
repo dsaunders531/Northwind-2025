@@ -1,0 +1,17 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Privacy Policy";
+    ViewData["Keywords"] = "Northwind,Privacy";
+    ViewData["Description"] = "Privacy Policy for Northwind";
+    ViewData["RobotsFollow"] = true;
+    ViewData["RobotsIndex"] = true;
+}
+
+@section Metas {
+    <partial name="_SeoMetas" />
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>Use this page to detail your site's privacy policy.</p>

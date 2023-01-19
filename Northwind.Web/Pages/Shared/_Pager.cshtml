@@ -1,0 +1,104 @@
+﻿@using Patterns
+@using Microsoft.Extensions.Primitives
+
+@model IPagedResponse
+
+@functions
+{
+    string getPageUrl(int pageNo)
+    {
+        string url = this.Context.Request.Path;
+     
+        return $"{url}?p={pageNo}&s={Convert.ToInt32(this.Model.SortOrder)}&t={this.Model.SearchTerm}";
+    }
+
+    int getPageNoAtPosition(int position)
+    {
+        // return the page number at a position in the list.
+        const int pageItems = 3;
+
+        if (this.Model.CurrentPage < pageItems)
+        {
+            return position;
+        }
+        else if ((this.Model.CurrentPage + (pageItems - 1)) > this.Model.TotalPages)
+        {
+            switch (position)
+            {
+                case 1:
+                    return this.Model.TotalPages - 2;
+                case 2:
+                    return this.Model.TotalPages - 1;
+                default:
+                    return this.Model.TotalPages;
+            }
+        }
+        else
+        {
+            switch (position)
+            {
+                case 1:
+                    return this.Model.CurrentPage - 1;
+                case 2:
+                    return this.Model.CurrentPage;
+                default:
+                    return this.Model.CurrentPage + 1;
+            }
+        }        
+    }
+}
+
+@if (Model.TotalPages <= 1)
+{
+    <br />
+}
+else
+{
+    <nav aria-label="Page Navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" title="Move to start">
+                <a class="@(this.Model.CurrentPage == 1 ? "page-link disabled" : "page-link")"
+               href="@this.getPageUrl(1)">
+                    <i class="fa-solid fa-angles-left"></i>
+                </a>
+            </li>
+            <li class="page-item" title="Move back">
+                <a class="@(this.Model.CurrentPage == 1 ? "page-link disabled" : "page-link")"
+               href="@this.getPageUrl(this.Model.CurrentPage - 1)">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="@(this.Model.CurrentPage == this.getPageNoAtPosition(1) ? "page-link active" : "page-link")"
+               href="@this.getPageUrl(this.getPageNoAtPosition(1))">
+                    @this.getPageNoAtPosition(1)
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="@(this.Model.CurrentPage == this.getPageNoAtPosition(2) ? "page-link active" : "page-link") @(this.Model.TotalPages < 2 ? "disabled" : string.Empty)"
+               href="@this.getPageUrl(this.getPageNoAtPosition(2))">
+                    @this.getPageNoAtPosition(2)
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="@(this.Model.CurrentPage == this.getPageNoAtPosition(3) ? "page-link active" : "page-link") @(this.Model.TotalPages < 3 ? "disabled" : string.Empty)"
+               href="@this.getPageUrl(this.getPageNoAtPosition(3))">
+                    @this.getPageNoAtPosition(3)
+                </a>
+            </li>
+            <li class="page-item" title="Move next">
+                <a class="@(this.Model.CurrentPage == this.Model.TotalPages ? "page-link disabled" : "page-link")"
+               href="@this.getPageUrl(this.Model.CurrentPage + 1)">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            </li>
+            <li class="page-item" title="Move to end">
+                <a class="@(this.Model.CurrentPage == this.Model.TotalPages ? "page-link disabled" : "page-link")"
+               href="@this.getPageUrl(this.Model.TotalPages)">
+                    <i class="fa-solid fa-angles-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+}
+

@@ -1,0 +1,29 @@
+﻿@page
+@model AppModel
+@*Changes here need to be copied to Index.cshtml*@
+
+@{
+    ViewData["Title"] = "Northwind App";
+    ViewData["Keywords"] = "Northwind,App";
+    ViewData["Description"] = "Northwind Web App";
+    ViewData["RobotsFollow"] = false;
+    ViewData["RobotsIndex"] = false;
+}
+
+@section Metas
+{
+    <partial name="_AppMetas"></partial>
+    <partial name="_SeoMetas" />
+}
+
+<partial name="_AppContent"></partial>
+
+@section FooterColumn
+{
+   <partial name="_InstallApp"></partial>   
+}
+
+@section Scripts
+{   
+    <partial name="_AppScripts"></partial>
+}

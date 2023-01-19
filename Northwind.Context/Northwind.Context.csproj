@@ -46,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Northwind.Definitions\Northwind.Definitions.csproj" />
     <ProjectReference Include="..\Patterns\Patterns.csproj" />
   </ItemGroup>
 

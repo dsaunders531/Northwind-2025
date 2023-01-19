@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models.Api;
+using Northwind.Definitions.Interfaces;
 using Patterns;
 
 namespace Northwind.Api.Controllers
@@ -14,7 +15,7 @@ namespace Northwind.Api.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : ControllerBase, IProductsController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductsController"/> class.

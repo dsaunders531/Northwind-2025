@@ -1,0 +1,84 @@
+﻿@page "{categoryId:int}/{p:int?}/{s:int?}"
+
+@using Context.Models.Api
+@using Northwind.Context.Interfaces
+
+@model Northwind.Web.Pages.CategoryModel
+
+@inject INorthwindProductsService NorthwindProductsService
+
+@{
+    ViewData["Title"] = (await this.GetCategory()).CategoryName;
+    ViewData["Keywords"] = $"Northwind, Category, {(await this.GetCategory()).CategoryName}";
+    ViewData["Description"] = $"The {(await this.GetCategory()).CategoryName} category for Northwind";
+    ViewData["RobotsFollow"] = true;
+    ViewData["RobotsIndex"] = true;
+}
+
+@functions {
+    private CategoryApi? Category { get; set; }
+
+    private async Task<CategoryApi> GetCategory()
+    {
+        if (this.Category == default)
+        {
+            this.Category = await NorthwindProductsService.GetCategory(Convert.ToInt32(this.Model.Products?.SearchTerm));
+        }
+
+        return this.Category;
+    }
+}
+
+@section Metas
+{
+    <partial name="_SeoMetas" />
+}
+
+<div class="row">
+    <div class="col-12">
+        <a asp-page="Categories" >Back to Categories</a>
+    </div>    
+</div>
+<hr />
+<div class="row">
+    <div class="col-12">
+        <h2>@((await this.GetCategory()).CategoryName)</h2>
+    </div>
+    <div class="col-12">
+        <table class="table table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if ((this.Model.Products?.TotalItems ?? 0) > 0)
+                {
+                    @foreach (ProductApi item in this.Model.Products.Page)
+                    {
+                        <tr>
+                            <td>
+                                <a target="_self" asp-page="Product" asp-route-productId="@item.ProductId">
+                                    @item.ProductName
+                                </a>
+                            </td>
+                            <td>@item.QuantityPerUnit</td>
+                            <td>@item.UnitPrice?.ToString("C2")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td>Nothing found!</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-12">
+        <partial name="_Pager" model="this.Model.Products" />
+    </div>
+</div>

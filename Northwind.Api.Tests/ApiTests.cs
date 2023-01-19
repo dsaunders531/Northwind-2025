@@ -17,7 +17,7 @@ namespace Northwind.Api.Tests
     /// <remarks>There is only 1 service right now.
     /// And one set of tests already implemented. So we re-use those here by calling the api to get the data.
     /// </remarks>
-    public class ApiTests : INorthwindProductsService
+    public class ApiTests : Context.Interfaces.INorthwindProductsService
     {
         private HttpClient? _client;
         private NorthwindApiWebApplication? _app;
@@ -240,6 +240,23 @@ namespace Northwind.Api.Tests
             _ = response.EnsureSuccessStatusCode();
 
             return await response.Content.ReadFromJsonAsync<PagedResponse<ProductApi>>();
+        }
+
+        [Test]
+        public async Task GetCategoryTest()
+        {
+            CategoryApi result = await GetCategory(2);
+
+            Assert.That(result, Is.Not.Null);
+        }
+
+        public async Task<CategoryApi> GetCategory(int categoryId)
+        {
+            HttpResponseMessage response = await _client.GetAsync($"/Categories/{categoryId}");
+
+            _ = response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<CategoryApi>();
         }
     }
 }

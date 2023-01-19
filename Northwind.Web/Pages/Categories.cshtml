@@ -1,0 +1,51 @@
+﻿@page "{p:int?}/{s:int?}"
+
+@using Context.Models.Api
+
+@model Northwind.Web.Pages.CategoriesModel
+
+@{
+    ViewData["Title"] = "Our Categories";
+    ViewData["Keywords"] = "Northwind, Products, Categories";
+    ViewData["Description"] = "The product categories for Northwind";
+    ViewData["RobotsFollow"] = true;
+    ViewData["RobotsIndex"] = true;
+}
+
+@section Metas
+{
+    <partial name="_SeoMetas" />
+}
+
+<h2>Categories</h2>
+
+<div class="row">
+    <div class="col-12">
+        <table class="table table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if ((this.Model.Categories?.TotalItems ?? 0) > 0)
+                {
+                    @foreach (CategoryApi item in this.Model.Categories.Page)
+                    {
+                        <tr>
+                            <td><a target="_self" asp-page="Category" asp-route-categoryId="@item.CategoryId">@item.CategoryName</a></td>
+                            <td>@item.Description</td>                            
+                        </tr>
+                    }
+                }
+                else
+                {
+                     <tr>
+                         <td>Nothing found!</td>
+                     </tr>   
+                }                
+            </tbody>
+        </table>
+    </div>
+</div>

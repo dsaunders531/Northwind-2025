@@ -11,7 +11,7 @@ using Patterns;
 
 namespace Northwind.Services.Tests
 {
-    public class NorthwindProductServiceTests : INorthwindProductsService
+    public class NorthwindProductServiceTests : Context.Interfaces.INorthwindProductsService
     {
         private NorthwindContext? _context;
         
@@ -130,6 +130,19 @@ namespace Northwind.Services.Tests
             return _service.SearchProducts(term);
         }
 
+        [Test]
+        public async Task GetCategoryTest()
+        {
+            CategoryApi result = await GetCategory(2);
+
+            Assert.That(result, Is.Not.Null);
+        }
+
+        public Task<CategoryApi> GetCategory(int categoryId)
+        {
+            return _service.GetCategory(categoryId);
+        }
+
         // It is handy to reuse tests so I use virtal here.
         [SetUp]
         public virtual void Setup()
@@ -143,7 +156,6 @@ namespace Northwind.Services.Tests
             {
                 _service = new NorthwindProductsService(_context);
             }            
-        }
-        
+        }        
     }
 }
