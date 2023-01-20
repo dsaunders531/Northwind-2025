@@ -5,6 +5,7 @@ using Northwind.Context.Contexts;
 using Northwind.Context.InMemory.Contexts;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Services;
+using Northwind.Security.ActionFilters;
 
 namespace Northwind.Api
 {
@@ -31,19 +32,35 @@ namespace Northwind.Api
                 // Add services to the container.
                 Program.ConfigureBusinessServices(builder);
 
-                builder.Services.AddControllers();
+                builder.Services.AddControllers(options =>
+                {
+                    options.Filters.Add<HttpsOnlyActionFilter>();
+                    //options.Filters.Add<ContentSecurityActionFilter>(); Does not apply here (only works on html pages (razor pages and views)
+                });
 
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen();
 
+                if (!builder.Environment.IsDevelopment())
+                {
+                    builder.Services.AddHsts(options => {
+                        options.Preload = true;
+                        options.IncludeSubDomains = true;
+                        options.MaxAge = TimeSpan.FromDays(360);
+                    });
+                }
+               
                 WebApplication app = builder.Build();
 
+                app.UseSwagger();
+                app.UseSwaggerUI();
+
                 // Configure the HTTP request pipeline.
-                if (app.Environment.IsDevelopment())
+                if (!app.Environment.IsDevelopment())
                 {
-                    app.UseSwagger();
-                    app.UseSwaggerUI();
+                    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                    app.UseHsts();
                 }
 
                 app.UseHttpsRedirection();

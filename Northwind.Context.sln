@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Definitions", "No
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Seo.Rcl", "Northwind.Seo\Northwind.Seo.Rcl.csproj", "{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Security", "Northwind.Security\Northwind.Security.csproj", "{5DECE523-52BA-43FD-BBF1-446F0F4C7393}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DECE523-52BA-43FD-BBF1-446F0F4C7393}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DECE523-52BA-43FD-BBF1-446F0F4C7393}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DECE523-52BA-43FD-BBF1-446F0F4C7393}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DECE523-52BA-43FD-BBF1-446F0F4C7393}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -6,6 +7,7 @@ using NLog.Extensions.Logging;
 using NLog.Web;
 using Northwind.Api.Client;
 using Northwind.Context.Interfaces;
+using Northwind.Security.ActionFilters;
 
 namespace Northwind.Web
 {
@@ -39,9 +41,24 @@ namespace Northwind.Web
 
                 builder.Services.AddSingleton<INorthwindProductsService, NorthwindApiProxy>();
 
-                builder.Services.AddControllersWithViews();
-                IMvcBuilder razorPagesBuilder = builder.Services.AddRazorPages();
+                builder.Services.AddAntiforgery();
 
+                builder.Services.AddControllersWithViews(options => {                    
+                    options.Filters.Add<HttpsOnlyActionFilter>(); // reject anything on http
+                    options.Filters.Add<ContentSecurityActionFilter>(); // add csp
+                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>(); // expect a validation token on all endpoints apart from HEAD, GET, OPTIONS, TRACE
+                });
+               
+                if (!builder.Environment.IsDevelopment())
+                {
+                    builder.Services.AddHsts(options => {
+                        options.Preload = true;
+                        options.IncludeSubDomains = true;
+                        options.MaxAge = TimeSpan.FromDays(360);                        
+                    });
+                }
+
+                IMvcBuilder razorPagesBuilder = builder.Services.AddRazorPages();
 
                 if (builder.Environment.IsDevelopment())
                 {

@@ -39,6 +39,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Northwind.Context.InMemory\Northwind.Context.InMemory.csproj" />
     <ProjectReference Include="..\Northwind.Context\Northwind.Context.csproj" />
+    <ProjectReference Include="..\Northwind.Security\Northwind.Security.csproj" />
   </ItemGroup>
 
   <ItemGroup>
