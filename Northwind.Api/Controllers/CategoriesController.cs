@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models.Api;
 using Northwind.Definitions.Interfaces;
@@ -9,6 +10,7 @@ namespace Northwind.Api.Controllers
     /// <summary>
     /// Controller for all supported product category operations.
     /// </summary>
+    [EnableCors("ForOurWebSite")]
     [ApiController]
     [Route("[controller]")]
     public class CategoriesController : ControllerBase, ICategoriesController

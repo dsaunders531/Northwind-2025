@@ -2,6 +2,7 @@
 // Copyright (c) Duncan Saunders. All rights reserved.
 // </copyright>
 
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models.Api;
@@ -13,6 +14,7 @@ namespace Northwind.Api.Controllers
     /// <summary>
     /// Controller for all supported product operations.
     /// </summary>
+    [EnableCors("ForOurWebSite")]
     [ApiController]
     [Route("[controller]")]
     public class ProductsController : ControllerBase, IProductsController

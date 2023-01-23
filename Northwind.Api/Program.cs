@@ -6,6 +6,7 @@ using Northwind.Context.InMemory.Contexts;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Services;
 using Northwind.Security.ActionFilters;
+using Patterns.Extensions;
 
 namespace Northwind.Api
 {
@@ -19,6 +20,12 @@ namespace Northwind.Api
 
             try
             {
+                // Get the configuration.
+                IConfiguration configuration = new ConfigurationBuilder()
+                                                .AddEnvironmentVariables()
+                                                .AddJsonFile("appsettings.json", false, false)
+                                                .Build();
+
                 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
                 // Add logging (NLog for this app)
@@ -29,15 +36,30 @@ namespace Northwind.Api
                 builder.Logging.AddNLog();
                 builder.Host.UseNLog();
 
+                // use cors
+                string[] corsAllowOurSites = configuration.GetSection("CORS")["AllowedOrigins"].ToString().Split(",");
+
+                builder.Services.AddCors(options => {
+                    options.AddPolicy(name: "ForOurWebSite",
+                        policy => {
+                            policy.WithOrigins(corsAllowOurSites)
+                                    .AllowAnyMethod()
+                                    .WithMethods("GET","POST","PUT","DELETE","OPTIONS","HEAD")
+                                    //.AllowAnyHeader()
+                                    .WithHeaders("Content-Type")
+                                    //.AllowCredentials()
+                                    .SetPreflightMaxAge(TimeSpan.FromSeconds(240));
+                        });
+                });
+
                 // Add services to the container.
                 Program.ConfigureBusinessServices(builder);
 
                 builder.Services.AddControllers(options =>
                 {
-                    options.Filters.Add<HttpsOnlyActionFilter>();
-                    //options.Filters.Add<ContentSecurityActionFilter>(); Does not apply here (only works on html pages (razor pages and views)
+                    options.Filters.Add<HttpsOnlyActionFilter>();                    
                 });
-
+                
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen();
@@ -62,8 +84,10 @@ namespace Northwind.Api
                     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                     app.UseHsts();
                 }
-
+                
                 app.UseHttpsRedirection();
+
+                app.UseCors("ForOurWebSite"); // this must go above auth and map controllers
 
                 app.UseAuthorization();
 
@@ -81,12 +105,7 @@ namespace Northwind.Api
             {
                 // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
                 NLog.LogManager.Shutdown();
-            }
-            
-            // TODO
-            // ADD https only middleware.
-            // Add authentication middleware.            
-            // see https://docs.duendesoftware.com/identityserver/v6/quickstarts/1_client_credentials/
+            }           
         }
 
         private static void ConfigureBusinessServices(WebApplicationBuilder builder)
