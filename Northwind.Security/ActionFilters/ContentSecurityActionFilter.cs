@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System;
-using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Northwind.Security.ActionFilters
 {
@@ -18,41 +15,56 @@ namespace Northwind.Security.ActionFilters
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class ContentSecurityActionFilter : ActionFilterAttribute
     {
-        public override void OnResultExecuting([NotNull]ResultExecutingContext context)
+        public ContentSecurityActionFilter(IConfiguration configuration) : base()
         {
+            Configuration = configuration;
+        }
+
+        private IConfiguration Configuration { get; set; }
+
+        public override void OnResultExecuting([NotNull]ResultExecutingContext context)
+        {            
             if (context.Result is ViewResult || context.Result is PageResult)
             {
-                // TODO would be nice to have this in config (only if it will not cause any slowdown)
                 // https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
-                string csp = "default-src 'self'; " +
-                    "object-src 'none'; " +
-                    "font-src 'self'; " +
-                    "img-src 'self' http://www.w3.org data:; " +
-                    "connect-src 'self'; " +
-                    "frame-src 'none'; " +
-                    "manifest-src 'self'; " +
-                    "media-src 'self'; " +
-                    "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
-                    "prefetch-src 'self'; " +
-                    "style-src 'self' 'unsafe-inline'; " +
-                    "frame-ancestors 'none'; " +
-                    "sandbox allow-forms allow-same-origin allow-scripts; " +
-                    "base-uri 'self'; " +
-                    "block-all-mixed-content; " +
-                    "upgrade-insecure-requests; " +
-                    "child-src 'none'";
+                string csp = Configuration["CSP"].ToString();
 
-                // once for standards compliant browsers
-                if (!context.HttpContext.Response.Headers.ContainsKey("Content-Security-Policy"))
-                {
-                    context.HttpContext.Response.Headers.Add("Content-Security-Policy", csp);
-                }
+                //string csp = "default-src 'self'; " +
+                //    "object-src 'none'; " +
+                //    "font-src 'self'; " +
+                //    "img-src 'self' http://www.w3.org data:; " +
+                //    "connect-src 'self' https://localhost:7018 wss://localhost:44372 ws://localhost:56967; " +
+                //    "frame-src 'none'; " +
+                //    "manifest-src 'self'; " +
+                //    "media-src 'self'; " +
+                //    "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
+                //    "prefetch-src 'self'; " +
+                //    "style-src 'self' 'unsafe-inline'; " +
+                //    "frame-ancestors 'none'; " +
+                //    "sandbox allow-forms allow-same-origin allow-scripts; " +
+                //    "base-uri 'self'; " +
+                //    "block-all-mixed-content; " +
+                //    "upgrade-insecure-requests; " +
+                //    "child-src 'none'; form-action 'self';";
 
-                // and once again for IE
-                if (!context.HttpContext.Response.Headers.ContainsKey("X-Content-Security-Policy"))
+                if (string.IsNullOrWhiteSpace(csp))
                 {
-                    context.HttpContext.Response.Headers.Add("X-Content-Security-Policy", csp);
+                    throw new ArgumentException("Content security policy could not be read from configuration!");
                 }
+                else
+                {
+                    // once for standards compliant browsers
+                    if (!context.HttpContext.Response.Headers.ContainsKey("Content-Security-Policy"))
+                    {
+                        context.HttpContext.Response.Headers.Add("Content-Security-Policy", csp);
+                    }
+
+                    // and once again for IE
+                    if (!context.HttpContext.Response.Headers.ContainsKey("X-Content-Security-Policy"))
+                    {
+                        context.HttpContext.Response.Headers.Add("X-Content-Security-Policy", csp);
+                    }
+                }                
 
                 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
                 if (!context.HttpContext.Response.Headers.ContainsKey("X-Content-Type-Options"))
