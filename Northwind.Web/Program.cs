@@ -1,8 +1,4 @@
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Extensions.Logging;
 using NLog.Web;
@@ -42,7 +38,7 @@ namespace Northwind.Web
                 builder.Services.AddSingleton<INorthwindProductsService, NorthwindApiProxy>();
 
                 builder.Services.AddAntiforgery();
-                
+
                 builder.Services.AddControllersWithViews(options => {                    
                     options.Filters.Add<HttpsOnlyActionFilter>(); // reject anything on http
                     options.Filters.Add<ContentSecurityActionFilter>(); // add csp
