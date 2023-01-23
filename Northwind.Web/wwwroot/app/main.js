@@ -3783,7 +3783,7 @@ __webpack_require__.r(__webpack_exports__);
 // Application configuration
 
 const AppConfig = {
-  apiUrl: "/api/"
+  apiUrl: "https://localhost:7018/"
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppConfig);
 
@@ -4796,7 +4796,7 @@ class HttpClient {
   static async Get(url) {
     try {
       const response = await window.fetch(url, {
-        mode: 'no-cors',
+        mode: 'cors',
         headers: {
           'Content-Type': 'application/json'
         },

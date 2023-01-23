@@ -33,6 +33,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Api\**" />
+    <Content Remove="Areas\Api\**" />
+    <EmbeddedResource Remove="Areas\Api\**" />
+    <None Remove="Areas\Api\**" />
+    <TypeScriptCompile Remove="Areas\Api\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
@@ -41,6 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\" />
     <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\app\" />
   </ItemGroup>

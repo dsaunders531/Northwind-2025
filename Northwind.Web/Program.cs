@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,17 +37,16 @@ namespace Northwind.Web
                                                 .AddEnvironmentVariables()
                                                 .AddJsonFile("appsettings.json", false, false)
                                                 .Build();
-
+                
                 builder.Services.AddHttpClient();
-
                 builder.Services.AddSingleton<INorthwindProductsService, NorthwindApiProxy>();
 
                 builder.Services.AddAntiforgery();
-
+                
                 builder.Services.AddControllersWithViews(options => {                    
                     options.Filters.Add<HttpsOnlyActionFilter>(); // reject anything on http
                     options.Filters.Add<ContentSecurityActionFilter>(); // add csp
-                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>(); // expect a validation token on all endpoints apart from HEAD, GET, OPTIONS, TRACE
+                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>(); // expect a validation token on all endpoints apart from HEAD, GET, OPTIONS, TRACE                   
                 });
                
                 if (!builder.Environment.IsDevelopment())
@@ -57,7 +57,7 @@ namespace Northwind.Web
                         options.MaxAge = TimeSpan.FromDays(360);                        
                     });
                 }
-
+               
                 IMvcBuilder razorPagesBuilder = builder.Services.AddRazorPages();
 
                 if (builder.Environment.IsDevelopment())
@@ -81,7 +81,7 @@ namespace Northwind.Web
                 app.UseRouting();
 
                 app.UseAuthorization();
-
+                
                 app.MapDefaultControllerRoute();
                 app.UseEndpoints(endpoints =>
                 {
