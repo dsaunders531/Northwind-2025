@@ -51,7 +51,5 @@
     "watch": "webpack --watch",
     "tscheck": "tsc",
     "test": "jest"
-  },
-  
-  "-vs-binding":{"BeforeBuild":["tscheck","test"]}
+  }  
 }
