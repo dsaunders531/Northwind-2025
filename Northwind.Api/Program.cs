@@ -44,7 +44,7 @@ namespace Northwind.Api
                         policy => {
                             policy.WithOrigins(corsAllowOurSites)
                                     .AllowAnyMethod()
-                                    .WithMethods("GET","POST","PUT","DELETE","OPTIONS","HEAD")
+                                    .WithMethods("GET","POST","PUT","DELETE","OPTIONS","HEAD","PATCH")
                                     //.AllowAnyHeader()
                                     .WithHeaders("Content-Type")
                                     //.AllowCredentials()
