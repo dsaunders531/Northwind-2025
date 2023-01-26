@@ -4,17 +4,22 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Northwind.Identity.Web.Models;
+using Northwind.Security.ActionFilters;
 
 namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
 {
+    [AllowXRequestsEveryNSecondsPage("ResetPassword", 6, 60)]
+    [AllowAnonymous]
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -69,9 +74,8 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             public string Code { get; set; }
-
         }
-
+        
         public IActionResult OnGet(string code = null)
         {
             if (code == null)
@@ -87,32 +91,50 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
                 return Page();
             }
         }
-
+        
         public async Task<IActionResult> OnPostAsync()
         {
+            // TODO add timer so this always takes n seconds for all outcomes (OWASP recommendation)
+            // also add the n requests every x seconds attribute
+            IActionResult outcome = Page();
+
+            TimeSpan minDuration = TimeSpan.FromSeconds(6);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             if (!ModelState.IsValid)
             {
-                return Page();
+                outcome = Page();
+            }
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+                if (user == null)
+                {
+                    // Don't reveal that the user does not exist
+                    outcome = RedirectToPage("./ResetPasswordConfirmation");
+                }
+
+                var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
+                if (result.Succeeded)
+                {
+                    outcome = RedirectToPage("./ResetPasswordConfirmation");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
 
-            var user = await _userManager.FindByEmailAsync(Input.Email);
-            if (user == null)
+            // pause if we need to - this is to not give away the user exists or not
+            stopwatch.Stop();
+            if (stopwatch.Elapsed < minDuration)
             {
-                // Don't reveal that the user does not exist
-                return RedirectToPage("./ResetPasswordConfirmation");
+                Thread.Sleep(minDuration - stopwatch.Elapsed);
             }
 
-            var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
-            if (result.Succeeded)
-            {
-                return RedirectToPage("./ResetPasswordConfirmation");
-            }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-            return Page();
+            return outcome;
         }
     }
 }

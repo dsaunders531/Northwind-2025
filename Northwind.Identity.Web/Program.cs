@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Identity.Web.Data;
 using Northwind.Identity.Web.Models;
 using Northwind.Identity.Web.Services;
+using Northwind.Security.ActionFilters;
 using System.Configuration;
 
 namespace Northwind.Identity.Web
@@ -19,7 +21,37 @@ namespace Northwind.Identity.Web
             {
                 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             }
-            
+
+            builder.Services.AddAntiforgery();
+
+            builder.Services.AddControllersWithViews(options => {
+                options.Filters.Add<HttpsOnlyActionFilter>(); // reject anything on http
+                options.Filters.Add<ContentSecurityActionFilter>(); // add csp
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>(); // expect a validation token on all endpoints apart from HEAD, GET, OPTIONS, TRACE                   
+            });
+
+            // Add caching
+            if (builder.Environment.IsDevelopment())
+            {
+                builder.Services.AddDistributedMemoryCache();
+            }
+            else
+            {
+                // it looks like the table has to be created manually:
+                // dotnet sql-cache create "{conn str}" cache DistributedCache
+                // there is an overview of the schema here:
+                // https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed?view=aspnetcore-6.0
+                string memCacheConnString = builder.Configuration.GetConnectionString("MemCache") ?? throw new InvalidOperationException("Connection string 'MemCache' not found.");
+
+                builder.Services.AddDistributedSqlServerCache(opts =>
+                {
+                    opts.ConnectionString = memCacheConnString;
+                    opts.SchemaName = "cache";
+                    opts.TableName = "DistributedCache";
+                });
+            }
+
+
             /* Identity */
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
@@ -42,7 +74,7 @@ namespace Northwind.Identity.Web
                     options.Password.RequiredUniqueChars = 2;
                     options.SignIn.RequireConfirmedPhoneNumber = false;
                     options.SignIn.RequireConfirmedEmail = false;
-                    options.User.RequireUniqueEmail = true;                    
+                    options.User.RequireUniqueEmail = true;                           
                 })                  
                 .AddDefaultUI()
                 .AddDefaultTokenProviders()                

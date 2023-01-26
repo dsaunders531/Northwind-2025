@@ -4,6 +4,7 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -14,9 +15,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Northwind.Identity.Web.Models;
+using Northwind.Security.ActionFilters;
 
 namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
 {
+    [AllowXRequestsEveryNSecondsPage("ForgotPassword", 6, 60)]
+    [AllowAnonymous]
     public class ForgotPasswordModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -49,16 +53,23 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
             [EmailAddress]
             public string Email { get; set; }
         }
-
+        
         public async Task<IActionResult> OnPostAsync()
         {
+            IActionResult result = Page();
+
+            // TODO add timer so this always takes n seconds for all outcomes (OWASP recommendation
+            TimeSpan minDuration = TimeSpan.FromSeconds(6);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(Input.Email);
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToPage("./ForgotPasswordConfirmation");
+                    result = RedirectToPage("./ForgotPasswordConfirmation");
                 }
 
                 // For more information on how to enable account confirmation and password reset please
@@ -76,10 +87,17 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
                     "Reset Password",
                     $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                return RedirectToPage("./ForgotPasswordConfirmation");
+                result = RedirectToPage("./ForgotPasswordConfirmation");
             }
 
-            return Page();
+            // pause if we need to - this is to not give away the user exists or not
+            stopwatch.Stop();
+            if (stopwatch.Elapsed < minDuration)
+            {
+                Thread.Sleep(minDuration - stopwatch.Elapsed);
+            }
+
+            return result;
         }
     }
 }

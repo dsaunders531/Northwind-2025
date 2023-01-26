@@ -5,11 +5,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,9 +21,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Northwind.Identity.Web.Models;
+using Northwind.Security.ActionFilters;
 
 namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
 {
+    [AllowXRequestsEveryNSecondsPage("Register", 6, 60)]
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -99,18 +104,27 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
-
-
+        
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
-
+        
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            // TODO add timer so this always takes n seconds for all outcomes (OWASP recommendation)
+            // also add the n requests every x seconds attribute
+            IActionResult outcome = Page();
+
+            TimeSpan minDuration = TimeSpan.FromSeconds(6);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             returnUrl ??= Url.Content("~/");
+            
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -137,12 +151,12 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        outcome = RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        outcome = LocalRedirect(returnUrl);
                     }
                 }
                 foreach (var error in result.Errors)
@@ -151,8 +165,14 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
-            return Page();
+            // pause if we need to - this is to not give away the user exists or not
+            stopwatch.Stop();
+            if (stopwatch.Elapsed < minDuration)
+            {
+                Thread.Sleep(minDuration - stopwatch.Elapsed);
+            }
+
+            return outcome;
         }
 
         private ApplicationUser CreateUser()

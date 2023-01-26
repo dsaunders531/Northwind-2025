@@ -57,7 +57,7 @@ namespace Northwind.Web
                 IMvcBuilder razorPagesBuilder = builder.Services.AddRazorPages();
 
                 if (builder.Environment.IsDevelopment())
-                {
+                {                    
                     razorPagesBuilder.AddRazorRuntimeCompilation();
                 }
 
