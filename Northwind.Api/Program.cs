@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NLog;
 using NLog.Extensions.Logging;
 using NLog.Web;
@@ -57,7 +61,8 @@ namespace Northwind.Api
 
                 builder.Services.AddControllers(options =>
                 {
-                    options.Filters.Add<HttpsOnlyActionFilter>();                    
+                    options.Filters.Add<HttpsOnlyActionFilter>();
+                    options.Filters.Add(new AuthorizeFilter()); // Authorise everything by default
                 });
                 
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -71,8 +76,21 @@ namespace Northwind.Api
                         options.IncludeSubDomains = true;
                         options.MaxAge = TimeSpan.FromDays(360);
                     });
-                }
-               
+                };
+                
+                /* Add Identity Server Authorisation (see Northwind.Identity.Web) */
+                builder.Services.AddAuthentication("Bearer")
+                    .AddJwtBearer("Bearer", opts =>
+                    {
+                        opts.Authority = "https://localhost:7153"; // Northwind.Identity.Web
+                        opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                        {
+                            ValidateAudience = false
+                        };
+                    });
+
+                /* End Identity Server Auth*/
+
                 WebApplication app = builder.Build();
 
                 app.UseSwagger();
@@ -89,6 +107,7 @@ namespace Northwind.Api
 
                 app.UseCors("ForOurWebSite"); // this must go above auth and map controllers
 
+                app.UseAuthentication();
                 app.UseAuthorization();
 
                 app.MapControllers();

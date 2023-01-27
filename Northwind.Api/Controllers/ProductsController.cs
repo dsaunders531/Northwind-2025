@@ -2,6 +2,7 @@
 // Copyright (c) Duncan Saunders. All rights reserved.
 // </copyright>
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Context.Interfaces;
@@ -41,6 +42,7 @@ namespace Northwind.Api.Controllers
         /// <param name="page">The page of products you want to view.</param>
         /// <param name="sort">The order of products in the list.</param>
         /// <returns>A paged list of products.</returns>
+        [AllowAnonymous]
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IPagedResponse<ProductApi>))]
@@ -95,6 +97,7 @@ namespace Northwind.Api.Controllers
         /// </summary>
         /// <param name="term">The search term you want to use.</param>
         /// <returns>A list of matching product names.</returns>
+        [AllowAnonymous]
         [HttpGet]
         [Route("search")]
         [Produces("application/json")]

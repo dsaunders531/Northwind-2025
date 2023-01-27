@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models.Api;
@@ -36,6 +37,7 @@ namespace Northwind.Api.Controllers
         /// <param name="page">The page of categories you want to see.</param>
         /// <param name="sort">The sort order of the categories.</param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IPagedResponse<CategoryApi>))]
