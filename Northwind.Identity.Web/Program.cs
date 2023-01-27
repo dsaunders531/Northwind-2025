@@ -134,6 +134,22 @@ namespace Northwind.Identity.Web
 
                 /* Identity Ends */
 
+                /* Add Identity Server */
+                //builder.Services.AddIdentityServer(options =>
+                //{
+                //    // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
+                //    options.EmitStaticAudienceClaim = true;
+                //})
+                //    .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
+                //    .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
+                //    .AddInMemoryClients(IdentityServerConfig.Clients);
+
+                builder.Services.AddIdentityServer()
+                    .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
+                    .AddInMemoryClients(IdentityServerConfig.Clients);
+
+                /* End Identity Server */
+
                 builder.Services.AddControllersWithViews();
 
                 var app = builder.Build();
@@ -178,6 +194,9 @@ namespace Northwind.Identity.Web
                 /* Identity */
                 Program.AddIdentitySeedData(app);
 
+                /* Identity Server */
+                app.UseIdentityServer();
+
                 app.UseAuthentication();
                 app.UseAuthorization();
                 /* Identity */
@@ -185,7 +204,8 @@ namespace Northwind.Identity.Web
                 app.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                app.MapRazorPages();
+
+                app.MapRazorPages(); //.RequireAuthorization();
 
                 app.Run();
             }
