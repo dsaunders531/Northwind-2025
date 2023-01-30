@@ -51,7 +51,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Security", "North
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Identity.Rcl", "Northwind.Identity.Rcl\Northwind.Identity.Rcl.csproj", "{3DDB54CA-B126-40B4-8C9E-C4DABACA85F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Identity.Web", "Northwind.Identity.Web\Northwind.Identity.Web.csproj", "{5EE7F609-1659-4976-B7F7-2344A594BCBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Identity.Web", "Northwind.Identity.Web\Northwind.Identity.Web.csproj", "{5EE7F609-1659-4976-B7F7-2344A594BCBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Reporting.Rcl", "Northwind.Reporting.Rcl\Northwind.Reporting.Rcl.csproj", "{E5C17556-4AA7-474C-AD3B-95292CE9C0E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,6 +133,10 @@ Global
 		{5EE7F609-1659-4976-B7F7-2344A594BCBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EE7F609-1659-4976-B7F7-2344A594BCBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EE7F609-1659-4976-B7F7-2344A594BCBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5C17556-4AA7-474C-AD3B-95292CE9C0E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5C17556-4AA7-474C-AD3B-95292CE9C0E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5C17556-4AA7-474C-AD3B-95292CE9C0E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5C17556-4AA7-474C-AD3B-95292CE9C0E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
