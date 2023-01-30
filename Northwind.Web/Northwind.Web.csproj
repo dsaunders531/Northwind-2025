@@ -33,14 +33,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Api\**" />
-    <Content Remove="Areas\Api\**" />
-    <EmbeddedResource Remove="Areas\Api\**" />
-    <None Remove="Areas\Api\**" />
-    <TypeScriptCompile Remove="Areas\Api\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
@@ -49,12 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\" />
     <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\app\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.13" />
@@ -74,6 +66,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Northwind.Api.Client\Northwind.Api.Client.csproj" />
+    <ProjectReference Include="..\Northwind.Reporting.Rcl\Northwind.Reporting.Rcl.csproj" />
     <ProjectReference Include="..\Northwind.Security\Northwind.Security.csproj" />
     <ProjectReference Include="..\Northwind.Seo\Northwind.Seo.Rcl.csproj" />
   </ItemGroup>

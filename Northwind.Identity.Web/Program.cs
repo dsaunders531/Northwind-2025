@@ -109,7 +109,7 @@ namespace Northwind.Identity.Web
                     options.Cookie.HttpOnly = true;
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                     options.LoginPath = "/Identity/Account/Login";
-                    options.ReturnUrlParameter = "r"; // this may help with man-in-the-middle-attacks and address spoofing               
+                    //options.ReturnUrlParameter = "r"; // this may help with man-in-the-middle-attacks and address spoofing               
                     options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                     options.SlidingExpiration = true;
                 });
@@ -135,22 +135,21 @@ namespace Northwind.Identity.Web
                 /* Identity Ends */
 
                 /* Add Identity Server */
-                //builder.Services.AddIdentityServer(options =>
-                //{
-                //    // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
-                //    options.EmitStaticAudienceClaim = true;
-                //})
-                //    .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
-                //    .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
-                //    .AddInMemoryClients(IdentityServerConfig.Clients);
+                // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes                
 
                 builder.Services.AddIdentityServer()
                     .AddInMemoryApiScopes(IdentityServerConfig.ApiScopes)
-                    .AddInMemoryClients(IdentityServerConfig.Clients);
-
+                    .AddInMemoryClients(IdentityServerConfig.Clients)
+                    .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
+                    .AddAspNetIdentity<ApplicationUser>();
                 /* End Identity Server */
+                
+                IMvcBuilder mvcBuilder = builder.Services.AddControllersWithViews();
 
-                builder.Services.AddControllersWithViews();
+                if (builder.Environment.IsDevelopment())
+                {
+                    mvcBuilder.AddRazorRuntimeCompilation();
+                }
 
                 var app = builder.Build();
 
@@ -193,11 +192,10 @@ namespace Northwind.Identity.Web
 
                 /* Identity */
                 Program.AddIdentitySeedData(app);
-
+                                
+                app.UseAuthentication();
                 /* Identity Server */
                 app.UseIdentityServer();
-
-                app.UseAuthentication();
                 app.UseAuthorization();
                 /* Identity */
 

@@ -5,6 +5,7 @@ using NLog.Web;
 using Northwind.Api.Client;
 using Northwind.Context.Interfaces;
 using Northwind.Security.ActionFilters;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Northwind.Web
 {
@@ -61,6 +62,35 @@ namespace Northwind.Web
                     razorPagesBuilder.AddRazorRuntimeCompilation();
                 }
 
+                /* Add identity hosted on Northwind.Idenity.Web */
+                JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+                
+                builder.Services
+                    .AddAuthentication(options =>
+                    {
+                        options.DefaultScheme = "Cookies";
+                        options.DefaultChallengeScheme = "oidc";
+                    })
+                    .AddCookie("Cookies")
+                    .AddOpenIdConnect("oidc", options =>
+                    {
+                        // Where identity is served from Northwind.Identity.Web
+                        options.Authority = "https://localhost:7153";
+
+                        options.ClientId = "northwind-web-user";
+                        options.ClientSecret = "secret";
+                        options.ResponseType = "code";
+
+                        options.Scope.Clear();
+                        options.Scope.Add("openid");
+                        options.Scope.Add("profile");
+                        
+                        options.GetClaimsFromUserInfoEndpoint = true;
+
+                        options.SaveTokens = true;
+                    });
+                    
+
                 var app = builder.Build();
 
                 // Configure the HTTP request pipeline.
@@ -76,6 +106,7 @@ namespace Northwind.Web
 
                 app.UseRouting();
 
+                app.UseAuthentication();
                 app.UseAuthorization();
                 
                 app.MapDefaultControllerRoute();

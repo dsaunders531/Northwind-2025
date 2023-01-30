@@ -1,4 +1,6 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
+using IdentityModel;
 
 namespace Northwind.Identity.Web
 {
@@ -7,7 +9,8 @@ namespace Northwind.Identity.Web
         public static IEnumerable<IdentityResource> IdentityResources =>
         new IdentityResource[]
         {
-            new IdentityResources.OpenId()
+            new IdentityResources.OpenId(),
+            new IdentityResources.Profile()            
         };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -17,6 +20,7 @@ namespace Northwind.Identity.Web
 
         public static IEnumerable<Client> Clients =>
             new List<Client> { 
+                // api access using a key
                 new Client()
                 {
                     ClientId = "northwind-web",
@@ -35,6 +39,27 @@ namespace Northwind.Identity.Web
                     
                     // use refresh tokens
                     AllowOfflineAccess = true
+                },
+                // interactive ASP.NET Core Web Northwind.web.ui hosted from https://localhost:7240
+                new Client
+                {
+                    ClientId = "northwind-web-user",
+                    
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.Code,
+            
+                    // where to redirect to after login
+                    RedirectUris = { "https://localhost:7240/signin-oidc" },
+
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "https://localhost:7240/signout-callback-oidc" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }
                 }
             };
     }
