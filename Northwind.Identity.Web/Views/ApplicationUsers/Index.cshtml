@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Northwind.Identity.Web.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Users</h1>
+
+<table class="table table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>                              
+            <th>
+                @Html.DisplayNameFor(model => model.EmailConfirmed)
+            </th>                       
+            <th>
+                @Html.DisplayNameFor(model => model.TwoFactorEnabled)
+            </th>                  
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @if ((this.User.Identity?.Name ?? string.Empty) == item.UserName)
+                    {
+                            @Html.DisplayFor(modelItem => item.UserName)
+                    }
+                    else
+                    {
+                            <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.UserName)</a>
+                    }                
+                </td>            
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailConfirmed)
+                </td>                           
+                <td>
+                    @Html.DisplayFor(modelItem => item.TwoFactorEnabled)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LockoutEnabled)
+                </td>               
+                <td>
+                        @if ((this.User.Identity?.Name ?? string.Empty) == item.UserName)
+                        {
+                            <a class="disabled" disabled href="#">Edit</a> @Html.Raw("|")
+                            <a class="disabled" disabled href="#">Delete</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> @Html.Raw("|")
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }                
+                </td>
+            </tr>
+    }
+    </tbody>
+</table>

@@ -1,4 +1,6 @@
+using Duende.IdentityServer.EntityFramework.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -94,7 +96,7 @@ namespace Northwind.Identity.Web
                     .AddDefaultUI()
                     .AddDefaultTokenProviders()
                     .AddPersonalDataProtection<LookupProtector, LookupProtectorKeyRing>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
+                    .AddEntityFrameworkStores<ApplicationDbContext>();                
 
                 builder.Services.Configure<PasswordHasherOptions>(opts =>
                 {
@@ -130,8 +132,7 @@ namespace Northwind.Identity.Web
                 builder.Services
                     .AddDataProtection()
                     .PersistKeysToDbContext<DataProtectionDbContext>()
-                    .SetApplicationName("Northwind");
-
+                    .SetApplicationName("Northwind");                        
                 /* Identity Ends */
 
                 /* Add Identity Server */
@@ -152,7 +153,7 @@ namespace Northwind.Identity.Web
                 }
 
                 var app = builder.Build();
-
+                
                 // Create databasees and perform migrations
                 // in load-balanced instances - only the 'primary' instance should do this.
                 if (Convert.ToBoolean(Environment.GetEnvironmentVariable("PERFORM_MIGRATIONS") ?? string.Empty))
@@ -196,7 +197,7 @@ namespace Northwind.Identity.Web
                 app.UseAuthentication();
                 /* Identity Server */
                 app.UseIdentityServer();
-                app.UseAuthorization();
+                app.UseAuthorization();                                
                 /* Identity */
 
                 app.MapControllerRoute(
