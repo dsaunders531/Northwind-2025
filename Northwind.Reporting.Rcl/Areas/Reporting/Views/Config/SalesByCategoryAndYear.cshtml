@@ -1,0 +1,66 @@
+﻿@using Northwind.Context.Contexts;
+@using Northwind.Context.Interfaces;
+@using Northwind.Context.Models.Reporting;
+@using Northwind.Reporting.Rcl.Data;
+@using Northwind.Reporting.Rcl.Reports;
+
+@model ReportConfig<SalesByCategoryAndYearReportParameters>
+
+@{
+    Layout = "_ReportConfigLayout";
+
+    ViewData["Title"] = "Sales By Category and Year";
+}
+
+@inject INorthwindProductsService service
+
+@functions {
+    private async Task<IEnumerable<SelectListItem>> CategoriesList(string selected)
+    {
+        return (await service.GetCategories(1, Patterns.SortBy.Ascending)).Page
+            .Select(s => new SelectListItem()
+            {
+                Value = s.CategoryId.ToString(),
+                Text = s.CategoryName,
+                Selected = s.CategoryName == selected
+            });
+    }
+
+    private IEnumerable<SelectListItem> Years(int selected)
+    {
+        List<SelectListItem> result = new List<SelectListItem>();
+
+        DateTime now = DateTime.UtcNow;
+
+        for (int i = now.Year; i >= (now.Year - 9); i--)
+        {
+            result.Add(new SelectListItem() { 
+                Value = i.ToString(), 
+                Text = i.ToString(), 
+                Selected = selected == i 
+            });
+        }
+
+        return result;
+    }
+}
+
+<h2>Sales By Category And Year</h2>
+
+<div class="form-group">
+    <label asp-for="Parameters.Category" class="form-label"></label>
+    <select class="form-select"
+            asp-for="Parameters.Category"
+            asp-items="@(await this.CategoriesList(Model.Parameters.Category))">
+    </select>
+    <span asp-validation-for="Parameters.Category" class="error"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Parameters.Year" class="form-label"></label>
+    <select class="form-select"
+            asp-for="Parameters.Year"
+            asp-items="@this.Years(Model.Parameters.Year)">
+    </select>
+    <span asp-validation-for="Parameters.Year" class="error"></span>
+</div>

@@ -1,0 +1,136 @@
+﻿@using Northwind.Reporting.Rcl.Data
+@using Northwind.Reporting.Enums
+
+@model IReportConfig
+
+@{
+    Layout = "_Layout";    
+}
+
+<div class="row">
+    <div class="col-12">
+        <div asp-validation-summary="All" class="text-danger"></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <form method="post">
+            @* Render the report parameters only *@
+            @RenderBody()
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label asp-for="ReportWriter" class="form-label"></label>
+                <select class="form-select"
+                        asp-for="ReportWriter"
+                        asp-items="@Enum.GetValues<ReportWriter>().Select(s => new SelectListItem()
+                                                    {
+                                                        Text = Enum.GetName<ReportWriter>(s),
+                                                        Value = s.ToString(),
+                                                        Selected = s == Model.ReportWriter
+                                                    })">
+                </select>
+                <span asp-validation-for="ReportWriter" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Frequency" class="form-label"></label>
+                <select class="form-select" id="frequency"
+                        asp-for="Frequency"
+                        asp-items="@Enum.GetValues<ReportFrequency>().Select(s => new SelectListItem()
+                                                    {
+                                                        Text = Enum.GetName<ReportFrequency>(s),
+                                                        Value = s.ToString(),
+                                                        Selected = s == Model.Frequency
+                                                    })">
+                </select>
+                <span asp-validation-for="Frequency" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FrequencyWeeklyMonthly" class="form-label"></label>
+                <select class="form-select" asp-for="FrequencyWeeklyMonthly" id="frequency-weekly-monthly"></select>
+                <span asp-asp-validation-for="FrequencyWeeklyMonthly" class="error"></span>
+            </div>
+            <hr />
+            <div class="btn-group">
+                <button type="reset" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+                <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {    
+    <script src="~/js/validate-form.js"></script>
+    <script type="text/javascript">
+        // When frequency is changed, show a set of values in frequency weekly monthly.
+        document.onreadystatechange = (ev) => {
+            if (document.readyState == 'complete')
+            {
+                setupFrequencySelects();
+            }
+        };
+
+        document.getElementById('frequency').addEventListener("change", (ele, ev) => {
+            setupFrequencySelects();
+        });
+
+        function setupFrequencySelects() {
+            var val = document.getElementById('frequency').value;
+            console.info(val + ' selected');
+
+            var target = document.getElementById('frequency-weekly-monthly');
+
+            var today = new Date();
+            
+            target.innerHTML = '';
+            target.disabled = false;
+            if (target.classList.contains('disabled')) {
+                target.classList.remove('disabled');
+            }
+
+            switch (val) {
+                case 'Weekly':
+                    // show the day in the users native lang
+                    const i18n = new Intl.DateTimeFormat(navigator.language, { weekday: "long" });
+                    // build list of days (where 0 = Sunday)
+                    const days = [
+                        i18n.format(new Date(2023, 0, 1)),
+                        i18n.format(new Date(2023, 0, 2)),
+                        i18n.format(new Date(2023, 0, 3)),
+                        i18n.format(new Date(2023, 0, 4)),
+                        i18n.format(new Date(2023, 0, 5)),
+                        i18n.format(new Date(2023, 0, 6)),
+                        i18n.format(new Date(2023, 0, 7))
+                    ];
+
+                    for (var i = 0; i < 7; i++) {
+                        addOptionToSelect(target, i, days[i], today.getDay() == i);
+                    }
+
+                    break;
+
+                case 'Monthly':
+                    for (var i = 1; i < 29; i++) {
+                        addOptionToSelect(target, i, 'Day ' + i, today.getDate() == i);
+                    }
+
+                    break;
+                default:
+                    // clear all values                    
+                    target.disabled = true;
+                    if (!target.classList.contains('disabled')) {
+                        target.classList.add('disabled');
+                    }
+                    break;
+            }
+        }
+
+        function addOptionToSelect(ele, value, text, selected)
+        {
+            ele.innerHTML += '<option value="' + value + '"' + (selected ? ' selected ' : '') + '>' + text + '</option>';
+        }
+    </script>
+}

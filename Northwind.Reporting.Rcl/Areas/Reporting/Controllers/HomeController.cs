@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Northwind.Reporting.Interfaces;
+using Northwind.Reporting.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,23 +17,113 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
     [Authorize()]
     public class HomeController : Controller
     {
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IReportRecordRepository recordRepository, IReportFactory reportFactory)
         {
             Logger = logger;
+            this.RecordRepository = recordRepository;
+            this.ReportFactory = reportFactory;
         }
 
         private ILogger<HomeController> Logger { get; set; }
 
+        private IReportRecordRepository RecordRepository { get; set; }
+
+        private IReportFactory ReportFactory { get; set; }
+
+        /// <summary>
+        /// List out all the reports which the user can run here.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("Index")]
         public IActionResult Index()
         {
             try
             {
-                return View();
+                return View(this.ReportFactory.Reports);
             }
             catch (Exception ex)
             {
                 this.Logger.LogError(ex, "Error getting home page");
                 return View("Error");
+            }
+        }
+
+        /// <summary>
+        /// List out all the reports with status that the user can see.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("MyReports")]
+        public async Task<IActionResult> MyReports()
+        {
+            try
+            { string user = User.Identity?.Name ?? (User.Claims.Where(w => w.Type == "name").FirstOrDefault()?.Value ?? string.Empty);
+
+                return View(await this.RecordRepository.Fetch(w => w.UserName == user));
+            }
+            catch (Exception ex)
+            {
+                this.Logger.LogError(ex, "Error getting home page");
+                
+                return View("Error");
+            }            
+        }
+
+        [HttpGet]
+        [Route("Download/{reportId}")]
+        public async Task<IActionResult> Download([FromRoute]long reportId)
+        {
+            try
+            {
+                ReportRecord? record = await this.RecordRepository.Fetch(reportId);
+
+                if (record == default)
+                {
+                    return NotFound();
+                }
+                else if (System.IO.File.Exists(record.OutputPath ?? string.Empty))
+                {
+                    string mime = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    if (record.OutputPath?.EndsWith("csv") ?? false)
+                    {
+                        mime = "text/csv";
+                    }
+                    else if (record.OutputPath?.EndsWith("csv") ?? false)
+                    {
+                        mime = "text/text";
+                    }
+                    
+                    return new FileStreamResult(new FileStream(path: (record.OutputPath ?? string.Empty), mode: FileMode.Open, access: FileAccess.Read), mime);                    
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Logger.LogError(ex, "Error getting home page");
+                
+                return View("Error");                
+            }
+        }
+
+        [HttpPost]
+        [Route("Delete/{reportId}")]
+        public async Task<IActionResult> Delete([FromRoute] long reportId)
+        {
+            try
+            {
+                _ = await this.RecordRepository.Delete(reportId);
+
+                return RedirectToAction("MyReports");
+            }
+            catch (Exception ex)
+            {
+                this.Logger.LogError(ex, "Error deleting item");
+
+                return View("Error");                
             }
         }
     }
