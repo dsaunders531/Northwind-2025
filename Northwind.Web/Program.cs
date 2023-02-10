@@ -4,6 +4,7 @@ using NLog.Extensions.Logging;
 using NLog.Web;
 using Northwind.Api.Client;
 using Northwind.Context.Interfaces;
+using Northwind.Reporting.Rcl;
 using Northwind.Security.ActionFilters;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -89,7 +90,9 @@ namespace Northwind.Web
 
                         options.SaveTokens = true;
                     });
-                    
+
+                // Add reporting
+                builder.AddReporting();
 
                 var app = builder.Build();
 
@@ -108,7 +111,9 @@ namespace Northwind.Web
 
                 app.UseAuthentication();
                 app.UseAuthorization();
-                
+
+                app.UseReporting();
+
                 app.MapDefaultControllerRoute();
                 app.UseEndpoints(endpoints =>
                 {
