@@ -143,8 +143,8 @@ namespace Northwind.Identity.Web
                     .AddInMemoryClients(IdentityServerConfig.Clients)
                     .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
                     .AddAspNetIdentity<ApplicationUser>();
-                /* End Identity Server */
-                
+                /* End Identity Server */                                
+
                 IMvcBuilder mvcBuilder = builder.Services.AddControllersWithViews();
 
                 if (builder.Environment.IsDevelopment())
