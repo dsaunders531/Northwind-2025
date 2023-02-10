@@ -352,3 +352,4 @@ MigrationBackup/
 # Javascript files we will not be using
 /Northwind.Web/dist/*.js
 /Northwind.Identity.Web/keys
+/Northwind.Web/report_records.json
