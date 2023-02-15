@@ -1,5 +1,6 @@
 ﻿using FileHelpers;
 using Northwind.Reporting.Interfaces;
+using Northwind.Reporting.Models;
 
 namespace Northwind.Reporting.Tests
 {
@@ -14,11 +15,8 @@ namespace Northwind.Reporting.Tests
         public DateTime Date { get; set; }
     }
 
-    public class MockReportParameters
-    {
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
+    public class MockReportParameters : ReportParametersBase
+    {        
     }
 
     public class MockReport : Report<MockReportDataRow, MockReportParameters>
@@ -37,7 +35,7 @@ namespace Northwind.Reporting.Tests
         {
             List<MockReportDataRow> result = new List<MockReportDataRow>();
 
-            for (DateTime i = parameters.StartDate; i <= parameters.EndDate; i = i.AddDays(1))
+            for (DateTime i = parameters.StartDate.Value; i <= parameters.EndDate.Value; i = i.AddDays(1))
             {
                 result.Add(new MockReportDataRow() { Id = i.Ticks, Value = i.ToLongDateString(), Date = i });
             }
