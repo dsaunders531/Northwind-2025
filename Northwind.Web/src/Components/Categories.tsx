@@ -1,7 +1,4 @@
-﻿
-// Show the categories
-
-// TODO this needs paging, filter and sort options (as components which can be reused for the product things)
+﻿// Show the categories
 
 import React from 'react';
 import { IPagedResponse, SortBy } from '../Lib/IPagedResponse';

@@ -3851,8 +3851,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 // Show the categories
 
-// TODO this needs paging, filter and sort options (as components which can be reused for the product things)
-
 
 
 
