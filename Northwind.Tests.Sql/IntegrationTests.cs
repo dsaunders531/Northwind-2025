@@ -321,8 +321,8 @@ namespace Northwind.Tests.Sql
         {
             DateTime currentDate = DateTime.UtcNow;
 
-            int year = currentDate.Month == 1 ? currentDate.Year - 1 : currentDate.Year;
-            int quarter = currentDate.Month == 1 ? 4 : 2;
+            int year = currentDate.Month <= 3 ? currentDate.Year - 1 : currentDate.Year;
+            int quarter = currentDate.Month <= 3 ? 4 : 2;
 
             IList<SummaryOfSalesByQuarter> salesByQuarters = await SummaryOfSalesByQuarters(year, quarter);
 
@@ -536,8 +536,8 @@ namespace Northwind.Tests.Sql
         {
             DateTime currentDate = DateTime.UtcNow;
 
-            int year = currentDate.Month == 1 ? currentDate.Year - 1 : currentDate.Year;
-            int quarter = currentDate.Month == 1 ? 4 : 2;
+            int year = currentDate.Month <= 3 ? currentDate.Year - 1 : currentDate.Year;
+            int quarter = currentDate.Month <= 3 ? 4 : 2;
 
             IList<QuarterlyOrder> serviceValue = await QuarterlyOrders(year, quarter);
 
@@ -573,8 +573,8 @@ namespace Northwind.Tests.Sql
         {
             DateTime currentDate = DateTime.UtcNow;
 
-            int year = currentDate.Month == 1 ? currentDate.Year - 1 : currentDate.Year;
-            int quarter = currentDate.Month == 1 ? 4 : 2;
+            int year = currentDate.Month <= 3 ? currentDate.Year - 1 : currentDate.Year;
+            int quarter = currentDate.Month <= 3 ? 4 : 2;
 
             IList<SalesByCategory> serviceValue = await SalesByCategories(year, quarter);
 

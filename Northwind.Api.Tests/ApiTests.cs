@@ -25,10 +25,12 @@ namespace Northwind.Api.Tests
         [SetUp]
         public void Setup()
         {
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Test");
+
             if (_app == default)
             {
                 _app = new NorthwindApiWebApplication();
-
+               
                 _client = _app.CreateClient();
             }
         }

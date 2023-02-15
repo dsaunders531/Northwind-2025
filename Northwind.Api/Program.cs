@@ -61,8 +61,12 @@ namespace Northwind.Api
 
                 builder.Services.AddControllers(options =>
                 {
-                    options.Filters.Add<HttpsOnlyActionFilter>();
-                    options.Filters.Add(new AuthorizeFilter()); // Authorise everything by default
+                    if (!(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Test"))
+                    {
+                        // Https only does not work with the api tests (app is run without server)
+                        options.Filters.Add<HttpsOnlyActionFilter>();
+                        options.Filters.Add(new AuthorizeFilter()); // Authorise everything by default
+                    }                                        
                 });
                 
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
