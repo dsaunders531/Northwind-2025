@@ -63,7 +63,7 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
         {
             IActionResult result = Page();
 
-            // TODO add timer so this always takes n seconds for all outcomes (OWASP recommendation
+            // Add timer so this always takes n seconds for all outcomes (OWASP recommendation)
             TimeSpan minDuration = TimeSpan.FromSeconds(6);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();

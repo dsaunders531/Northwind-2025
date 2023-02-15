@@ -94,7 +94,7 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
         
         public async Task<IActionResult> OnPostAsync()
         {
-            // TODO add timer so this always takes n seconds for all outcomes (OWASP recommendation)
+            // Add timer so this always takes n seconds for all outcomes (OWASP recommendation)
             // also add the n requests every x seconds attribute
             IActionResult outcome = Page();
 

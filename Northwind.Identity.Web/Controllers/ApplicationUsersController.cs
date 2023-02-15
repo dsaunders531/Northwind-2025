@@ -18,8 +18,7 @@ namespace Northwind.Identity.Web.Controllers
 
         // GET: ApplicationUsers
         public async Task<IActionResult> Index()
-        {
-            // TODO - add pagination
+        {            
             return View(await UserManager.Users.ToListAsync());
         }
 
