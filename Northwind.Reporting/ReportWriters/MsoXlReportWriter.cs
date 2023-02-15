@@ -1,5 +1,9 @@
-﻿using ClosedXML.Excel;
+﻿using ClosedXML;
+using ClosedXML.Attributes;
+using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using Northwind.Reporting.Interfaces;
+using System.Reflection;
 
 namespace Northwind.Reporting.ReportWriters
 {
@@ -13,15 +17,45 @@ namespace Northwind.Reporting.ReportWriters
 
         public override Task<Uri> Write(IEnumerable<TDataRow> data)
         {
-            string outputPath = Path.Combine(this.ReportOutputBase, $"{Guid.NewGuid()}.xlsx");            
+            string outputPath = Path.Combine(this.ReportOutputBase, $"{Guid.NewGuid()}.xlsx");
 
-            using (XLWorkbook workbook = new XLWorkbook())
+            if (data.Any())
             {
-                IXLWorksheet sheet = workbook.AddWorksheet("data");
+                using (XLWorkbook workbook = new XLWorkbook())
+                {
+                    IXLWorksheet sheet = workbook.AddWorksheet("data");
 
-                sheet.Cell("A1").InsertData(data);
+                    // Add the header row:
+                    PropertyInfo[] props = typeof(TDataRow).GetProperties();
 
-                workbook.SaveAs(outputPath);
+                    int column = 1;
+                    HashSet<KeyValuePair<int, string>> columns = new HashSet<KeyValuePair<int, string>>();
+
+                    foreach (PropertyInfo item in props)
+                    {                        
+                        XLColumnAttribute? attr = item.GetCustomAttribute<XLColumnAttribute>();
+
+                        columns.Add(new KeyValuePair<int, string>(attr?.Order ?? column, attr?.Header ?? item.Name));
+
+                        column++;
+                    }
+
+                    column = 1;
+                    foreach (KeyValuePair<int, string> item in columns.OrderBy(o => o.Key))
+                    {
+                        sheet.Cell(1, column).Value = item.Value;
+                        column++;
+                    }
+
+                    sheet.Cell("A2").InsertData(data);
+
+                    workbook.SaveAs(outputPath);
+                }
+            }
+            else
+            {
+                outputPath = Path.Combine(this.ReportOutputBase, "NoDataFound.txt");
+                File.WriteAllText(outputPath, "No Data Found!");
             }
 
             return Task.FromResult(new Uri(outputPath));

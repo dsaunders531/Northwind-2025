@@ -1,5 +1,6 @@
 ﻿using Northwind.Reporting.Enums;
 using Northwind.Reporting.Models;
+using Patterns.Extensions;
 
 namespace Northwind.Reporting.Extensions
 {
@@ -10,6 +11,16 @@ namespace Northwind.Reporting.Extensions
             if ((record.Frequency == ReportFrequency.Weekly || record.Frequency == ReportFrequency.Monthly) && !record.FrequencyWeeklyMonthly.HasValue)
             {
                 throw new ArgumentException("FrequencyDailyMonthly must have a value when the report frequency is weekly or monthly.");
+            }
+
+            if (record.Frequency == ReportFrequency.Daily || record.Frequency == ReportFrequency.Weekly || record.Frequency == ReportFrequency.Monthly)
+            {
+                ReportParametersBase reportParameters = record.ReportParametersJson.JsonConvert<ReportParameters>();
+
+                if (reportParameters.ReportPeriod == default) 
+                {
+                    throw new ArgumentException("A report period must be set for repeating reports.");
+                }
             }
 
             return true;

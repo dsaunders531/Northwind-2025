@@ -22,16 +22,26 @@ namespace Northwind.Reporting.ReportWriters
 
             string outputPath = Path.Combine(this.ReportOutputBase, $"{Guid.NewGuid()}.csv");
 
-            using (fileEngine.BeginWriteFile(outputPath))
+            if (data.Any())
             {
-                foreach (TDataRow item in data)
-                {
-                    fileEngine.WriteNext(item);
+                fileEngine.HeaderText = fileEngine.GetFileHeader();
+
+                using (fileEngine.BeginWriteFile(outputPath))
+                {                    
+                    foreach (TDataRow item in data)
+                    {
+                        fileEngine.WriteNext(item);
+                    }
+
+                    fileEngine.Close();
                 }
-
-                fileEngine.Close();
             }
-
+            else
+            {
+                outputPath = Path.Combine(this.ReportOutputBase, "NoDataFound.txt");
+                File.WriteAllText(outputPath, "No Data Found!");
+            }
+           
             return Task.FromResult(new Uri(outputPath));
         }
     }

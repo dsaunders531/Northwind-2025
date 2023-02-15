@@ -61,7 +61,7 @@ namespace Northwind.Reporting.Interfaces
                 // write out any exceptions to a file
                 string errorFilePath = Path.Combine(ReportOutputBase, $"{Guid.NewGuid()}.txt");
 
-                File.WriteAllText(errorFilePath, e.ToJson());
+                File.WriteAllText(errorFilePath, $"Error running report!\r\n{e.GetType()}\r\n{e.Message}\r\n{e.ToJson()}");
 
                 return new Uri(errorFilePath);
             }
