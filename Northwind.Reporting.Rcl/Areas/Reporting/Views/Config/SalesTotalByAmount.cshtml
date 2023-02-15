@@ -3,6 +3,7 @@
 @using Northwind.Context.Models.Reporting;
 @using Northwind.Reporting.Rcl.Data;
 @using Northwind.Reporting.Rcl.Reports;
+@using Northwind.Reporting.Models;
 
 @model ReportConfig<SalesTotalsByAmountsReportParameters>
 
@@ -14,14 +15,4 @@
 
 <h2>Sales Total By Amount</h2>
 
-<div class="form-group">
-    <label asp-for="Parameters.StartDate" class="form-label"></label>
-    <input class="form-control" asp-for="Parameters.StartDate" />
-    <span asp-validation-for="Parameters.StartDate" class="error"></span>
-</div>
-
-<div class="form-group">
-    <label asp-for="Parameters.EndDate" class="form-label"></label>
-    <input class="form-control" asp-for="Parameters.EndDate" />
-    <span asp-validation-for="Parameters.EndDate" class="error"></span>
-</div>
+<partial name="_ReportParametersBase" model="Model.Parameters" />

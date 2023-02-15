@@ -1,4 +1,5 @@
 ﻿using Northwind.Reporting.Enums;
+using Northwind.Reporting.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace Northwind.Reporting.Rcl.Data
@@ -9,7 +10,7 @@ namespace Northwind.Reporting.Rcl.Data
     /// for all the config pages.
     /// </summary>
     public class ReportConfig<TParameters> : IReportConfig
-        where TParameters : class
+        where TParameters : IReportParametersBase
     {
         public ReportConfig()
         {

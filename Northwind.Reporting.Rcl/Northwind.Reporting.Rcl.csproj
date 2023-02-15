@@ -8,10 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\IReportConfig.cs" />
+    <Compile Remove="Data\ReportConfig.cs" />
+    <Compile Remove="Data\ReportFrequencyMonthly.cs" />
+    <Compile Remove="Data\ReportFrequencyWeekly.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Northwind.Context.InMemory\Northwind.Context.InMemory.csproj" />
     <ProjectReference Include="..\Northwind.Context\Northwind.Context.csproj" />
     <ProjectReference Include="..\Northwind.Definitions\Northwind.Definitions.csproj" />
     <ProjectReference Include="..\Northwind.Reporting\Northwind.Reporting.csproj" />

@@ -89,12 +89,16 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
                     {
                         mime = "text/csv";
                     }
-                    else if (record.OutputPath?.EndsWith("csv") ?? false)
+                    else if (record.OutputPath?.EndsWith("txt") ?? false)
                     {
                         mime = "text/text";
                     }
-                    
-                    return new FileStreamResult(new FileStream(path: (record.OutputPath ?? string.Empty), mode: FileMode.Open, access: FileAccess.Read), mime);                    
+
+                    return new FileStreamResult(new FileStream(path: (record.OutputPath ?? string.Empty), mode: FileMode.Open, access: FileAccess.Read), mime)
+                    {
+                        LastModified = DateTime.UtcNow,
+                        FileDownloadName = $"{record.ReportName}.{((record.OutputPath?.Contains(".") ?? false) ? record.OutputPath?.Substring(record.OutputPath.IndexOf(".") + 1) : "txt")}"
+                    };                    
                 }
                 else
                 {

@@ -56,7 +56,8 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
         {
             try
             {
-                return await this.Save(model);                
+                // the report name must match the report.Name property
+                return await this.Save(model, "Sales totals by quantity");                
             }
             catch (Exception ex)
             {
@@ -92,7 +93,8 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
         {
             try
             {
-                return await this.Save(model);                
+                // the report name must match the report.Name property
+                return await this.Save(model, "Sales By Category");                
             }
             catch (Exception ex)
             {
@@ -104,8 +106,8 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
             }
         }
 
-        private async Task<IActionResult> Save<TParameter>(ReportConfig<TParameter> model)
-            where TParameter : class
+        private async Task<IActionResult> Save<TParameter>(ReportConfig<TParameter> model, string reportName)
+            where TParameter : IReportParametersBase
         {
             if (ModelState.IsValid)
             {
@@ -114,8 +116,8 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
                     Frequency = model.Frequency,
                     FrequencyWeeklyMonthly = model.FrequencyWeeklyMonthly,
                     OutputFormat = model.ReportWriter,
-                    ReportName = "Sales totals by quantity",
-                    ReportParametersJson = model.ToJson(),
+                    ReportName = reportName,
+                    ReportParametersJson = model.Parameters.ToJson(),
                     Status = Enums.ReportStatus.Created,
                     UserName = User.Identity?.Name ?? (User.Claims.Where(w => w.Type == "name").FirstOrDefault()?.Value ?? string.Empty)
                 };

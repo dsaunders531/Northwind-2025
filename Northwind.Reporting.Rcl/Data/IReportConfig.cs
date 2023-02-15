@@ -1,4 +1,5 @@
 ﻿using Northwind.Reporting.Enums;
+using Northwind.Reporting.Models;
 
 namespace Northwind.Reporting.Rcl.Data
 {

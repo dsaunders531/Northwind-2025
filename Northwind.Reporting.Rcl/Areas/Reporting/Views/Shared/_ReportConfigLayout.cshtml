@@ -1,5 +1,6 @@
 ﻿@using Northwind.Reporting.Rcl.Data
 @using Northwind.Reporting.Enums
+@using Northwind.Reporting.Interfaces
 
 @model IReportConfig
 
@@ -15,11 +16,12 @@
 
 <div class="row">
     <div class="col-12">
-        <form method="post">
+        <form method="post" href="@Context.Request.Path" >
+            @Html.AntiForgeryToken()
+            
             @* Render the report parameters only *@
             @RenderBody()
-            @Html.AntiForgeryToken()
-
+            
             <div class="form-group">
                 <label asp-for="ReportWriter" class="form-label"></label>
                 <select class="form-select"
@@ -82,16 +84,25 @@
             console.info(val + ' selected');
 
             var target = document.getElementById('frequency-weekly-monthly');
+            var startEle = document.getElementById('startDate');
+            var endEle = document.getElementById('endDate');
+            var periodEle = document.getElementById('reportPeriod');
 
             var today = new Date();
             
             target.innerHTML = '';
-            target.disabled = false;
-            if (target.classList.contains('disabled')) {
-                target.classList.remove('disabled');
-            }
+            enableEle(target);
+            enableEle(startEle);
+            enableEle(endEle);
+            disableEle(periodEle);
 
             switch (val) {
+                case 'Daily':
+                    enableEle(periodEle);
+                    disableEle(startEle);
+                    disableEle(endEle);
+                    disableEle(target);
+                    break;
                 case 'Weekly':
                     // show the day in the users native lang
                     const i18n = new Intl.DateTimeFormat(navigator.language, { weekday: "long" });
@@ -110,6 +121,10 @@
                         addOptionToSelect(target, i, days[i], today.getDay() == i);
                     }
 
+                    enableEle(periodEle);
+                    disableEle(startEle);
+                    disableEle(endEle);
+
                     break;
 
                 case 'Monthly':
@@ -117,13 +132,14 @@
                         addOptionToSelect(target, i, 'Day ' + i, today.getDate() == i);
                     }
 
+                    enableEle(periodEle);
+                    disableEle(startEle);
+                    disableEle(endEle);
+
                     break;
                 default:
-                    // clear all values                    
-                    target.disabled = true;
-                    if (!target.classList.contains('disabled')) {
-                        target.classList.add('disabled');
-                    }
+                    // clear all values  
+                    disableEle(target);                    
                     break;
             }
         }
@@ -132,5 +148,23 @@
         {
             ele.innerHTML += '<option value="' + value + '"' + (selected ? ' selected ' : '') + '>' + text + '</option>';
         }
+
+        function enableEle(ele)
+        {
+            ele.disabled = false;
+            if (ele.classList.contains('disabled')) {
+                ele.classList.remove('disabled');
+            }
+        }
+
+        function disableEle(ele)
+        {
+            ele.disabled = true;
+            if (!ele.classList.contains('disabled')) {
+                ele.classList.add('disabled');
+            }
+        }
     </script>
 }
+
+@await RenderSectionAsync("PageScripts", required: false)

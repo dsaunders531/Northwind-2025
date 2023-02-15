@@ -3,6 +3,8 @@
 @using Northwind.Context.Models.Reporting;
 @using Northwind.Reporting.Rcl.Data;
 @using Northwind.Reporting.Rcl.Reports;
+@using Northwind.Reporting.Enums;
+@using Northwind.Reporting.Models;
 
 @model ReportConfig<SalesByCategoryAndYearReportParameters>
 
@@ -47,6 +49,14 @@
 
 <h2>Sales By Category And Year</h2>
 
+@*
+    This report is designed to run immediately only
+    <partial name="_ReportParametersBase" model="Model.Parameters" />    
+*@
+<input type="hidden" id="startDate" asp-for="Parameters.StartDate" />
+<input type="hidden" id="endDate" asp-for="Parameters.EndDate" />
+<input type="hidden" id="reportPeriod" asp-for="Parameters.ReportPeriod" />
+
 <div class="form-group">
     <label asp-for="Parameters.Category" class="form-label"></label>
     <select class="form-select"
@@ -64,3 +74,26 @@
     </select>
     <span asp-validation-for="Parameters.Year" class="error"></span>
 </div>
+
+@section PageScripts {
+    @*This report is designed to be run immediataly only*@
+    <script type="text/javascript">
+        // selecting a value fires an event.
+        // disable the control after it has been processed.
+        var freqEle = document.getElementById('frequency');
+        freqEle.disabled = true;
+        if (!freqEle.classList.contains('disabled')) {
+            freqEle.classList.add('disabled');
+        }
+        
+        document.onreadystatechange = (ev) => {
+            if (document.readyState == 'complete')
+            {   
+                // this event needs to fire last after all the others
+                setTimeout(() => {                    
+                    document.getElementById('frequency').value = '@ReportFrequency.Immediate';                    
+                }, 0);
+            }
+        };
+    </script>
+}
