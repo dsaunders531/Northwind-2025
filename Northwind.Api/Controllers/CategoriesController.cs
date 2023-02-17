@@ -55,6 +55,7 @@ namespace Northwind.Api.Controllers
             }
         }
 
+        /// <inheritdoc/>
         [HttpGet]
         [Route("{categoryId}")]
         [Produces("application/json")]

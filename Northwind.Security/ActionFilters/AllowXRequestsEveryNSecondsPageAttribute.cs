@@ -31,7 +31,7 @@ namespace Northwind.Security.ActionFilters
         /// <param name="message">Sets a text message (not themed) that will be sent to the client upon throttling.</param>
         public AllowXRequestsEveryNSecondsPageAttribute(string uniqueName, int requests, int seconds, string throttledRoute = "", string message = "")
         {
-            this.Base = new AllowXRequestsEveryNBase()
+            Base = new AllowXRequestsEveryNBase()
             {
                 Message = message,
                 Name = uniqueName,
@@ -43,7 +43,7 @@ namespace Northwind.Security.ActionFilters
 
         public override void OnResultExecuting(ResultExecutingContext context) // FilterContext
         {
-            IActionResult? result = this.Base.DoWork(context);
+            IActionResult? result = Base.DoWork(context);
 
             if (result != default)
             {

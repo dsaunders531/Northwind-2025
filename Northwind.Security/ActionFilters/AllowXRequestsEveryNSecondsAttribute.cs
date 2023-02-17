@@ -53,22 +53,22 @@ namespace Northwind.Security.ActionFilters
 
         public AllowXRequestsEveryNSecondsAttribute() : base()
         {
-            this.Base = new AllowXRequestsEveryNBase()
+            Base = new AllowXRequestsEveryNBase()
             { 
-                Message = this.Message ?? string.Empty, 
-                Name = this.Name ?? string.Empty, 
-                Requests = this.Requests, 
-                Seconds = this.Seconds, 
-                ThrottledRoute = this.ThrottledRoute 
+                Message = Message ?? string.Empty, 
+                Name = Name ?? string.Empty, 
+                Requests = Requests, 
+                Seconds = Seconds, 
+                ThrottledRoute = ThrottledRoute 
             };
 
-            this.Message = Base.Message;
-            this.Name = Base.Name;
+            Message = Base.Message;
+            Name = Base.Name;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            IActionResult? result = this.Base.DoWork(context);
+            IActionResult? result = Base.DoWork(context);
 
             if (result != default)
             {

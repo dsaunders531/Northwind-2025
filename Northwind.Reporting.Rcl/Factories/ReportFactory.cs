@@ -7,8 +7,8 @@ namespace Northwind.Reporting.Rcl.Factories
     {
         public ReportFactory(IServiceProvider serviceProvider)
         {
-            this.ServiceProvider = serviceProvider;
-            this._reports = new Lazy<IEnumerable<Report>>(this.BuildReportList, false);
+            ServiceProvider = serviceProvider;
+            _reports = new Lazy<IEnumerable<Report>>(BuildReportList, false);
         }
 
         private IServiceProvider ServiceProvider { get; set; }
@@ -16,8 +16,8 @@ namespace Northwind.Reporting.Rcl.Factories
         private IEnumerable<Report> BuildReportList()
         {
             return new Report[] {
-                new SalesByCategoryAndYearReport(this.ServiceProvider),
-                new SalesTotalsByAmountsReport(this.ServiceProvider)
+                new SalesByCategoryAndYearReport(ServiceProvider),
+                new SalesTotalsByAmountsReport(ServiceProvider)
             };
         }
 
@@ -28,12 +28,12 @@ namespace Northwind.Reporting.Rcl.Factories
 
         public bool Exists(string name)
         {
-            return this.Reports.Any(a => a.Name.ToLowerInvariant() == name.ToLowerInvariant());
+            return Reports.Any(a => a.Name.ToLowerInvariant() == name.ToLowerInvariant());
         }
 
         public Report GetReport(string name)
         {
-            return this.Reports.Where(w => w.Name.ToLowerInvariant() == name.ToLowerInvariant()).FirstOrDefault() 
+            return Reports.Where(w => w.Name.ToLowerInvariant() == name.ToLowerInvariant()).FirstOrDefault() 
                 ?? throw new KeyNotFoundException($"Could not find report {name}.");
         }
     }

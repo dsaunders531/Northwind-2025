@@ -11,6 +11,9 @@ namespace Patterns
     public class PagedResponse<T> : IPagedResponse<T>
         where T : class
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PagedResponse{T}"/> class.
+        /// </summary>
         public PagedResponse()
         {
             Page = Array.Empty<T>();
@@ -28,18 +31,25 @@ namespace Patterns
             Page = values;
         }
 
+        /// <inheritdoc/>
         public int TotalItems { get; set; }
 
+        /// <inheritdoc/>
         public int TotalPages { get; set; }
 
+        /// <inheritdoc/>
         public int ItemsPerPage { get; set; }
 
+        /// <inheritdoc/>
         public int CurrentPage { get; set; }
 
+        /// <inheritdoc/>
         public SortBy SortOrder { get; set; }
 
+        /// <inheritdoc/>
         public string SearchTerm { get; set; }
 
+        /// <inheritdoc/>
         public T[] Page { get; set; }
 
         public static IPagedResponse<TItem> Create<TItem>(

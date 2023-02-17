@@ -2,14 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 using Northwind.Identity.Web.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Northwind.Identity.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -59,7 +56,7 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGet()
         {
-            var user = await _userManager.GetUserAsync(User);
+            ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -71,7 +68,7 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
+            ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -87,12 +84,12 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            var userId = await _userManager.GetUserIdAsync(user);
+            string userId = await _userManager.GetUserIdAsync(user);
             
             await _userManager.RemoveClaimsAsync(user, await _userManager.GetClaimsAsync(user));
             await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
-            
-            var result = await _userManager.DeleteAsync(user);
+
+            IdentityResult result = await _userManager.DeleteAsync(user);
                         
             if (!result.Succeeded)
             {

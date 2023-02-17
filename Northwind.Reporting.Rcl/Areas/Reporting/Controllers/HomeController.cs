@@ -3,12 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Northwind.Reporting.Interfaces;
 using Northwind.Reporting.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
 {
@@ -20,8 +14,8 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
         public HomeController(ILogger<HomeController> logger, IReportRecordRepository recordRepository, IReportFactory reportFactory)
         {
             Logger = logger;
-            this.RecordRepository = recordRepository;
-            this.ReportFactory = reportFactory;
+            RecordRepository = recordRepository;
+            ReportFactory = reportFactory;
         }
 
         private ILogger<HomeController> Logger { get; set; }
@@ -40,11 +34,11 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
         {
             try
             {
-                return View(this.ReportFactory.Reports);
+                return View(ReportFactory.Reports);
             }
             catch (Exception ex)
             {
-                this.Logger.LogError(ex, "Error getting home page");
+                Logger.LogError(ex, "Error getting home page");
                 return View("Error");
             }
         }
@@ -60,11 +54,11 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
             try
             { string user = User.Identity?.Name ?? (User.Claims.Where(w => w.Type == "name").FirstOrDefault()?.Value ?? string.Empty);
 
-                return View(await this.RecordRepository.Fetch(w => w.UserName == user));
+                return View(await RecordRepository.Fetch(w => w.UserName == user));
             }
             catch (Exception ex)
             {
-                this.Logger.LogError(ex, "Error getting home page");
+                Logger.LogError(ex, "Error getting home page");
                 
                 return View("Error");
             }            
@@ -76,7 +70,7 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
         {
             try
             {
-                ReportRecord? record = await this.RecordRepository.Fetch(reportId);
+                ReportRecord? record = await RecordRepository.Fetch(reportId);
 
                 if (record == default)
                 {
@@ -107,7 +101,7 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
             }
             catch (Exception ex)
             {
-                this.Logger.LogError(ex, "Error getting home page");
+                Logger.LogError(ex, "Error getting home page");
                 
                 return View("Error");                
             }
@@ -119,13 +113,13 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
         {
             try
             {
-                _ = await this.RecordRepository.Delete(reportId);
+                _ = await RecordRepository.Delete(reportId);
 
                 return RedirectToAction("MyReports");
             }
             catch (Exception ex)
             {
-                this.Logger.LogError(ex, "Error deleting item");
+                Logger.LogError(ex, "Error deleting item");
 
                 return View("Error");                
             }

@@ -30,7 +30,7 @@ namespace Northwind.Identity.Web.Controllers
                 return NotFound();
             }
 
-            var applicationUser = await UserManager.FindByIdAsync(id.ToString());
+            ApplicationUser applicationUser = await UserManager.FindByIdAsync(id.ToString());
             
             if (applicationUser == null)
             {
@@ -48,7 +48,7 @@ namespace Northwind.Identity.Web.Controllers
                 return NotFound();
             }
 
-            var applicationUser = await UserManager.FindByIdAsync(id.ToString());
+            ApplicationUser applicationUser = await UserManager.FindByIdAsync(id.ToString());
             
             if (applicationUser == null)
             {
@@ -101,7 +101,7 @@ namespace Northwind.Identity.Web.Controllers
                 return NotFound();
             }
 
-            var applicationUser = await UserManager.FindByIdAsync(id.ToString());
+            ApplicationUser applicationUser = await UserManager.FindByIdAsync(id.ToString());
 
             if (applicationUser == null)
             {
@@ -115,8 +115,8 @@ namespace Northwind.Identity.Web.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {            
-            var applicationUser = await UserManager.FindByIdAsync(id.ToString());
+        {
+            ApplicationUser applicationUser = await UserManager.FindByIdAsync(id.ToString());
 
             if (applicationUser != null)
             {

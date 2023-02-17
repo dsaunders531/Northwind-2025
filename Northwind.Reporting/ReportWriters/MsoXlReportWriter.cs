@@ -1,7 +1,5 @@
-﻿using ClosedXML;
-using ClosedXML.Attributes;
+﻿using ClosedXML.Attributes;
 using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Drawing.Diagrams;
 using Northwind.Reporting.Interfaces;
 using System.Reflection;
 
@@ -12,12 +10,12 @@ namespace Northwind.Reporting.ReportWriters
     {
         public MsoXlReportWriter()
         {
-            this.WriterType = Enums.ReportWriter.msoXl;
+            WriterType = Enums.ReportWriter.msoXl;
         }
 
         public override Task<Uri> Write(IEnumerable<TDataRow> data)
         {
-            string outputPath = Path.Combine(this.ReportOutputBase, $"{Guid.NewGuid()}.xlsx");
+            string outputPath = Path.Combine(ReportOutputBase, $"{Guid.NewGuid()}.xlsx");
 
             if (data.Any())
             {
@@ -54,7 +52,7 @@ namespace Northwind.Reporting.ReportWriters
             }
             else
             {
-                outputPath = Path.Combine(this.ReportOutputBase, "NoDataFound.txt");
+                outputPath = Path.Combine(ReportOutputBase, "NoDataFound.txt");
                 File.WriteAllText(outputPath, "No Data Found!");
             }
 

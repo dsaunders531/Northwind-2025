@@ -2,7 +2,6 @@
 // Copyright (c) Duncan Saunders. All rights reserved.
 // </copyright>
 
-using Northwind.Context.Interfaces;
 using Northwind.Context.Models.Api;
 using Patterns;
 using Patterns.Extensions;
@@ -113,6 +112,7 @@ namespace Northwind.Api.Tests
         }
 
 #pragma warning disable NUnit1028 // The non-test method is public
+        /// <inheritdoc/>
         public async Task<IPagedResponse<ProductApi>> GetProducts(int page, SortBy sort, string searchTerm)
 #pragma warning restore NUnit1028 // The non-test method is public
         {
@@ -145,6 +145,7 @@ namespace Northwind.Api.Tests
         }
 
 #pragma warning disable NUnit1028 // The non-test method is public
+        /// <inheritdoc/>
         public async Task<ProductApi?> GetProductById(int productId)
 #pragma warning restore NUnit1028 // The non-test method is public
         {
@@ -171,6 +172,7 @@ namespace Northwind.Api.Tests
         }
 
 #pragma warning disable NUnit1028 // The non-test method is public
+        /// <inheritdoc/>
         public async Task<string[]> SearchProducts(string term)
 #pragma warning restore NUnit1028 // The non-test method is public
         {
@@ -207,6 +209,7 @@ namespace Northwind.Api.Tests
         }
 
 #pragma warning disable NUnit1028 // The non-test method is public
+        /// <inheritdoc/>
         public async Task<IPagedResponse<CategoryApi>> GetCategories(int page, SortBy sort)
 #pragma warning restore NUnit1028 // The non-test method is public
         {
@@ -234,6 +237,7 @@ namespace Northwind.Api.Tests
         }
 
 #pragma warning disable NUnit1028 // The non-test method is public
+        /// <inheritdoc/>
         public async Task<IPagedResponse<ProductApi>> GetProductsInCategory(int categoryId, int page, SortBy sort)
 #pragma warning restore NUnit1028 // The non-test method is public
         {
@@ -252,6 +256,7 @@ namespace Northwind.Api.Tests
             Assert.That(result, Is.Not.Null);
         }
 
+        /// <inheritdoc/>
         public async Task<CategoryApi> GetCategory(int categoryId)
         {
             HttpResponseMessage response = await _client.GetAsync($"/Categories/{categoryId}");

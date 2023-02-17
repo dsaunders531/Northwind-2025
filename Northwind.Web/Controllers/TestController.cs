@@ -8,7 +8,7 @@ namespace Northwind.Web.Controllers
     {
         public TestController(ILogger<TestController> logger)
         {
-            this.Logger = logger;
+            Logger = logger;
         }
 
         private ILogger Logger { get; set; }
@@ -45,7 +45,7 @@ namespace Northwind.Web.Controllers
     {
         public TestThing()
         {
-            this.Name = string.Empty;
+            Name = string.Empty;
         }
 
         public int Id { get; set; } = 0;

@@ -7,7 +7,7 @@ namespace Northwind.Reporting.Interfaces
     {
         public Report(IServiceProvider serviceProvider)
         {
-            this.ServiceProvider = serviceProvider;
+            ServiceProvider = serviceProvider;
         }
 
         protected IServiceProvider ServiceProvider { get; private set; }
@@ -48,7 +48,7 @@ namespace Northwind.Reporting.Interfaces
         /// </summary>
         /// <param name="reportParameters"></param>
         /// <returns>The location of the report.</returns>
-        public async override Task<Uri> Run(IReportOptions reportParameters)
+        public override async Task<Uri> Run(IReportOptions reportParameters)
         {
             try
             {

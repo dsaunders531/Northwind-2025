@@ -16,7 +16,7 @@ namespace Northwind.Reporting.Rcl.Data
                 throw new ApplicationException("ReportRecordRepository is not suitable for production environments!");
             }
 
-            this.Records = new Lazy<HashSet<ReportRecord>>(this.GetRecords, false);
+            Records = new Lazy<HashSet<ReportRecord>>(GetRecords, false);
         }
 
         private Lazy<HashSet<ReportRecord>> Records { get; set; }
@@ -27,9 +27,9 @@ namespace Northwind.Reporting.Rcl.Data
 
         private HashSet<ReportRecord> GetRecords()
         {
-            if (File.Exists(this.FilePath))
+            if (File.Exists(FilePath))
             {
-                ReportRecord[] data = File.ReadAllText(this.FilePath).JsonConvert<ReportRecord[]>();
+                ReportRecord[] data = File.ReadAllText(FilePath).JsonConvert<ReportRecord[]>();
 
                 return data.ToHashSet<ReportRecord>(new ReportRecordComparer());
             }
@@ -45,10 +45,10 @@ namespace Northwind.Reporting.Rcl.Data
             // only one save operation at a time
             if (Monitor.TryEnter(ReportRecordRepository.SaveLock, TimeSpan.FromSeconds(30)))
             {
-                File.WriteAllText(this.FilePath, this.Records.Value.ToArray().ToJson());
+                File.WriteAllText(FilePath, Records.Value.ToArray().ToJson());
 
                 // this will get the records again from the updated file when next requested.
-                this.Records = new Lazy<HashSet<ReportRecord>>(this.GetRecords, false);
+                Records = new Lazy<HashSet<ReportRecord>>(GetRecords, false);
 
                 Monitor.Exit(ReportRecordRepository.SaveLock);               
             }
@@ -62,9 +62,9 @@ namespace Northwind.Reporting.Rcl.Data
         {
             if (record.Id == default || record.Id == 0)
             {
-                if (this.Records.Value.Any())
+                if (Records.Value.Any())
                 {
-                    record.Id = this.Records.Value.Max(m => m.Id) + 1;
+                    record.Id = Records.Value.Max(m => m.Id) + 1;
                 }
                 else
                 {
@@ -73,37 +73,37 @@ namespace Northwind.Reporting.Rcl.Data
                 }                
             }
 
-            this.Records.Value.Add(record);
+            Records.Value.Add(record);
 
-            this.SaveRecords();
+            SaveRecords();
 
             return Task.FromResult(record);
         }
 
         public Task<bool> Delete(long id)
         {
-            this.Records.Value.RemoveWhere(w => w.Id == id);
+            Records.Value.RemoveWhere(w => w.Id == id);
 
-            this.SaveRecords();
+            SaveRecords();
 
             return Task.FromResult(true);
         }
 
         public Task<ReportRecord> Fetch(long id)
         {
-            return Task.FromResult(this.Records.Value.Where(w => w.Id == id).FirstOrDefault() ?? throw new KeyNotFoundException($"Could not find {id}"));
+            return Task.FromResult(Records.Value.Where(w => w.Id == id).FirstOrDefault() ?? throw new KeyNotFoundException($"Could not find {id}"));
         }
 
         public Task<ReportRecord[]> Fetch(Func<ReportRecord, bool> predicate)
         {
-            return Task.FromResult(this.Records.Value.Where(predicate).ToArray() ?? Array.Empty<ReportRecord>());
+            return Task.FromResult(Records.Value.Where(predicate).ToArray() ?? Array.Empty<ReportRecord>());
         }
 
         public Task<bool> Update(ReportRecord record)
         {
-            this.Delete(record.Id);
+            Delete(record.Id);
 
-            this.Create(record);
+            Create(record);
 
             return Task.FromResult(true);
         }

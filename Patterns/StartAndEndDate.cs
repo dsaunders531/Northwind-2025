@@ -10,6 +10,9 @@ namespace Patterns
     /// <remarks>Implements standard behavoir - start is always at 00:00 and end is always at 23:59 on the day.</remarks>
     public class StartAndEndDate
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StartAndEndDate"/> class.
+        /// </summary>
         public StartAndEndDate() { }
 
         /// <summary>

@@ -20,7 +20,7 @@ namespace Northwind.Web
 
             try
             {
-                var builder = WebApplication.CreateBuilder(args);
+                WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
                 // Add logging(NLog for this app)
                 // When using cloud hosting - use thier own logger and wire up some email alerts for exceptions.
@@ -94,7 +94,7 @@ namespace Northwind.Web
                 // Add reporting
                 builder.AddReporting();
 
-                var app = builder.Build();
+                WebApplication app = builder.Build();
 
                 // Configure the HTTP request pipeline.
                 if (!app.Environment.IsDevelopment())

@@ -14,7 +14,7 @@ namespace Northwind.Reporting.Models
     {
         public ReportConfig()
         {
-            this.Parameters = Activator.CreateInstance<TParameters>();
+            Parameters = Activator.CreateInstance<TParameters>();
         }
 
         [Required]

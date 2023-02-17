@@ -6,29 +6,29 @@ namespace Northwind.Api.Client
     {
         public OpenIdConfigurationModel()
         {
-            this.BackchannelTokenDeliveryModesSupported = Array.Empty<string>();
-            this.ScopesSupported = Array.Empty<string>();
-            this.ClaimsSupported = Array.Empty<string>();
-            this.GrantTypesSupported = Array.Empty<string>();
-            this.ResponseTypesSupported = Array.Empty<string>();
-            this.ResponseModesSupported = Array.Empty<string>();
-            this.TokenEndpointAuthMethodsSupported = Array.Empty<string>();
-            this.IdTokenSigningAlgValuesSupported = Array.Empty<string>();
-            this.SubjectTypesSupported = Array.Empty<string>();
-            this.CodeChallengeMethodsSupported = Array.Empty<string>();
-            this.RequestObjectSigningAlgValuesSupported = Array.Empty<string>();
-            this.BackchannelTokenDeliveryModesSupported = Array.Empty<string>();
-            this.Issuer = string.Empty;
-            this.JwksUri = string.Empty;
-            this.AuthorizationEndpoint = string.Empty;
-            this.TokenEndpoint = string.Empty;
-            this.UserinfoEndpoint = string.Empty;
-            this.CheckSessionIframe = string.Empty;
-            this.RevocationEndpoint = string.Empty;
-            this.IntrospectionEndpoint = string.Empty;
-            this.DeviceAuthorizationEndpoint = string.Empty;
-            this.BackchannelAuthenticationEndpoint = string.Empty;
-            this.EndSessionEndpoint = string.Empty;
+            BackchannelTokenDeliveryModesSupported = Array.Empty<string>();
+            ScopesSupported = Array.Empty<string>();
+            ClaimsSupported = Array.Empty<string>();
+            GrantTypesSupported = Array.Empty<string>();
+            ResponseTypesSupported = Array.Empty<string>();
+            ResponseModesSupported = Array.Empty<string>();
+            TokenEndpointAuthMethodsSupported = Array.Empty<string>();
+            IdTokenSigningAlgValuesSupported = Array.Empty<string>();
+            SubjectTypesSupported = Array.Empty<string>();
+            CodeChallengeMethodsSupported = Array.Empty<string>();
+            RequestObjectSigningAlgValuesSupported = Array.Empty<string>();
+            BackchannelTokenDeliveryModesSupported = Array.Empty<string>();
+            Issuer = string.Empty;
+            JwksUri = string.Empty;
+            AuthorizationEndpoint = string.Empty;
+            TokenEndpoint = string.Empty;
+            UserinfoEndpoint = string.Empty;
+            CheckSessionIframe = string.Empty;
+            RevocationEndpoint = string.Empty;
+            IntrospectionEndpoint = string.Empty;
+            DeviceAuthorizationEndpoint = string.Empty;
+            BackchannelAuthenticationEndpoint = string.Empty;
+            EndSessionEndpoint = string.Empty;
         }
 
         [JsonPropertyName("issuer")]

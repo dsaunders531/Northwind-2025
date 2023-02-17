@@ -20,7 +20,7 @@ namespace Northwind.Reporting.Rcl.Reports
 
         public override async Task<IEnumerable<SaleByCategoryReport>> Run(SalesByCategoryAndYearReportParameters parameters)
         {
-            INorthwindService northwindService = this.ServiceProvider.GetRequiredService<INorthwindService>();
+            INorthwindService northwindService = ServiceProvider.GetRequiredService<INorthwindService>();
 
             // not really relevant here - since year is the only parameter we are interested in.
             parameters.CalculateStartAndEndDates();
@@ -33,7 +33,7 @@ namespace Northwind.Reporting.Rcl.Reports
     {
         public SalesByCategoryAndYearReportParameters()
         {
-            this.Year = DateTime.UtcNow.Year;
+            Year = DateTime.UtcNow.Year;
         }
         
         [Required]

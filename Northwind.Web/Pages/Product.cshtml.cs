@@ -4,7 +4,7 @@ using Northwind.Context.Interfaces;
 using Northwind.Context.Models.Api;
 
 namespace Northwind.Web.Pages
-{    
+{
     public class ProductModel : PageModel
     {
         public ProductModel(ILogger<ProductModel> logger, INorthwindProductsService productsService)
@@ -24,7 +24,7 @@ namespace Northwind.Web.Pages
         {
             try
             {
-                this.Product = await NorthwindProductsService.GetProductById(productId);
+                Product = await NorthwindProductsService.GetProductById(productId);
 
                 if (Product == default)
                 {

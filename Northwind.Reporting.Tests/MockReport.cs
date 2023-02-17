@@ -9,7 +9,7 @@ namespace Northwind.Reporting.Tests
     {
         public long Id { get; set; }
 
-        public string Value { get; set; }
+        public string? Value { get; set; }
 
         [FieldConverter(ConverterKind.Date, "dd-MM-yyyy")]
         public DateTime Date { get; set; }

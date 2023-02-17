@@ -1,6 +1,4 @@
-using Duende.IdentityServer.EntityFramework.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +23,7 @@ namespace Northwind.Identity.Web
 
             try
             {
-                var builder = WebApplication.CreateBuilder(args);
+                WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
                 // Add logging (NLog for this app)
                 // When using cloud hosting - use thier own logger and wire up some email alerts for exceptions.
@@ -71,7 +69,7 @@ namespace Northwind.Identity.Web
 
                 /* Identity */
                 // Add services to the container.
-                var connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
+                string connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
 
                 builder.Services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(connectionString));
@@ -152,7 +150,7 @@ namespace Northwind.Identity.Web
                     mvcBuilder.AddRazorRuntimeCompilation();
                 }
 
-                var app = builder.Build();
+                WebApplication app = builder.Build();
                 
                 // Create databasees and perform migrations
                 // in load-balanced instances - only the 'primary' instance should do this.

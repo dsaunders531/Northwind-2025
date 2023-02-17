@@ -17,7 +17,7 @@ namespace Northwind.Security.ActionFilters
         /// <remarks>
         /// We'll be inserting a Cache record based on this name and client IP, e.g. "Name-192.168.0.1".
         /// </remarks>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the number of seconds clients must wait before executing this decorated route again.
@@ -33,7 +33,7 @@ namespace Northwind.Security.ActionFilters
         /// Gets or sets a text message (not themed) that will be sent to the client upon throttling.  You can include the token {n} to
         /// show this.Seconds in the message, e.g. "You have performed this action more than {x} times in the last {n} seconds.".
         /// </summary>
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
         /// <summary>
         /// Gets or sets the content name (themed and from SiteContent) to show upon throttling.  If this is present, the Message parameter will not be used.
@@ -48,13 +48,13 @@ namespace Northwind.Security.ActionFilters
         /// <exception cref="InvalidOperationException"></exception>
         public IActionResult? DoWork(FilterContext context)
         {
-            IActionResult result = default;
+            IActionResult? result = default;
 
             // You MUST put this in startup services for this to work.
             // services.AddDistributedMemoryCache();
             IDistributedCache cache = context.HttpContext.RequestServices.GetRequiredService<IDistributedCache>() ?? throw new InvalidOperationException("A distributed memory cache must be available for AllowXRequestsEveryNSecondsActionFilter.");
 
-            string clientAddress = this.GetIp(context.HttpContext.Request);
+            string clientAddress = GetIp(context.HttpContext.Request);
 
             string key = string.Concat("AllowRequests-", Name, "-", clientAddress);
             bool allowExecute = false;
@@ -62,7 +62,7 @@ namespace Northwind.Security.ActionFilters
 
             if (currentCacheValue == null)
             {
-                DateTime expiry = DateTime.Now.AddSeconds(this.Seconds);
+                DateTime expiry = DateTime.Now.AddSeconds(Seconds);
 
                 cache.Set(
                     key,
@@ -100,7 +100,7 @@ namespace Northwind.Security.ActionFilters
                        AbsoluteExpiration = value.Expires
                    });
 
-                allowExecute = value.Counter <= this.Requests;
+                allowExecute = value.Counter <= Requests;
             }
 
             if (!allowExecute)

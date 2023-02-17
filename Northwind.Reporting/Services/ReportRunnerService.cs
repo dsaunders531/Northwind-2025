@@ -41,7 +41,7 @@ namespace Northwind.Reporting.Services
             ProcessQueueTimer.Elapsed += ProcessQueueTimer_Elapsed;
 
             // add any pending or processing items to the queue (these will not have completed or have a way of completing)
-            ReportRecord[] pending = this.Repository.Fetch(f => f.Status == ReportStatus.Pending || f.Status == ReportStatus.Running)
+            ReportRecord[] pending = Repository.Fetch(f => f.Status == ReportStatus.Pending || f.Status == ReportStatus.Running)
                                 .GetAwaiter().GetResult();
 
             if (pending?.Any() ?? false)
@@ -76,7 +76,7 @@ namespace Northwind.Reporting.Services
                     // switch the timer off
                     ProcessQueueTimer.Stop();
 
-                    ReportRecord reportRecord = default;
+                    ReportRecord? reportRecord = default;
 
                     // run all the reports in the queue one at a time.
                     // while this is slower overall, it makes sure that resources are not over-used.                    

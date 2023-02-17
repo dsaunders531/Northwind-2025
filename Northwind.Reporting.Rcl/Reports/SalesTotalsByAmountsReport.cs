@@ -4,7 +4,6 @@ using Northwind.Context.Models.Reporting;
 using Northwind.Reporting.Extensions;
 using Northwind.Reporting.Interfaces;
 using Northwind.Reporting.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace Northwind.Reporting.Rcl.Reports
 {
@@ -23,7 +22,7 @@ namespace Northwind.Reporting.Rcl.Reports
             // Make sure the dates cover all the time on selected days
             parameters.CalculateStartAndEndDates();
             
-            INorthwindService service = this.ServiceProvider.GetRequiredService<INorthwindService>();
+            INorthwindService service = ServiceProvider.GetRequiredService<INorthwindService>();
 
             return (await service.SalesTotalsByAmounts(parameters.StartDate.Value, parameters.EndDate.Value)).AsEnumerable();
         }
@@ -35,8 +34,8 @@ namespace Northwind.Reporting.Rcl.Reports
         {
             DateTime now = DateTime.UtcNow;
 
-            this.StartDate = now.AddDays((now.Day * -1) + 1).AddMonths(-1);
-            this.EndDate = now.AddDays(now.Day * -1);
+            StartDate = now.AddDays((now.Day * -1) + 1).AddMonths(-1);
+            EndDate = now.AddDays(now.Day * -1);
         }        
     }
 }

@@ -2,12 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +9,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Northwind.Identity.Web.Models;
 using Northwind.Security.ActionFilters;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Text;
 
 namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
 {
@@ -108,20 +105,20 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
             }
             else
             {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
+                ApplicationUser user = await _userManager.FindByEmailAsync(Input.Email);
                 if (user == null)
                 {
                     // Don't reveal that the user does not exist
                     outcome = RedirectToPage("./ResetPasswordConfirmation");
                 }
 
-                var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
+                IdentityResult result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
                 if (result.Succeeded)
                 {
                     outcome = RedirectToPage("./ResetPasswordConfirmation");
                 }
 
-                foreach (var error in result.Errors)
+                foreach (IdentityError error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }

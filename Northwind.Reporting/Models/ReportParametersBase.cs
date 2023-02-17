@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using DocumentFormat.OpenXml.Spreadsheet;
-using Northwind.Reporting.Enums;
+﻿using Northwind.Reporting.Enums;
 using Northwind.Reporting.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace Northwind.Reporting.Models
 {

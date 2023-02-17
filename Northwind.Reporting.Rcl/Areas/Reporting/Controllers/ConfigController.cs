@@ -4,14 +4,8 @@ using Microsoft.Extensions.Logging;
 using Northwind.Reporting.Extensions;
 using Northwind.Reporting.Interfaces;
 using Northwind.Reporting.Models;
-using Northwind.Reporting.Rcl.Data;
 using Northwind.Reporting.Rcl.Reports;
 using Patterns.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
 {
@@ -25,8 +19,8 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
     {
         public ConfigController(ILogger<HomeController> logger, IReportRecordRepository recordRepository)
         {
-            this.Logger = logger;
-            this.RecordRepository = recordRepository;
+            Logger = logger;
+            RecordRepository = recordRepository;
         }
 
         private ILogger<HomeController> Logger { get; set; }
@@ -43,7 +37,7 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
             }
             catch (Exception ex)
             {
-                this.Logger.LogError(ex, "Error getting sales total by amount");
+                Logger.LogError(ex, "Error getting sales total by amount");
                 return View("Error");
             }
         }
@@ -55,11 +49,11 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
             try
             {
                 // the report name must match the report.Name property
-                return await this.Save(model, "Sales totals by quantity");                
+                return await Save(model, "Sales totals by quantity");                
             }
             catch (Exception ex)
             {
-                this.Logger.LogError(ex, "Error saving sales total by amount");
+                Logger.LogError(ex, "Error saving sales total by amount");
 
                 ModelState.AddModelError(string.Empty, $"An error happened saving the form. {ex.GetType()}: {ex.Message}");
 
@@ -77,7 +71,7 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
             }
             catch (Exception ex)
             {
-                this.Logger.LogError(ex, "Error getting sales by category");               
+                Logger.LogError(ex, "Error getting sales by category");               
                 return View("Error");
             }
         }
@@ -89,11 +83,11 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
             try
             {
                 // the report name must match the report.Name property
-                return await this.Save(model, "Sales By Category");                
+                return await Save(model, "Sales By Category");                
             }
             catch (Exception ex)
             {
-                this.Logger.LogError(ex, "Error saving sales by category");
+                Logger.LogError(ex, "Error saving sales by category");
                 
                 ModelState.AddModelError(string.Empty, $"An error happened saving the form. {ex.GetType()}: {ex.Message}");
 
@@ -119,7 +113,7 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
 
                 record.RunTime = record.CalculateDue();
 
-                _ = await this.RecordRepository.Create(record);
+                _ = await RecordRepository.Create(record);
 
                 return LocalRedirect("/Reporting/Home/MyReports");
             }

@@ -1,7 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NLog;
 using NLog.Extensions.Logging;
 using NLog.Web;
@@ -10,7 +7,6 @@ using Northwind.Context.InMemory.Contexts;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Services;
 using Northwind.Security.ActionFilters;
-using Patterns.Extensions;
 
 namespace Northwind.Api
 {

@@ -13,14 +13,14 @@ namespace Northwind.Reporting.ReportWriters
     {
         public CsvReportWriter()
         {
-            this.WriterType = Enums.ReportWriter.Csv;
+            WriterType = Enums.ReportWriter.Csv;
         }
 
         public override Task<Uri> Write(IEnumerable<TDataRow> data)
         {
             FileHelperAsyncEngine<TDataRow> fileEngine = new FileHelperAsyncEngine<TDataRow>();
 
-            string outputPath = Path.Combine(this.ReportOutputBase, $"{Guid.NewGuid()}.csv");
+            string outputPath = Path.Combine(ReportOutputBase, $"{Guid.NewGuid()}.csv");
 
             if (data.Any())
             {
@@ -38,7 +38,7 @@ namespace Northwind.Reporting.ReportWriters
             }
             else
             {
-                outputPath = Path.Combine(this.ReportOutputBase, "NoDataFound.txt");
+                outputPath = Path.Combine(ReportOutputBase, "NoDataFound.txt");
                 File.WriteAllText(outputPath, "No Data Found!");
             }
            

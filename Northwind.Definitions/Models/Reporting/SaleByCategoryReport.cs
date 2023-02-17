@@ -5,7 +5,6 @@
 using ClosedXML.Attributes;
 using FileHelpers;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Serialization;
 
 namespace Northwind.Context.Models.Reporting
 {

@@ -166,7 +166,7 @@ namespace Northwind.Reporting.Tests
 
         internal class MockReportOptions : IReportOptions
         {
-            public string ReportParametersJson { get; set; }
+            public string? ReportParametersJson { get; set; }
 
             public ReportWriter OutputFormat { get; set; }
         }

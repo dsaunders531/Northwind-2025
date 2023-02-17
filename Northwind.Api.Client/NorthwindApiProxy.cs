@@ -15,11 +15,11 @@ namespace Northwind.Api.Client
     {
         public NorthwindApiProxy(HttpClient httpClient, IConfiguration configuration)
         {
-            this.Client = httpClient;
-            this.BaseUrl = new Uri(configuration["ApiBaseUrl"].ToString());
-            this.AuthUrl = new Uri(configuration["AuthUrl"].ToString());
+            Client = httpClient;
+            BaseUrl = new Uri(configuration["ApiBaseUrl"].ToString());
+            AuthUrl = new Uri(configuration["AuthUrl"].ToString());
 
-            if (string.IsNullOrWhiteSpace(this.BaseUrl.Host) || string.IsNullOrWhiteSpace(this.AuthUrl.Host))
+            if (string.IsNullOrWhiteSpace(BaseUrl.Host) || string.IsNullOrWhiteSpace(AuthUrl.Host))
             {
                 throw new UriFormatException("Url does not look correct for base or auth. Check the configuration.");
             }                                   
@@ -39,21 +39,21 @@ namespace Northwind.Api.Client
         
         private async Task<DiscoveryDocumentResponse> GetDiscoveryDoc()
         {                       
-            if (this.OpenIdConfiguration == default)
+            if (OpenIdConfiguration == default)
             {
-                this.OpenIdConfiguration = await this.Client.GetDiscoveryDocumentAsync(this.AuthUrl.ToString());
+                OpenIdConfiguration = await Client.GetDiscoveryDocumentAsync(AuthUrl.ToString());
             }
             
-            return this.OpenIdConfiguration;            
+            return OpenIdConfiguration;            
         }
 
         private async Task<string> GetToken()
         {            
-            if (this.Token == default || (TokenExpires ?? DateTime.MinValue) <= DateTime.UtcNow)
+            if (Token == default || (TokenExpires ?? DateTime.MinValue) <= DateTime.UtcNow)
             {
-                TokenResponse tokenResponse = await this.Client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+                TokenResponse tokenResponse = await Client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
                 {
-                    Address = (await this.GetDiscoveryDoc()).TokenEndpoint,
+                    Address = (await GetDiscoveryDoc()).TokenEndpoint,
 
                     // TODO add to config
                     ClientId = "northwind-web",
@@ -67,18 +67,18 @@ namespace Northwind.Api.Client
                 }
                 else
                 {
-                    this.Token = tokenResponse;
+                    Token = tokenResponse;
 
                     TokenExpires = DateTime.UtcNow.AddMinutes(tokenResponse.ExpiresIn);
                 }
             }
 
-            return this.Token.AccessToken;                        
+            return Token.AccessToken;                        
         }
 
         public async Task<global::Patterns.IPagedResponse<CategoryApi>> GetCategories(int page, global::Patterns.SortBy sort)
         {
-            HttpResponseMessage response = await this.Client.GetAsync(new Uri(this.BaseUrl, $"Categories?page={page}&sort={sort}"));
+            HttpResponseMessage response = await Client.GetAsync(new Uri(BaseUrl, $"Categories?page={page}&sort={sort}"));
 
             response.EnsureSuccessStatusCode();
 
@@ -87,9 +87,9 @@ namespace Northwind.Api.Client
 
         public async Task<CategoryApi> GetCategory(int categoryId)
         {
-            this.Client.SetBearerToken(await this.GetToken());
+            Client.SetBearerToken(await GetToken());
 
-            HttpResponseMessage response = await this.Client.GetAsync(new Uri(this.BaseUrl, $"Categories/{categoryId}"));
+            HttpResponseMessage response = await Client.GetAsync(new Uri(BaseUrl, $"Categories/{categoryId}"));
 
             response.EnsureSuccessStatusCode();
 
@@ -98,9 +98,9 @@ namespace Northwind.Api.Client
 
         public async Task<ProductApi?> GetProductById(int productId)
         {
-            this.Client.SetBearerToken(await this.GetToken());
+            Client.SetBearerToken(await GetToken());
 
-            HttpResponseMessage response = await this.Client.GetAsync(new Uri(this.BaseUrl, $"Products/{productId}"));
+            HttpResponseMessage response = await Client.GetAsync(new Uri(BaseUrl, $"Products/{productId}"));
 
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
@@ -114,7 +114,7 @@ namespace Northwind.Api.Client
 
         public async Task<global::Patterns.IPagedResponse<ProductApi>> GetProducts(int page, global::Patterns.SortBy sort, string searchTerm)
         {
-            HttpResponseMessage response = await this.Client.GetAsync(new Uri(this.BaseUrl, $"Products?page={page}&sort={sort}&searchTerm={searchTerm}"));
+            HttpResponseMessage response = await Client.GetAsync(new Uri(BaseUrl, $"Products?page={page}&sort={sort}&searchTerm={searchTerm}"));
 
             response.EnsureSuccessStatusCode();
 
@@ -123,9 +123,9 @@ namespace Northwind.Api.Client
 
         public async Task<global::Patterns.IPagedResponse<ProductApi>> GetProductsInCategory(int categoryId, int page, global::Patterns.SortBy sort)
         {
-            this.Client.SetBearerToken(await this.GetToken());
+            Client.SetBearerToken(await GetToken());
 
-            HttpResponseMessage response = await this.Client.GetAsync(new Uri(this.BaseUrl, $"Categories/{categoryId}/products?page={page}&sort={sort}"));
+            HttpResponseMessage response = await Client.GetAsync(new Uri(BaseUrl, $"Categories/{categoryId}/products?page={page}&sort={sort}"));
 
             response.EnsureSuccessStatusCode();
 
@@ -134,7 +134,7 @@ namespace Northwind.Api.Client
 
         public async Task<string[]> SearchProducts(string term)
         {           
-            HttpResponseMessage response = await this.Client.GetAsync(new Uri(this.BaseUrl, $"Products/search?term={term}"));
+            HttpResponseMessage response = await Client.GetAsync(new Uri(BaseUrl, $"Products/search?term={term}"));
 
             response.EnsureSuccessStatusCode();
 

@@ -80,7 +80,8 @@ namespace Northwind.Tests.Sql
             Assert.That(firstProductFirstChar < lastProductFirstChar);
         }
 
-        public Task<IList<AlphabeticalListOfProduct>> AlphabeticalListOfProducts()
+        /// <inheritdoc/>
+        public Task<IList<AlphabeticalListOfProduct>>? AlphabeticalListOfProducts()
         {
             return NorthwindService?.AlphabeticalListOfProducts();
         }
@@ -96,6 +97,7 @@ namespace Northwind.Tests.Sql
             Assert.That(sales.Count.Equals(0)); // its an old report so there should be no data.
         }
 
+        /// <inheritdoc/>
         [Obsolete]
         public Task<IList<CategorySalesForYear>> CategorySalesFor1997s()
         {
@@ -116,6 +118,7 @@ namespace Northwind.Tests.Sql
             Assert.That(sales.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<CategorySalesForYear>> CategorySalesForYear(int year)
         {
             return NorthwindService.CategorySalesForYear(year);
@@ -131,6 +134,7 @@ namespace Northwind.Tests.Sql
             Assert.That(products.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<CurrentProductList>> CurrentProductLists()
         {
             return NorthwindService.CurrentProductLists();
@@ -146,6 +150,7 @@ namespace Northwind.Tests.Sql
             Assert.That(customersByCities.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<CustomerAndSuppliersByCity>> CustomerAndSuppliersByCities()
         {
             return NorthwindService.CustomerAndSuppliersByCities();
@@ -161,6 +166,7 @@ namespace Northwind.Tests.Sql
             Assert.That(invoices.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<Invoice>> Invoices()
         {
             return NorthwindService.Invoices();
@@ -176,6 +182,7 @@ namespace Northwind.Tests.Sql
             Assert.That(orderDetails.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<OrderDetailsExtended>> OrderDetailsExtendeds()
         {
             return NorthwindService.OrderDetailsExtendeds();
@@ -191,6 +198,7 @@ namespace Northwind.Tests.Sql
             Assert.That(orderSubtotals.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<OrderSubtotal>> OrderSubtotals()
         {
             return NorthwindService.OrderSubtotals();
@@ -206,6 +214,7 @@ namespace Northwind.Tests.Sql
             Assert.That(orders.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<OrdersQry>> OrdersQries()
         {
             return NorthwindService.OrdersQries();
@@ -222,6 +231,7 @@ namespace Northwind.Tests.Sql
             Assert.That(productSales.Count == 0); // its not 1997 anymore
         }
 
+        /// <inheritdoc/>
         [Obsolete]
         public Task<IList<ProductSalesForYear>> ProductSalesFor1997s()
         {
@@ -242,6 +252,7 @@ namespace Northwind.Tests.Sql
             Assert.That(productSales.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<ProductSalesForYear>> ProductSalesForYear(int year)
         {
             return NorthwindService.ProductSalesForYear(year);
@@ -257,6 +268,7 @@ namespace Northwind.Tests.Sql
             Assert.That(categories.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<ProductsByCategory>> ProductsByCategories()
         {
             return NorthwindService.ProductsByCategories();
@@ -273,12 +285,14 @@ namespace Northwind.Tests.Sql
             Assert.That(salesTotals.Count == 0); // hard coded date
         }
 
+        /// <inheritdoc/>
         [Obsolete]
         public Task<IList<SalesTotalsByAmount>> SalesTotalsByAmounts()
         {
             return NorthwindService.SalesTotalsByAmounts();
         }
 
+        /// <inheritdoc/>
         public Task<IList<SalesTotalsByAmount>> SalesTotalsByAmounts(DateTime start, DateTime end)
         {
             return NorthwindService.SalesTotalsByAmounts(start, end);
@@ -310,6 +324,7 @@ namespace Northwind.Tests.Sql
             Assert.That(salesByQuarters.Count >= 1);
         }
 
+        /// <inheritdoc/>
         [Obsolete]
         public Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters()
         {
@@ -331,6 +346,7 @@ namespace Northwind.Tests.Sql
             Assert.That(salesByQuarters.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters(int year, int quarter)
         {
             return NorthwindService.SummaryOfSalesByQuarters(year, quarter);
@@ -347,6 +363,7 @@ namespace Northwind.Tests.Sql
             Assert.That(salesByYears.Count >= 1);
         }
 
+        /// <inheritdoc/>
         [Obsolete]
         public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears()
         {
@@ -367,6 +384,7 @@ namespace Northwind.Tests.Sql
             Assert.That(salesByYears.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears(int year)
         {
             return NorthwindService.SummaryOfSalesByYears(year);
@@ -382,6 +400,7 @@ namespace Northwind.Tests.Sql
             Assert.That(productAboveAveragePrice.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<ProductsAboveAveragePrice>> ProductsAboveAveragePrices()
         {
             return NorthwindService.ProductsAboveAveragePrices();
@@ -397,6 +416,7 @@ namespace Northwind.Tests.Sql
             Assert.That(mostExpensiveProducts.Count == 10);
         }
 
+        /// <inheritdoc/>
         public Task<IList<MostExpensiveProduct>> TenMostExpensiveProducts()
         {
             return NorthwindService.TenMostExpensiveProducts();
@@ -415,6 +435,7 @@ namespace Northwind.Tests.Sql
             Assert.That(employeeSales.Any());
         }
 
+        /// <inheritdoc/>
         public Task<IList<EmployeeSalesByCountry>> EmployeeSalesByCountries(DateTime fromDate, DateTime toDate)
         {
             return NorthwindService.EmployeeSalesByCountries(fromDate, toDate);
@@ -436,6 +457,7 @@ namespace Northwind.Tests.Sql
             Assert.That(saleByCategories.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<SaleByCategoryReport>> SalesByCategory(string categoryName, int year)
         {
             return NorthwindService.SalesByCategory(categoryName, year);
@@ -454,6 +476,7 @@ namespace Northwind.Tests.Sql
             Assert.That(saleByYears.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<SaleByYear>> SalesByYear(DateTime fromDate, DateTime toDate)
         {
             return NorthwindService.SalesByYear(fromDate, toDate);
@@ -475,6 +498,7 @@ namespace Northwind.Tests.Sql
             Assert.IsNotNull(customerOrders.Count >= 1);
         }
 
+        /// <inheritdoc/>
         public Task<IList<CustomerOrders>> CustomerOders(string customerId)
         {
             return NorthwindService.CustomerOders(customerId);
@@ -492,6 +516,7 @@ namespace Northwind.Tests.Sql
             Assert.IsTrue(serviceValue.Any());
         }
 
+        /// <inheritdoc/>
         public Task<IList<CustomerOrderDetail>> CustomerOrderDetail(int orderId)
         {
             return NorthwindService.CustomerOrderDetail(orderId);
@@ -509,6 +534,7 @@ namespace Northwind.Tests.Sql
             Assert.IsTrue(serviceValue.Any());
         }
 
+        /// <inheritdoc/>
         public Task<IList<CustomerOrderHistory>> CustomerOrderHistory(string customerId)
         {
             return NorthwindService.CustomerOrderHistory(customerId);
@@ -525,6 +551,7 @@ namespace Northwind.Tests.Sql
             Assert.IsFalse(serviceValue.Any()); // hard-coded dates
         }
 
+        /// <inheritdoc/>
         [Obsolete]
         public Task<IList<QuarterlyOrder>> QuarterlyOrders()
         {
@@ -546,6 +573,7 @@ namespace Northwind.Tests.Sql
             Assert.IsTrue(serviceValue.Any());
         }
 
+        /// <inheritdoc/>
         public Task<IList<QuarterlyOrder>> QuarterlyOrders(int year, int quarter)
         {
             return NorthwindService.QuarterlyOrders(year, quarter);
@@ -562,6 +590,7 @@ namespace Northwind.Tests.Sql
             Assert.IsFalse(serviceValue.Any()); // hard coded dates
         }
 
+        /// <inheritdoc/>
         [Obsolete]
         public Task<IList<SalesByCategory>> SalesByCategory()
         {
@@ -583,6 +612,7 @@ namespace Northwind.Tests.Sql
             Assert.IsTrue(serviceValue.Any());
         }
 
+        /// <inheritdoc/>
         public Task<IList<SalesByCategory>> SalesByCategories(int year, int quarter)
         {
             return NorthwindService.SalesByCategories(year, quarter);
