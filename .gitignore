@@ -353,3 +353,4 @@ MigrationBackup/
 /Northwind.Web/dist/*.js
 /Northwind.Identity.Web/keys
 /Northwind.Web/report_records.json
+/Northwind.Web/report_records.json

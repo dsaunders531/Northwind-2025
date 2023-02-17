@@ -54,6 +54,6 @@
   },
   "-vs-binding": {
     "ProjectOpened": [ "watch" ],
-    "BeforeBuild": ["tscheck"]
+    "BeforeBuild": ["tscheck","test"]
   }
 }
