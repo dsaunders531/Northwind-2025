@@ -15,7 +15,7 @@ namespace Northwind.Reporting.Extensions
 
             if (record.Frequency == ReportFrequency.Daily || record.Frequency == ReportFrequency.Weekly || record.Frequency == ReportFrequency.Monthly)
             {
-                ReportParametersBase reportParameters = record.ReportParametersJson.JsonConvert<ReportParameters>();
+                ReportParameters reportParameters = record.ReportParametersJson.JsonConvert<ReportParameters>();
 
                 if (reportParameters.ReportPeriod == default) 
                 {

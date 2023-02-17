@@ -17,8 +17,8 @@
 <div class="row">
     <div class="col-12">
         <form method="post" href="@Context.Request.Path" >
-            @Html.AntiForgeryToken()
-            
+            @Html.AntiForgeryToken()                        
+
             @* Render the report parameters only *@
             @RenderBody()
             
@@ -33,7 +33,7 @@
                                                         Selected = s == Model.ReportWriter
                                                     })">
                 </select>
-                <span asp-validation-for="ReportWriter" class="error"></span>
+                <span asp-validation-for="ReportWriter" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -47,13 +47,13 @@
                                                         Selected = s == Model.Frequency
                                                     })">
                 </select>
-                <span asp-validation-for="Frequency" class="error"></span>
+                <span asp-validation-for="Frequency" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="FrequencyWeeklyMonthly" class="form-label"></label>
                 <select class="form-select" asp-for="FrequencyWeeklyMonthly" id="frequency-weekly-monthly"></select>
-                <span asp-asp-validation-for="FrequencyWeeklyMonthly" class="error"></span>
+                <span asp-asp-validation-for="FrequencyWeeklyMonthly" class="text-danger"></span>
             </div>
             <hr />
             <div class="btn-group">
@@ -65,7 +65,8 @@
 </div>
 
 @section Scripts {    
-    <script src="~/js/validate-form.js"></script>
+    @* This has been included in the main layout.<script src="~/js/validate-form.js"></script>*@
+
     <script type="text/javascript">
         // When frequency is changed, show a set of values in frequency weekly monthly.
         document.onreadystatechange = (ev) => {

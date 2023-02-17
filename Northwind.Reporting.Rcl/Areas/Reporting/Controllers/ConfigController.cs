@@ -44,15 +44,13 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
             catch (Exception ex)
             {
                 this.Logger.LogError(ex, "Error getting sales total by amount");
-                ModelState.AddModelError(string.Empty, $"An error happened saving the form. {ex.GetType()}: {ex.Message}");
-
-                return View();
+                return View("Error");
             }
         }
 
         [HttpPost]
         [Route("SalesTotalByAmount")]        
-        public async Task<IActionResult> SalesTotalsByAmount([FromForm] ReportConfig<SalesTotalsByAmountsReportParameters> model)
+        public async Task<IActionResult> SalesTotalByAmount([FromForm] ReportConfig<SalesTotalsByAmountsReportParameters> model)
         {
             try
             {
@@ -65,7 +63,7 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
 
                 ModelState.AddModelError(string.Empty, $"An error happened saving the form. {ex.GetType()}: {ex.Message}");
 
-                return View();
+                return View(model);
             }
         }
 
@@ -79,11 +77,8 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
             }
             catch (Exception ex)
             {
-                this.Logger.LogError(ex, "Error getting sales by category");
-
-                ModelState.AddModelError(string.Empty, $"An error happened saving the form. {ex.GetType()}: {ex.Message}");
-
-                return View();
+                this.Logger.LogError(ex, "Error getting sales by category");               
+                return View("Error");
             }
         }
 
@@ -102,7 +97,7 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
                 
                 ModelState.AddModelError(string.Empty, $"An error happened saving the form. {ex.GetType()}: {ex.Message}");
 
-                return View();                
+                return View(model);                
             }
         }
 
