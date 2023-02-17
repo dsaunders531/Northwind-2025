@@ -1,0 +1,34 @@
+﻿@using Northwind.Reporting.Models
+@using Northwind.Reporting.Enums
+
+@using Northwind.Reporting.Interfaces
+
+@model ReportParametersBase
+
+@*This partial must be added to each config view.
+    NOTE: may not work! In the case where the properties are not posted - copy the html below into the view.
+*@
+
+<div class="form-group">
+    <label asp-for="StartDate" class="form-label"></label>
+    <input id="startDate" class="form-control" asp-for="StartDate" type="date" />    
+    <span asp-validation-for="StartDate" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="EndDate" class="form-label"></label>
+    <input id="endDate" class="form-control" asp-for="EndDate" type="date" />
+    <span asp-validation-for="EndDate" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="ReportPeriod" class="form-label"></label>
+    <select class="form-select" id="reportPeriod"
+            asp-for="ReportPeriod"
+            asp-items="@Enum.GetValues<ReportPeriod>().Select(s => new SelectListItem()
+                                                    {
+                                                        Text = Enum.GetName<ReportPeriod>(s),
+                                                        Value = s.ToString(),
+                                                        Selected = s == Model.ReportPeriod
+                                                    })">
+    </select>
+    <span asp-validation-for="ReportPeriod" class="text-danger"></span>
+</div>

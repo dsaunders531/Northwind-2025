@@ -1,7 +1,7 @@
 ﻿// Application configuration
 
 const AppConfig = {
-    apiUrl: "/api/"
+    apiUrl: "https://localhost:7018/"
 };
 
 export default AppConfig;

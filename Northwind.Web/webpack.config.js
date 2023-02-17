@@ -1,4 +1,4 @@
-/// <binding AfterBuild='Run - Development' ProjectOpened='Watch - Development' />
+/// <binding />
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
 const path = require('path');

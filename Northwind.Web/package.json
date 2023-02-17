@@ -52,6 +52,8 @@
     "tscheck": "tsc",
     "test": "jest"
   },
-  
-  "-vs-binding":{"BeforeBuild":["tscheck","test"]}
+  "-vs-binding": {
+    "ProjectOpened": [ "watch" ],
+    "BeforeBuild": ["tscheck"]
+  }
 }

@@ -1,0 +1,54 @@
+﻿@using Northwind.Reporting.Models
+
+@model ReportRecord[]
+
+@{
+    ViewData["Title"] = "My Reports";    
+}
+
+<h2>My Reports</h2>
+
+@if (Model.Any())
+{
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-responsive table-striped">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+                    @foreach (ReportRecord item in Model.OrderByDescending(d => d.RunTime))
+                    {
+                                <tr>
+                                    <td>@item.ReportName</td>
+                                    <td>@item.Status.ToString()</td>
+                                    <td>@item.RunTime.ToShortDateString()</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            @if (item.Status == Northwind.Reporting.Enums.ReportStatus.Completed || item.Status == Northwind.Reporting.Enums.ReportStatus.Error)
+                                            {
+                                                <a class="btn btn-sm btn-success" asp-area="Reporting" asp-controller="Home" asp-action="Download" asp-route-reportId="@item.Id"><i class="fa-solid fa-save"></i> Download</a>
+                                            }
+                                            <form asp-area="Reporting" asp-controller="Home" asp-action="Delete" asp-route-reportId="@item.Id" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <button class="btn btn-sm btn-danger" type="submit"><i class="fa-solid fa-trash"></i> Delete</button>
+                                            </form>
+                                        </div>                                                               
+                                    </td>
+                                </tr>   
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        @if (!Model.Any())
+        {
+                <p><strong>No reports found!</strong></p>
+        }        
+        <a asp-area="Reporting" asp-controller="Home" asp-action="Index">Run a report.</a>
+    </div>
+</div>

@@ -1,11 +1,12 @@
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 using NLog;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using Northwind.Api.Client;
 using Northwind.Context.Interfaces;
+using Northwind.Reporting.Rcl;
+using Northwind.Security.ActionFilters;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Northwind.Web
 {
@@ -19,7 +20,7 @@ namespace Northwind.Web
 
             try
             {
-                var builder = WebApplication.CreateBuilder(args);
+                WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
                 // Add logging(NLog for this app)
                 // When using cloud hosting - use thier own logger and wire up some email alerts for exceptions.
@@ -34,21 +35,66 @@ namespace Northwind.Web
                                                 .AddEnvironmentVariables()
                                                 .AddJsonFile("appsettings.json", false, false)
                                                 .Build();
-
+                
                 builder.Services.AddHttpClient();
-
                 builder.Services.AddSingleton<INorthwindProductsService, NorthwindApiProxy>();
 
-                builder.Services.AddControllersWithViews();
+                builder.Services.AddAntiforgery();
+
+                builder.Services.AddControllersWithViews(options => {                    
+                    options.Filters.Add<HttpsOnlyActionFilter>(); // reject anything on http
+                    options.Filters.Add<ContentSecurityActionFilter>(); // add csp
+                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>(); // expect a validation token on all endpoints apart from HEAD, GET, OPTIONS, TRACE                   
+                });
+               
+                if (!builder.Environment.IsDevelopment())
+                {
+                    builder.Services.AddHsts(options => {
+                        options.Preload = true;
+                        options.IncludeSubDomains = true;
+                        options.MaxAge = TimeSpan.FromDays(360);                        
+                    });
+                }
+               
                 IMvcBuilder razorPagesBuilder = builder.Services.AddRazorPages();
 
-
                 if (builder.Environment.IsDevelopment())
-                {
+                {                    
                     razorPagesBuilder.AddRazorRuntimeCompilation();
                 }
 
-                var app = builder.Build();
+                /* Add identity hosted on Northwind.Idenity.Web */
+                JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+                
+                builder.Services
+                    .AddAuthentication(options =>
+                    {
+                        options.DefaultScheme = "Cookies";
+                        options.DefaultChallengeScheme = "oidc";
+                    })
+                    .AddCookie("Cookies")
+                    .AddOpenIdConnect("oidc", options =>
+                    {
+                        // Where identity is served from Northwind.Identity.Web
+                        options.Authority = "https://localhost:7153";
+
+                        options.ClientId = "northwind-web-user";
+                        options.ClientSecret = "secret";
+                        options.ResponseType = "code";
+
+                        options.Scope.Clear();
+                        options.Scope.Add("openid");
+                        options.Scope.Add("profile");
+                        
+                        options.GetClaimsFromUserInfoEndpoint = true;
+
+                        options.SaveTokens = true;
+                    });
+
+                // Add reporting
+                builder.AddReporting();
+
+                WebApplication app = builder.Build();
 
                 // Configure the HTTP request pipeline.
                 if (!app.Environment.IsDevelopment())
@@ -63,7 +109,10 @@ namespace Northwind.Web
 
                 app.UseRouting();
 
+                app.UseAuthentication();
                 app.UseAuthorization();
+
+                app.UseReporting();
 
                 app.MapDefaultControllerRoute();
                 app.UseEndpoints(endpoints =>

@@ -214,7 +214,7 @@ namespace Northwind.Context.Services
 
         public Task<CategoryApi> GetCategory(int categoryId)
         {
-            return Task.FromResult(CategoryApi.Create(this.Context.Categories.FirstOrDefault(f => f.CategoryId == categoryId) ?? new Category()));
+            return Task.FromResult(CategoryApi.Create(Context.Categories.FirstOrDefault(f => f.CategoryId == categoryId) ?? new Category()));
         }
     }
 }

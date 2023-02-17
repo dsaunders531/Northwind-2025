@@ -112,6 +112,7 @@
     <ProjectReference Include="..\Northwind.Api.Client\Northwind.Api.Client.csproj" />
     <ProjectReference Include="..\Northwind.Reporting.Rcl\Northwind.Reporting.Rcl.csproj" />
     <ProjectReference Include="..\Northwind.Security\Northwind.Security.csproj" />
+    <ProjectReference Include="..\Northwind.Seo\Northwind.Seo.Rcl.csproj" />
   </ItemGroup>
 
 </Project>

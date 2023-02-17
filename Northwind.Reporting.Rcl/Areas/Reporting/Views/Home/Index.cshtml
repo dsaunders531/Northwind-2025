@@ -1,0 +1,35 @@
+﻿@using Northwind.Reporting.Interfaces
+
+@model IEnumerable<Report>
+
+@{
+    ViewData["Title"] = "Reporting Home";
+    ViewData["Keywords"] = "Northwind,Reporting";
+    ViewData["Description"] = "Northwind Reporting Home Page";
+    ViewData["RobotsFollow"] = false;
+    ViewData["RobotsIndex"] = false;
+}
+
+@section Metas
+{
+        <partial name="_SeoMetas" />
+}
+
+<h2>Run A Report</h2>
+
+<a asp-area="Reporting" asp-controller="Home" asp-action="MyReports">View reports</a>
+
+@if (Model.Any())
+{
+    <dl>
+        @foreach (Report item in Model)
+        {
+            <dd><a href="@item.ConfigPageRoute" target="_self">@item.Name</a></dd>
+            <dd>@item.Description</dd>
+        }
+    </dl>    
+}
+else 
+{
+    <p><strong>No reports found!</strong></p>
+}

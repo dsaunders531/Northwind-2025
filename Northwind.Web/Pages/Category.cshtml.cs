@@ -25,7 +25,7 @@ namespace Northwind.Web.Pages
         {
             try
             {
-                this.Products = await NorthwindProductsService.GetProductsInCategory(categoryId, p.Value, s.Value);
+                Products = await NorthwindProductsService.GetProductsInCategory(categoryId, p.Value, s.Value);
 
                 return Page();
             }

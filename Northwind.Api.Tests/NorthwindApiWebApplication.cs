@@ -13,6 +13,7 @@ namespace Northwind.Api
     /// </remarks>
     public class NorthwindApiWebApplication : WebApplicationFactory<Program>
     {
+        /// <inheritdoc/>
         protected override IHost CreateHost(IHostBuilder builder)
         {
             // shared extra set up goes here

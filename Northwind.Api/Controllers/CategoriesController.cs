@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models.Api;
 using Northwind.Definitions.Interfaces;
@@ -9,6 +11,7 @@ namespace Northwind.Api.Controllers
     /// <summary>
     /// Controller for all supported product category operations.
     /// </summary>
+    [EnableCors("ForOurWebSite")]
     [ApiController]
     [Route("[controller]")]
     public class CategoriesController : ControllerBase, ICategoriesController
@@ -34,6 +37,7 @@ namespace Northwind.Api.Controllers
         /// <param name="page">The page of categories you want to see.</param>
         /// <param name="sort">The sort order of the categories.</param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IPagedResponse<CategoryApi>))]
@@ -51,6 +55,7 @@ namespace Northwind.Api.Controllers
             }
         }
 
+        /// <inheritdoc/>
         [HttpGet]
         [Route("{categoryId}")]
         [Produces("application/json")]

@@ -8,7 +8,7 @@ export class HttpClient {
         try {
             const response: Response = await window.fetch(url,
                 {
-                    mode: 'no-cors',
+                    mode: 'cors',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'same-origin',
                 });

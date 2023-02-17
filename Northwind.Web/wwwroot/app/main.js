@@ -3783,7 +3783,7 @@ __webpack_require__.r(__webpack_exports__);
 // Application configuration
 
 const AppConfig = {
-  apiUrl: "/api/"
+  apiUrl: "https://localhost:7018/"
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AppConfig);
 
@@ -3850,8 +3850,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Pager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Pager */ "./src/Components/Pager.tsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 // Show the categories
-
-// TODO this needs paging, filter and sort options (as components which can be reused for the product things)
 
 
 
@@ -4796,7 +4794,7 @@ class HttpClient {
   static async Get(url) {
     try {
       const response = await window.fetch(url, {
-        mode: 'no-cors',
+        mode: 'cors',
         headers: {
           'Content-Type': 'application/json'
         },

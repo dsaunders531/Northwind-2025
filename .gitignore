@@ -351,4 +351,5 @@ MigrationBackup/
 
 # Javascript files we will not be using
 /Northwind.Web/dist/*.js
-/Northwind.Identity.Web/keys/is-signing-key-725C5AB687961A36A5A9ABED2B5FA1AC.json
+/Northwind.Identity.Web/keys
+/Northwind.Web/report_records.json

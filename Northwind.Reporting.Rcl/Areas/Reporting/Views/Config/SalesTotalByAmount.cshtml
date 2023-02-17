@@ -1,0 +1,42 @@
+﻿@using Northwind.Context.Contexts;
+@using Northwind.Context.Interfaces;
+@using Northwind.Context.Models.Reporting;
+@using Northwind.Reporting.Rcl.Data;
+@using Northwind.Reporting.Rcl.Reports;
+@using Northwind.Reporting.Models;
+@using Northwind.Reporting.Enums;
+
+@model ReportConfig<SalesTotalsByAmountsReportParameters>
+
+@{
+    Layout = "_ReportConfigLayout";
+
+    ViewData["Title"] = "Sales Total By Amount";
+}
+
+<h2>Sales Total By Amount</h2>
+
+@*<partial name="_ReportParametersBase" model="Model.Parameters" /> does not work - no values are posted.*@
+<div class="form-group">
+    <label asp-for="Parameters.StartDate" class="form-label"></label>
+    <input id="startDate" class="form-control" asp-for="Parameters.StartDate" type="date" />
+    <span asp-validation-for="Parameters.StartDate" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Parameters.EndDate" class="form-label"></label>
+    <input id="endDate" class="form-control" asp-for="Parameters.EndDate" type="date" />
+    <span asp-validation-for="Parameters.EndDate" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Parameters.ReportPeriod" class="form-label"></label>
+    <select class="form-select" id="reportPeriod"
+            asp-for="Parameters.ReportPeriod"
+            asp-items="@Enum.GetValues<ReportPeriod>().Select(s => new SelectListItem()
+                                                    {
+                                                        Text = Enum.GetName<ReportPeriod>(s),
+                                                        Value = s.ToString(),
+                                                        Selected = s == Model.Parameters.ReportPeriod
+                                                    })">
+    </select>
+    <span asp-validation-for="Parameters.ReportPeriod" class="text-danger"></span>
+</div>
