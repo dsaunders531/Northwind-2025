@@ -52,6 +52,18 @@ namespace Patterns
         /// <inheritdoc/>
         public T[] Page { get; set; }
 
+        /// <summary>
+        /// Create a paged response object.
+        /// </summary>
+        /// <typeparam name="TItem">The type of list item.</typeparam>
+        /// <param name="totalItems">The total quantity of items.</param>
+        /// <param name="totalPages">The quantity of pages.</param>
+        /// <param name="itemsPerPage">Items per page.</param>
+        /// <param name="currentPage">The current page number.</param>
+        /// <param name="sort">The sort parameter (optional).</param>
+        /// <param name="searchTerm">The search term (optional).</param>
+        /// <param name="values">The data items for the current page.</param>
+        /// <returns>A paged response object representing a page of data.</returns>
         public static IPagedResponse<TItem> Create<TItem>(
                                                             int totalItems,
                                                             int totalPages,
