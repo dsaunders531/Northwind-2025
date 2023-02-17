@@ -31,9 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Northwind.Context.MsSql\Northwind.Context.MsSql.csproj" />
     <ProjectReference Include="..\Northwind.Context\Northwind.Context.csproj" />
-    <ProjectReference Include="..\Northwind.Definitions\Northwind.Definitions.csproj" />
   </ItemGroup>
 
 </Project>

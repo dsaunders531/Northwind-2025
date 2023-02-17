@@ -12,20 +12,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Context", "Northwind.Context\Northwind.Context.csproj", "{47A1368E-EC48-4324-9FD0-FF632875549B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Context.MsSql", "Northwind.Context.MsSql\Northwind.Context.MsSql.csproj", "{B089766A-AEA1-4FF2-9DA2-64C62AE37E6E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Patterns", "Patterns\Patterns.csproj", "{B3405200-6102-408E-B396-70C5D131131B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{132532B2-4A8F-4ACF-9104-D7D51CE369B1}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Patterns", "Patterns\Patterns.csproj", "{B3405200-6102-408E-B396-70C5D131131B}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{19EC04EA-BA1C-408E-ACCD-4A410F20695C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Tests.Sql", "Northwind.Tests.Sql\Northwind.Tests.Sql.csproj", "{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Context.InMemory", "Northwind.Context.InMemory\Northwind.Context.InMemory.csproj", "{FCA87818-D1F3-42C5-82E0-8177E884F37E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Tests.InMemory", "Northwind.Tests.InMemory\Northwind.Tests.InMemory.csproj", "{C2146455-D7E2-4F86-B20A-238210081E74}"
 EndProject
@@ -43,10 +39,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Web", "Northwind.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Api.Client", "Northwind.Api.Client\Northwind.Api.Client.csproj", "{54D04DF5-7ABE-4A4B-AF17-D6A411D51782}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Definitions", "Northwind.Definitions\Northwind.Definitions.csproj", "{D94FD883-772E-4F64-A2C4-4A18D0C6C6C3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Seo.Rcl", "Northwind.Seo\Northwind.Seo.Rcl.csproj", "{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,10 +49,6 @@ Global
 		{47A1368E-EC48-4324-9FD0-FF632875549B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47A1368E-EC48-4324-9FD0-FF632875549B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47A1368E-EC48-4324-9FD0-FF632875549B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B089766A-AEA1-4FF2-9DA2-64C62AE37E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B089766A-AEA1-4FF2-9DA2-64C62AE37E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B089766A-AEA1-4FF2-9DA2-64C62AE37E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B089766A-AEA1-4FF2-9DA2-64C62AE37E6E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B3405200-6102-408E-B396-70C5D131131B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B3405200-6102-408E-B396-70C5D131131B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3405200-6102-408E-B396-70C5D131131B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,10 +57,6 @@ Global
 		{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBBDD4D0-310A-4C20-9D75-47A39AEA6CEE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FCA87818-D1F3-42C5-82E0-8177E884F37E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCA87818-D1F3-42C5-82E0-8177E884F37E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCA87818-D1F3-42C5-82E0-8177E884F37E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCA87818-D1F3-42C5-82E0-8177E884F37E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C2146455-D7E2-4F86-B20A-238210081E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C2146455-D7E2-4F86-B20A-238210081E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2146455-D7E2-4F86-B20A-238210081E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -105,14 +89,6 @@ Global
 		{54D04DF5-7ABE-4A4B-AF17-D6A411D51782}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54D04DF5-7ABE-4A4B-AF17-D6A411D51782}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54D04DF5-7ABE-4A4B-AF17-D6A411D51782}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D94FD883-772E-4F64-A2C4-4A18D0C6C6C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D94FD883-772E-4F64-A2C4-4A18D0C6C6C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D94FD883-772E-4F64-A2C4-4A18D0C6C6C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D94FD883-772E-4F64-A2C4-4A18D0C6C6C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8CF0DB0C-8AA4-4610-8A63-C9B4016EC367}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

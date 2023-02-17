@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Northwind.Context.InMemory\Northwind.Context.InMemory.csproj" />
     <ProjectReference Include="..\Northwind.Tests.Sql\Northwind.Tests.Sql.csproj" />
   </ItemGroup>
 

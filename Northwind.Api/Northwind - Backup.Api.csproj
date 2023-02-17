@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.13" />
     <PackageReference Include="NLog" Version="5.1.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
@@ -38,8 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Northwind.Context.InMemory\Northwind.Context.InMemory.csproj" />
     <ProjectReference Include="..\Northwind.Context\Northwind.Context.csproj" />
-    <ProjectReference Include="..\Northwind.Security\Northwind.Security.csproj" />
   </ItemGroup>
 
   <ItemGroup>
