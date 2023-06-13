@@ -10,7 +10,7 @@ using Northwind.Identity.Web.Data;
 
 namespace Northwind.Identity.Web.Migrations
 {
-    [DbContext(typeof(DataProtectionDbContext))]
+    [DbContext(typeof(DataProtectionDbContextSqlServer))]
     [Migration("20230125113548_InitialCreate")]
     partial class InitialCreate
     {

@@ -11,7 +11,7 @@ using Northwind.Identity.Web.Data;
 
 namespace Northwind.Identity.Web.Migrations.ApplicationDb
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(IdentityDbContextSqlServer))]
     [Migration("20230125120515_InitialCreate")]
     partial class InitialCreate
     {

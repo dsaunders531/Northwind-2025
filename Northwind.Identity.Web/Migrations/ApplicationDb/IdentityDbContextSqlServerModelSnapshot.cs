@@ -10,8 +10,8 @@ using Northwind.Identity.Web.Data;
 
 namespace Northwind.Identity.Web.Migrations.ApplicationDb
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(IdentityDbContextSqlServer))]
+    partial class IdentityDbContextSqlServerModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

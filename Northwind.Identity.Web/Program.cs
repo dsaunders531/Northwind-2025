@@ -69,10 +69,9 @@ namespace Northwind.Identity.Web
 
                 /* Identity */
                 // Add services to the container.
-                string connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
+                //string connectionString = builder.Configuration.GetConnectionString("Identity") ?? throw new InvalidOperationException("Connection string 'Identity' not found.");
 
-                builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(connectionString));
+                builder.Services.AddDbContext<IdentityDbContextInMemory>(options => options.UseInMemoryDatabase("Identity"));
 
                 builder.Services
                     .AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -94,7 +93,7 @@ namespace Northwind.Identity.Web
                     .AddDefaultUI()
                     .AddDefaultTokenProviders()
                     .AddPersonalDataProtection<LookupProtector, LookupProtectorKeyRing>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>();                
+                    .AddEntityFrameworkStores<IdentityDbContextInMemory>();                
 
                 builder.Services.Configure<PasswordHasherOptions>(opts =>
                 {
@@ -122,14 +121,14 @@ namespace Northwind.Identity.Web
                 //    Use the same version of the Data Protection API stack across the apps. Perform either of the following in the apps' project files:
                 //    Reference the same shared framework version via the Microsoft.AspNetCore.App metapackage.
                 //    Reference the same Data Protection package version.
-                string dataProtectionConnStr = builder.Configuration.GetConnectionString("DataProtection") ?? throw new InvalidOperationException("Connection string 'DataProtection' not found.");
+                //string dataProtectionConnStr = builder.Configuration.GetConnectionString("DataProtection") ?? throw new InvalidOperationException("Connection string 'DataProtection' not found.");
 
-                builder.Services.AddDbContext<DataProtectionDbContext>(options =>
-                    options.UseSqlServer(dataProtectionConnStr));
+                builder.Services.AddDbContext<DataProtectionDbContextInMemory>(options =>
+                    options.UseInMemoryDatabase("DataProtection"));
 
                 builder.Services
                     .AddDataProtection()
-                    .PersistKeysToDbContext<DataProtectionDbContext>()
+                    .PersistKeysToDbContext<DataProtectionDbContextInMemory>()
                     .SetApplicationName("Northwind");                        
                 /* Identity Ends */
 
@@ -151,38 +150,37 @@ namespace Northwind.Identity.Web
                 }
 
                 WebApplication app = builder.Build();
-                
+
                 // Create databasees and perform migrations
                 // in load-balanced instances - only the 'primary' instance should do this.
-                if (Convert.ToBoolean(Environment.GetEnvironmentVariable("PERFORM_MIGRATIONS") ?? string.Empty))
-                {
-                    using (ApplicationDbContext context = new ApplicationDbContext(new DbContextOptionsBuilder<ApplicationDbContext>()
-                                                                                        .UseSqlServer(builder.Configuration.GetConnectionString("Identity"))
-                                                                                        .Options))
-                    {
-                        context.Database.Migrate();
-                    }
+                // This needs to be in a seperate CLI app and run before the new instance starts.
+                // eg: CloudFormation template - start a task which is a command line app to perform the migration
+                // then start the website as a service.
+                //if (Convert.ToBoolean(Environment.GetEnvironmentVariable("PERFORM_MIGRATIONS") ?? string.Empty))
+                //{
+                //    using (IdentityDbContext context = new IdentityDbContextSqlServer(new DbContextOptionsBuilder<IdentityDbContextSqlServer>()
+                //                                                                        .UseSqlServer(builder.Configuration.GetConnectionString("Identity"))
+                //                                                                        .Options))
+                //    {
+                //        context.Database.Migrate();
+                //    }
 
-                    using (DataProtectionDbContext context = new DataProtectionDbContext(new DbContextOptionsBuilder<DataProtectionDbContext>()
-                                                                                                .UseSqlServer(builder.Configuration.GetConnectionString("DataProtection"))
-                                                                                                .Options))
-                    {
-                        context.Database.Migrate();
-                    }
-                }
+                //    using (DataProtectionDbContext context = new DataProtectionDbContextSqlServer(new DbContextOptionsBuilder<DataProtectionDbContextSqlServer>()
+                //                                                                                .UseSqlServer(builder.Configuration.GetConnectionString("DataProtection"))
+                //                                                                                .Options))
+                //    {
+                //        context.Database.Migrate();
+                //    }
+                //}
                 // End migrations
 
-                // Configure the HTTP request pipeline.
-                if (app.Environment.IsDevelopment())
-                {
-                    app.UseMigrationsEndPoint(); // this should not be needed if the above has been run.
-                }
-                else
+                // Configure the HTTP request pipeline.                
+                if (!app.Environment.IsDevelopment())
                 {
                     app.UseExceptionHandler("/Home/Error");
                     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                     app.UseHsts();
-                }
+                }                                   
 
                 app.UseHttpsRedirection();
                 app.UseStaticFiles();
