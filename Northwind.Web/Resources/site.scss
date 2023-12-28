@@ -1,0 +1,61 @@
+﻿html {
+    font-size: 14px;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.string-transform-title-case::first-letter {
+    text-transform: uppercase !important;
+}
+
+.string-transform-title-case {
+    text-transform: capitalize !important;
+}
+
+/* Screen widths 
+    See bootstrap variables
+*/
+
+/* XS */
+@media (min-width: 0px) {
+}
+
+/* SM */
+@media (min-width: 576px) {
+}
+
+@media (max-width: 767px) {
+    br .hide-sm {
+        display: none;
+    }
+}
+
+/* MD */
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+
+    br .hide-sm {
+        display: inherit;
+    }
+}
+
+/* LG */
+@media (min-width: 992px) {
+}
+
+/* XL */
+@media (min-width: 1200px) {
+}
+
+/* XXL */
+@media (min-width: 1400px) {
+}
