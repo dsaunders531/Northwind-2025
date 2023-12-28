@@ -67,7 +67,7 @@ export class PageSort<T> extends React.Component<IPagedResponse<T>, EmptyObject>
     render() {
         return (
             <div className="row"> 
-                <div className="col-6 col-md-12">
+                <div className="col-12 col-sm-6 col-md-12">
                     <select className="form-select"
                         aria-label="Order the products list"
                         onChange={(e) => this.onInputChange(e.target.value as unknown as SortBy)}
@@ -77,8 +77,9 @@ export class PageSort<T> extends React.Component<IPagedResponse<T>, EmptyObject>
                         <option value={SortBy.Price} data-testid="sort-by-price">Price</option>
                         <option value={SortBy.Popularity} data-testid="sort-by-popularity">Popularity</option>
                     </select>
-                </div>
-                <div className="col-6 col-md-12">
+                </div>                
+                <div className="col-12 col-sm-6 col-md-12">
+                    <hr className="d-block d-sm-none d-md-block" />
                     <div className="form-check form-check-inline">
                         <input className="form-check-input"
                             type="radio"
