@@ -354,3 +354,4 @@ MigrationBackup/
 /Northwind.Identity.Web/keys
 /Northwind.Web/report_records.json
 /Northwind.Web/report_records.json
+/Northwind.Web.App/ClientApp/.angular/cache/14.0.3
