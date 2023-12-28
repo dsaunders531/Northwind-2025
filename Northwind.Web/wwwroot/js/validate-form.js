@@ -36,7 +36,7 @@ function EnableValidator() {
                 }
             }
 
-            // Breaks history.back() method the form remains disabled. DisableDocument();
+            // Breaks history.back() method. the form remains disabled. DisableDocument();
 
             document.querySelectorAll("button[type='submit'],input[type='submit'],button[type='reset'],input[type='reset']")
                 .forEach((e) => {
