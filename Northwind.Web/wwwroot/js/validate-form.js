@@ -14,7 +14,7 @@ function EnableValidator() {
     // form elements are input, select, textarea
     // see: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
 
-    var eles = ['button', 'fieldset', 'input', 'output', 'select', 'textarea', 'form','option','optgroup','.btn'];
+    var eles = ['button', 'fieldset', 'input', 'output', 'select', 'textarea', 'form', 'option', 'optgroup', '.btn'];
 
     // Listen to all the elments
     eles.forEach((ele) => {
@@ -22,8 +22,8 @@ function EnableValidator() {
             document.querySelectorAll(ele).forEach((q) => { Listen(q); });
         } catch (ex) {
             console.error(ex);
-        }        
-    });    
+        }
+    });
 
     // the form is going to be submitted. Disable everything
     window.addEventListener("beforeunload", (ev) => {
@@ -33,23 +33,23 @@ function EnableValidator() {
                     validationObserver.disconnect();
                 } catch (e) {
                     console.error(e);
-                }                
+                }
             }
-            
-            DisableDocument();
+
+            // Breaks history.back() method the form remains disabled. DisableDocument();
 
             document.querySelectorAll("button[type='submit'],input[type='submit'],button[type='reset'],input[type='reset']")
                 .forEach((e) => {
-                try {
-                    // remove functionality
-                    e.type = "button";
-                } catch (ex) {
-                    console.error(ex);
-                }
-            });
+                    try {
+                        // remove functionality
+                        e.type = "button";
+                    } catch (ex) {
+                        console.error(ex);
+                    }
+                });
         } catch (e) {
-            console.error('Disable document problem: ' + e);
-        }    
+            console.error('BeforeUnload problem: ' + e);
+        }
     });    
 }
 
@@ -74,6 +74,7 @@ const observerCallback = (mutationList, observer) => {
 };
 
 function DisableDocument() {
+    console.warn("Disabling document");
     document.querySelectorAll(".btn, button, fieldset, input, output, textarea, select, option, optgroup, a, form")
         .forEach(function (ele) {
             try {
