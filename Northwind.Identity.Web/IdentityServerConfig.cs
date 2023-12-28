@@ -1,5 +1,6 @@
 ﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
+using static System.Net.WebRequestMethods;
 
 namespace Northwind.Identity.Web
 {
@@ -54,6 +55,20 @@ namespace Northwind.Identity.Web
                     // where to redirect to after logout
                     PostLogoutRedirectUris = { "https://localhost:7240/signout-callback-oidc" },
 
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }
+                },      
+                // interactive web app Northwind.Web.App hosted from https://localhost:7256
+                new Client
+                {
+                    ClientId = "northwind-app-user",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.Code,                    
+                    RedirectUris = { "https://localhost:7256/signin-oidc" },                    
+                    PostLogoutRedirectUris = { "https://localhost:7256/signout-callback-oidc" },
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
