@@ -33,7 +33,7 @@ body {
 
 @media (max-width: 767px) {
     br .hide-sm {
-        display: none;
+        line-height: 0px;
     }
 }
 
@@ -44,7 +44,7 @@ body {
     }
 
     br .hide-sm {
-        display: inherit;
+        line-height: inherit;
     }
 }
 
