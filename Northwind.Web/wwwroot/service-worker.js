@@ -7,8 +7,13 @@ self.addEventListener("install", (event) => {
     event.waitUntil(
         addResourcesToCache([
             "/css/bootstrap.min.css",
+            "/css/site.min.css",
             "/lib/fontawesome-free-6.2.1-web/css/solid.min.css",
-            "/lib/fontawesome-free-6.2.1-web/css/fontawesome.min.css"
+            "/lib/fontawesome-free-6.2.1-web/css/fontawesome.min.css",
+            "/js/bootstrap.bundle.min.js",
+            "/js/bootstrap-5_3-color-mode-toggle.js",
+            "/js/site.js",
+            "/js/validate-form.js"
         ])
     );
 });
