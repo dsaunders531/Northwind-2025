@@ -3,13 +3,30 @@
   "name": "Northwind",
   "short_name": "Northwind",
   "start_url": "./",
+  "id": "/",
   "display": "standalone",
   "background_color": "#212529",
   "description": "The Northwind Shop",
+  "screenshots": [
+    {
+      "src": "screenshot.png",
+      "sizes": "1353x655",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Northwind"
+    },
+    {
+      "src": "screenshot.png",
+      "sizes": "1353x655",
+      "type": "image/png",
+      "label": "Northwind Home"
+    }
+  ],
+  "orientation": "portrait",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "32x32",
       "type": "image/x-icon"
     },
     {
