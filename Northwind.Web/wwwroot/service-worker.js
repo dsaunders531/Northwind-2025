@@ -13,7 +13,8 @@ self.addEventListener("install", (event) => {
             "/js/bootstrap.bundle.min.js",
             "/js/bootstrap-5_3-color-mode-toggle.js",
             "/js/site.js",
-            "/js/validate-form.js"
+            "/js/validate-form.js",
+            "/js/unload.js"
         ])
     );
 });

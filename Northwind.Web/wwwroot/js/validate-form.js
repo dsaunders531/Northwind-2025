@@ -24,8 +24,7 @@ function EnableValidator() {
             console.error(ex);
         }
     });
-
-    // the form is going to be submitted. Disable everything
+    
     window.addEventListener("beforeunload", (ev) => {
         try {
             if (validationObserver != null) {
@@ -34,19 +33,7 @@ function EnableValidator() {
                 } catch (e) {
                     console.error(e);
                 }
-            }
-
-            // Breaks history.back() method. the form remains disabled. DisableDocument();
-
-            document.querySelectorAll("button[type='submit'],input[type='submit'],button[type='reset'],input[type='reset']")
-                .forEach((e) => {
-                    try {
-                        // remove functionality
-                        e.type = "button";
-                    } catch (ex) {
-                        console.error(ex);
-                    }
-                });
+            }            
         } catch (e) {
             console.error('BeforeUnload problem: ' + e);
         }
@@ -72,22 +59,6 @@ const observerCallback = (mutationList, observer) => {
         EnableValidator();
     }
 };
-
-function DisableDocument() {
-    console.warn("Disabling document");
-    document.querySelectorAll(".btn, button, fieldset, input, output, textarea, select, option, optgroup, a, form")
-        .forEach(function (ele) {
-            try {
-                if (!ele.classList.contains('disabled')) {
-                    ele.classList.add("disabled");
-                }
-                ele.disabled = true; 
-                ele.style.cursor = "disabled";                           
-            } catch (e) {
-                console.error(e);
-            }
-        });
-}
 
 function Listen(inputEle) {    
     try {
