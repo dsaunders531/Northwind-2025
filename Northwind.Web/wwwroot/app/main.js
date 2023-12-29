@@ -4129,6 +4129,7 @@ class PageSearch extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component
               className: "fa-solid fa-magnifying-glass"
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+            id: "search-term",
             "aria-label": "Search for a product",
             type: "search",
             onChange: e => this.onSearchChange(e.target.value),
@@ -4221,8 +4222,9 @@ class PageSort extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "col-12 col-sm-6 col-md-12",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("select", {
+          id: "sort-order",
           className: "form-select",
-          "aria-label": "Order the products list",
+          "aria-label": "Order the list",
           onChange: e => this.onInputChange(e.target.value),
           defaultValue: this.getDefaultSortOrder(),
           "data-testid": "sort-select",

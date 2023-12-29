@@ -68,8 +68,8 @@ export class PageSort<T> extends React.Component<IPagedResponse<T>, EmptyObject>
         return (
             <div className="row"> 
                 <div className="col-12 col-sm-6 col-md-12">
-                    <select className="form-select"
-                        aria-label="Order the products list"
+                    <select id="sort-order" className="form-select"
+                        aria-label="Order the list"
                         onChange={(e) => this.onInputChange(e.target.value as unknown as SortBy)}
                         defaultValue={this.getDefaultSortOrder()}
                         data-testid="sort-select">

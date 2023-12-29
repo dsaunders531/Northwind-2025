@@ -75,7 +75,7 @@ export class PageSearch<T> extends React.Component<IPagedResponse<T>, SearchStat
                         <span className="input-group-text" id="pageSearch">
                             <i className="fa-solid fa-magnifying-glass"></i>
                         </span>
-                        <input aria-label="Search for a product"
+                        <input id="search-term" aria-label="Search for a product"
                             type="search"
                             onChange={(e) => this.onSearchChange(e.target.value)}                                                        
                             defaultValue={this.props.searchTerm}
