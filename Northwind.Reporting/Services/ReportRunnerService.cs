@@ -3,6 +3,7 @@ using Northwind.Reporting.Enums;
 using Northwind.Reporting.Extensions;
 using Northwind.Reporting.Interfaces;
 using Northwind.Reporting.Models;
+using System.Collections.Concurrent;
 using System.Timers;
 
 namespace Northwind.Reporting.Services
@@ -29,7 +30,7 @@ namespace Northwind.Reporting.Services
 
             PendingReportTimer.Elapsed += Timer_Elapsed;
 
-            Jobs = new Queue<ReportRecord>();
+            Jobs = new ConcurrentQueue<ReportRecord>();
                     
             ProcessQueueTimer = new System.Timers.Timer()
             {
@@ -65,7 +66,7 @@ namespace Northwind.Reporting.Services
 
         private ILogger<ReportRunnerService> Logger { get; set; }
 
-        private Queue<ReportRecord> Jobs { get; set; }
+        private ConcurrentQueue<ReportRecord> Jobs { get; set; }
 
         private void ProcessQueueTimer_Elapsed(object? sender, ElapsedEventArgs e)
         {
