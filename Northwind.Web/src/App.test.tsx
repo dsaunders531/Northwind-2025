@@ -17,7 +17,7 @@ beforeEach(() => {
 
 afterEach(() => {
     // cleanup on exiting
-    root.unmount();
+    act(() => { root.unmount() });  
     container.remove();
     container = null;
     root = null;

@@ -85,7 +85,7 @@ export class Pager<T> extends React.Component<IPagedResponse<T>, EmptyObject>
 
     render() {  
         if (this.props.totalPages <= 1) {
-            console.warn("No pages to render...");
+            //console.warn("No pages to render...");
             return <div></div>
         }
         else {            

@@ -4375,7 +4375,7 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
   }
   render() {
     if (this.props.totalPages <= 1) {
-      console.warn("No pages to render...");
+      //console.warn("No pages to render...");
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {});
     } else {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("nav", {
