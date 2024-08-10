@@ -15,14 +15,15 @@ namespace Northwind.Identity.Web.Services
 
         private IDataProtector DataProtector { get; set; }
 
-        public string Protect(string keyId, string data)
+        public string Protect(string keyId, string? data)
         {
-            return DataProtector.Protect(data);
+            return string.IsNullOrEmpty(data) ? string.Empty : DataProtector.Protect(data);
         }
 
-        public string Unprotect(string keyId, string data)
+        public string Unprotect(string keyId, string? data)
         {
-            return DataProtector.Unprotect(data);
+            
+            return string.IsNullOrEmpty(data) ? string.Empty : DataProtector.Unprotect(data);
         }
     }
 }
