@@ -140,7 +140,10 @@ namespace Northwind.Identity.Web
                     .AddInMemoryClients(IdentityServerConfig.Clients)
                     .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
                     .AddAspNetIdentity<ApplicationUser>();
-                /* End Identity Server */                                
+                /* End Identity Server */
+                
+                // Add the email sender service
+                builder.Services.AddSingleton<IEmailSender<ApplicationUser>, UserEmailSender>();
 
                 IMvcBuilder mvcBuilder = builder.Services.AddControllersWithViews();
 
@@ -225,7 +228,7 @@ namespace Northwind.Identity.Web
         {
             if (Convert.ToBoolean(Environment.GetEnvironmentVariable("PERFORM_MIGRATIONS") ?? string.Empty))
             {
-                using (IServiceScope serviceScope = app.Services.GetService<IServiceScopeFactory>().CreateScope())
+                using (IServiceScope serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope() ?? throw new NullReferenceException("Cannot get service IServiceScopeFactory!"))
                 {
                     UserManager<ApplicationUser> userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
                     RoleManager<ApplicationRole> roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
@@ -248,7 +251,7 @@ namespace Northwind.Identity.Web
                     // create a seed uesr - this should be an admin.
                     // Use this account to configure a real user to be the admin.
                     // Then prevent this account from logging in. (remove roles and add a lockout)                 
-                    ApplicationUser defaultUser = userManager.FindByNameAsync("admin@northwind.com").GetAwaiter().GetResult();
+                    ApplicationUser? defaultUser = userManager.FindByNameAsync("admin@northwind.com").GetAwaiter().GetResult();
 
                     if (defaultUser == default)
                     {
