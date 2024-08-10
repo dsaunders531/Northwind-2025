@@ -57,11 +57,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{1BA1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{4BFCAC45-148C-4890-BEC7-08C57E0E7F61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Reporting", "Northwind.Reporting\Northwind.Reporting.csproj", "{2DD061D1-4956-46EF-9EFB-B42231A0A3FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Reporting", "Northwind.Reporting\Northwind.Reporting.csproj", "{2DD061D1-4956-46EF-9EFB-B42231A0A3FD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reporting", "Reporting", "{63B3B6FF-ADC9-47FB-BBC4-5671D8A44E76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Reporting.Tests", "Northwind.Reporting.Tests\Northwind.Reporting.Tests.csproj", "{73D091E9-B0AD-4471-AD95-AD4846289674}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Reporting.Tests", "Northwind.Reporting.Tests\Northwind.Reporting.Tests.csproj", "{73D091E9-B0AD-4471-AD95-AD4846289674}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
