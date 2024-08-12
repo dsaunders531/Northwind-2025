@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { EmptyObject } from '../Lib/EmptyObject';
-import { IPagedResponse, SortBy } from '../Lib/IPagedResponse';
+import { IPagedResponse } from '../Lib/IPagedResponse';
+import { SortBy } from "../Lib/SortBy";
 
 export class PageSort<T> extends React.Component<IPagedResponse<T>, EmptyObject> {
     static displayName = PageSort.name;

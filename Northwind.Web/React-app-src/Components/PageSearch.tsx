@@ -1,7 +1,8 @@
 ﻿// A search componenet for lists which use IPagedResponse
 
-import React from 'react';
-import { IPagedResponse, SortBy } from '../Lib/IPagedResponse';
+import React, { useState } from 'react';
+import { IPagedResponse } from '../Lib/IPagedResponse';
+import { SortBy } from "../Lib/SortBy";
 import { ProductsService } from '../Services/ProductsService';
 
 type SearchState = {
@@ -30,6 +31,7 @@ export class PageSearch<T> extends React.Component<IPagedResponse<T>, SearchStat
         window.clearTimeout(this.state.timerRef);
 
         if (term != this.props.searchTerm) {
+            window.setTimeout(() => { this.props.onSearchTermChanged(this.state.term); }, 1200);
             this.setState((state) => ({
                 term: term,
                 timerRef: window.setTimeout(() => { this.props.onSearchTermChanged(this.state.term); }, 1200)

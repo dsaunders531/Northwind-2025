@@ -1,4 +1,5 @@
-﻿import { IPagedResponse, SortBy } from "../Lib/IPagedResponse";
+﻿import { IPagedResponse } from "../Lib/IPagedResponse";
+import { SortBy } from "../Lib/SortBy";
 import { Products } from "./Products";
 
 import React from "react";

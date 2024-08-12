@@ -2,7 +2,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { EmptyObject } from '../Lib/EmptyObject';
-import { IPagedResponse, SortBy } from '../Lib/IPagedResponse';
+import { IPagedResponse } from '../Lib/IPagedResponse';
+import { SortBy } from "../Lib/SortBy";
 
 export class Pager<T> extends React.Component<IPagedResponse<T>, EmptyObject>
 {

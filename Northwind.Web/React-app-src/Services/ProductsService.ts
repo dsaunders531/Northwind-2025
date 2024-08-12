@@ -1,6 +1,7 @@
 ﻿// Products Service
 import AppConfig from "../AppConfig";
-import { SortBy, IPagedResponse } from '../Lib/IPagedResponse';
+import { IPagedResponse } from '../Lib/IPagedResponse';
+import { SortBy } from "../Lib/SortBy";
 import { ProductApi } from '../Models/ApiModels';
 import { HttpClient } from '../Lib/HttpClient';
 

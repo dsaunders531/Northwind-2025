@@ -1,7 +1,8 @@
 ﻿// Show the categories
 
 import React from 'react';
-import { IPagedResponse, SortBy } from '../Lib/IPagedResponse';
+import { IPagedResponse } from '../Lib/IPagedResponse';
+import { SortBy } from "../Lib/SortBy";
 import { CategoryApi } from '../Models/ApiModels';
 import { CategoriesService } from '../Services/CategoriesService';
 import { Loading } from './Loading';

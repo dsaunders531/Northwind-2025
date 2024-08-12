@@ -2,14 +2,15 @@
 
 import React, { Context, ContextType } from 'react';
 import { Link } from 'react-router-dom';
-import { IPagedResponse, SortBy } from '../Lib/IPagedResponse';
+import { IPagedResponse } from '../Lib/IPagedResponse';
+import { SortBy } from "../Lib/SortBy";
 import { ProductApi } from '../Models/ApiModels';
 import { ProductsService } from '../Services/ProductsService';
 import { Loading } from './Loading';
 import { Pager } from './Pager';
 import { PageSort } from './PageSort';
 import { PageSearch } from './PageSearch';
-import { EmptyObject } from '../Lib/EmptyObject';
+import { ProductTableRow } from './ProductTableRow';
 
 type ProductsState = {
     isLoading: boolean,
@@ -242,38 +243,5 @@ export class Products extends React.Component<ProductsProps, ProductsState>
             // add this page to history with query parameters
             window.history.pushState({ page: this.state.currentPage.currentPage, sort: this.state.currentPage.sortOrder }, "Products Page " + this.state.currentPage.currentPage, query);
         }
-    }
-}
-
-
-export class ProductTableRow extends React.Component<ProductApi, EmptyObject>
-{
-    static displayName = ProductTableRow.name;
-
-    constructor(props: ProductApi) {
-        super(props); 
-    }
-
-    state: EmptyObject = {};
-
-    getLinkUrl(productId: number) {
-        return "/Product/" + productId;
-    }
-
-    render() {
-        return (
-            <tr>
-                <td>{this.props.productId}</td>
-                <td>
-                    <a href={this.getLinkUrl(this.props.productId)} target="_self">{this.props.productName}</a>
-                </td>
-                <td>{this.props.quantityPerUnit}</td>
-                <td>{this.props.unitPrice.toFixed(2)}</td>
-                <td>
-                    {this.props.discontinued ? <i className="text-error fa-solid circle-xmark" title="This product has been discontinued"></i> : ''}
-                    {this.props.unitsInStock < 5 ? <i className="text-warning fa-solid triangle-exclamation" title="Not many of these left!"></i> : '' }
-                </td>
-            </tr>
-        );
     }
 }

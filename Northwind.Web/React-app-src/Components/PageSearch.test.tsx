@@ -1,4 +1,4 @@
-﻿import { SortBy } from "../Lib/IPagedResponse";
+﻿import { SortBy } from "../Lib/SortBy";
 import { ProductApi } from "../Models/ApiModels";
 import { PageSearch } from "./PageSearch";
 

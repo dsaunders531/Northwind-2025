@@ -3844,7 +3844,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/IPagedResponse */ "./React-app-src/Lib/IPagedResponse.ts");
+/* harmony import */ var _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/SortBy */ "./React-app-src/Lib/SortBy.ts");
 /* harmony import */ var _Services_CategoriesService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Services/CategoriesService */ "./React-app-src/Services/CategoriesService.ts");
 /* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Loading */ "./React-app-src/Components/Loading.tsx");
 /* harmony import */ var _Pager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Pager */ "./React-app-src/Components/Pager.tsx");
@@ -3874,7 +3874,7 @@ class Categories extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component
       currentPage: {
         currentPage: page,
         searchTerm: '',
-        sortOrder: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending,
+        sortOrder: _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name | _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending,
         itemsPerPage: 10,
         totalItems: 0,
         page: [],
@@ -3989,7 +3989,7 @@ class Categories extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component
   }
   async getData(page) {
     try {
-      let sort = this.state.currentPage?.sortOrder ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
+      let sort = this.state.currentPage?.sortOrder ?? _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending | _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
       this.setState(state => ({
         isLoading: true,
         currentPage: null
@@ -4083,6 +4083,9 @@ class PageSearch extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component
   onSearchSelected(term) {
     window.clearTimeout(this.state.timerRef);
     if (term != this.props.searchTerm) {
+      window.setTimeout(() => {
+        this.props.onSearchTermChanged(this.state.term);
+      }, 1200);
       this.setState(state => ({
         term: term,
         timerRef: window.setTimeout(() => {
@@ -4164,7 +4167,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/IPagedResponse */ "./React-app-src/Lib/IPagedResponse.ts");
+/* harmony import */ var _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/SortBy */ "./React-app-src/Lib/SortBy.ts");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 // A sort component for lists which use IPagedResponse
 
@@ -4182,7 +4185,7 @@ class PageSort extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
   onInputChange(sort) {
     // this needs to handle asc, desc or select list
     let newSort = this.props.sortOrder;
-    if (sort & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending || sort & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending) {
+    if (sort & _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending || sort & _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending) {
       // the sort order has changed
       newSort = sort | this.getTypeSort(this.props.sortOrder);
     } else {
@@ -4194,26 +4197,26 @@ class PageSort extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
     }
   }
   getTypeSort(sort) {
-    if (sort & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name) {
-      return _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
-    } else if (sort & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Popularity) {
-      return _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Popularity;
-    } else if (sort & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Price) {
-      return _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Price;
+    if (sort & _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name) {
+      return _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
+    } else if (sort & _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Popularity) {
+      return _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Popularity;
+    } else if (sort & _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Price) {
+      return _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Price;
     } else {
-      return _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
+      return _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
     }
   }
   getAscDescSort(sort) {
-    if (sort & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending) {
-      return _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending;
+    if (sort & _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending) {
+      return _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending;
     } else {
-      return _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending;
+      return _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending;
     }
   }
   getDefaultSortOrder() {
     // extract just the type (excluding asc or desc from the sort order)
-    let result = this.props.sortOrder ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
+    let result = this.props.sortOrder ?? _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
     return this.getTypeSort(result);
   }
   render() {
@@ -4229,15 +4232,15 @@ class PageSort extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
           defaultValue: this.getDefaultSortOrder(),
           "data-testid": "sort-select",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
-            value: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name,
+            value: _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name,
             "data-testid": "sort-by-name",
             children: "Name"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
-            value: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Price,
+            value: _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Price,
             "data-testid": "sort-by-price",
             children: "Price"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
-            value: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Popularity,
+            value: _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Popularity,
             "data-testid": "sort-by-popularity",
             children: "Popularity"
           })]
@@ -4253,8 +4256,8 @@ class PageSort extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
             type: "radio",
             name: "sortAscDescOpts",
             id: "sortAsc",
-            value: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending,
-            checked: (this.props.sortOrder ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending) & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending ? true : false,
+            value: _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending,
+            checked: (this.props.sortOrder ?? _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending) & _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending ? true : false,
             onChange: e => this.onInputChange(e.target.value)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("label", {
             className: "form-check-label",
@@ -4273,8 +4276,8 @@ class PageSort extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
             type: "radio",
             name: "sortAscDescOpts",
             id: "sortDesc",
-            value: _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending,
-            checked: (this.props.sortOrder ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending) & _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending ? true : false,
+            value: _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending,
+            checked: (this.props.sortOrder ?? _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending) & _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Descending ? true : false,
             onChange: e => this.onInputChange(e.target.value)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("label", {
             className: "form-check-label",
@@ -4459,6 +4462,60 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
 
 /***/ }),
 
+/***/ "./React-app-src/Components/ProductTableRow.tsx":
+/*!******************************************************!*\
+  !*** ./React-app-src/Components/ProductTableRow.tsx ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ProductTableRow": () => (/* binding */ ProductTableRow)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+class ProductTableRow extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
+  static displayName = ProductTableRow.name;
+  constructor(props) {
+    super(props);
+  }
+  state = {};
+  getLinkUrl(productId) {
+    return "/Product/" + productId;
+  }
+  render() {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("tr", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+        children: this.props.productId
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+          href: this.getLinkUrl(this.props.productId),
+          target: "_self",
+          children: this.props.productName
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+        children: this.props.quantityPerUnit
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+        children: this.props.unitPrice.toFixed(2)
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("td", {
+        children: [this.props.discontinued ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+          className: "text-error fa-solid circle-xmark",
+          title: "This product has been discontinued"
+        }) : '', this.props.unitsInStock < 5 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+          className: "text-warning fa-solid triangle-exclamation",
+          title: "Not many of these left!"
+        }) : '']
+      })]
+    });
+  }
+}
+
+/***/ }),
+
 /***/ "./React-app-src/Components/Products.tsx":
 /*!***********************************************!*\
   !*** ./React-app-src/Components/Products.tsx ***!
@@ -4467,19 +4524,20 @@ class Pager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ProductTableRow": () => (/* binding */ ProductTableRow),
 /* harmony export */   "Products": () => (/* binding */ Products)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/IPagedResponse */ "./React-app-src/Lib/IPagedResponse.ts");
+/* harmony import */ var _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/SortBy */ "./React-app-src/Lib/SortBy.ts");
 /* harmony import */ var _Services_ProductsService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Services/ProductsService */ "./React-app-src/Services/ProductsService.ts");
 /* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Loading */ "./React-app-src/Components/Loading.tsx");
 /* harmony import */ var _Pager__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Pager */ "./React-app-src/Components/Pager.tsx");
 /* harmony import */ var _PageSort__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PageSort */ "./React-app-src/Components/PageSort.tsx");
 /* harmony import */ var _PageSearch__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PageSearch */ "./React-app-src/Components/PageSearch.tsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _ProductTableRow__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ProductTableRow */ "./React-app-src/Components/ProductTableRow.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 // A Product List View
+
 
 
 
@@ -4498,7 +4556,7 @@ class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
     // get parameters from query string (or props)
     const query = new URLSearchParams(window.location.search);
     let page = query.get('page') ?? props.page ?? 1;
-    let sort = query.get('sort') ?? props.sort ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending;
+    let sort = query.get('sort') ?? props.sort ?? _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name | _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending;
     let searchTerm = query.get('searchTerm') ?? props.searchTerm ?? '';
     this.onCurrentPageChanged = this.onCurrentPageChanged.bind(this);
     this.onSortOrderChanged = this.onSortOrderChanged.bind(this);
@@ -4562,30 +4620,30 @@ class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
   }
   getTable() {
     if (this.state.isLoading) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Loading__WEBPACK_IMPORTED_MODULE_3__.Loading, {});
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Loading__WEBPACK_IMPORTED_MODULE_3__.Loading, {});
     } else {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("table", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("table", {
         className: "table table-responsive table-striped",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("thead", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("tr", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("th", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("thead", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("tr", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
               children: "Id"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("th", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
               children: "Name"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("th", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
               children: "Quantity Per Unit"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("th", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
               children: "Unit Price"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("th", {})]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {})]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("tbody", {
-          children: this.state.currentPage.page.length == 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("tr", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("tbody", {
+          children: this.state.currentPage.page.length == 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("tr", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {
               colSpan: 5,
               children: "Nothing Found!"
             })
           }) : this.state.currentPage.page.map((value, index) => {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(ProductTableRow, {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_ProductTableRow__WEBPACK_IMPORTED_MODULE_7__.ProductTableRow, {
               productId: value.productId,
               productName: value.productName,
               quantityPerUnit: value.quantityPerUnit,
@@ -4600,11 +4658,11 @@ class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
     }
   }
   render() {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
       className: "row",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
         className: "col-md-4 col-sm-12",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_PageSearch__WEBPACK_IMPORTED_MODULE_6__.PageSearch, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_PageSearch__WEBPACK_IMPORTED_MODULE_6__.PageSearch, {
           currentPage: this.state.currentPage.currentPage,
           itemsPerPage: this.state.currentPage.itemsPerPage,
           totalItems: this.state.currentPage.totalItems,
@@ -4615,7 +4673,7 @@ class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
           onCurrentPageChanged: this.onCurrentPageChanged,
           onSortChanged: this.onSortOrderChanged,
           onSearchTermChanged: this.onSearchTermChanged
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_PageSort__WEBPACK_IMPORTED_MODULE_5__.PageSort, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_PageSort__WEBPACK_IMPORTED_MODULE_5__.PageSort, {
           currentPage: this.state.currentPage.currentPage,
           itemsPerPage: this.state.currentPage.itemsPerPage,
           totalItems: this.state.currentPage.totalItems,
@@ -4626,15 +4684,15 @@ class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
           onCurrentPageChanged: this.onCurrentPageChanged,
           onSortChanged: this.onSortOrderChanged,
           onSearchTermChanged: this.onSearchTermChanged
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("hr", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("hr", {
           className: "d-md-none"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
         className: "col-md-8 col-sm-12",
         children: this.getTable()
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
         className: "col-12",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Pager__WEBPACK_IMPORTED_MODULE_4__.Pager, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_Pager__WEBPACK_IMPORTED_MODULE_4__.Pager, {
           currentPage: this.state.currentPage.currentPage,
           itemsPerPage: this.state.currentPage.itemsPerPage,
           totalItems: this.state.currentPage.totalItems,
@@ -4708,41 +4766,6 @@ class Products extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
         sort: this.state.currentPage.sortOrder
       }, "Products Page " + this.state.currentPage.currentPage, query);
     }
-  }
-}
-class ProductTableRow extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
-  static displayName = ProductTableRow.name;
-  constructor(props) {
-    super(props);
-  }
-  state = {};
-  getLinkUrl(productId) {
-    return "/Product/" + productId;
-  }
-  render() {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("tr", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {
-        children: this.props.productId
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("a", {
-          href: this.getLinkUrl(this.props.productId),
-          target: "_self",
-          children: this.props.productName
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {
-        children: this.props.quantityPerUnit
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("td", {
-        children: this.props.unitPrice.toFixed(2)
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("td", {
-        children: [this.props.discontinued ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
-          className: "text-error fa-solid circle-xmark",
-          title: "This product has been discontinued"
-        }) : '', this.props.unitsInStock < 5 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
-          className: "text-warning fa-solid triangle-exclamation",
-          title: "Not many of these left!"
-        }) : '']
-      })]
-    });
   }
 }
 
@@ -4821,18 +4844,16 @@ class HttpClient {
 
 /***/ }),
 
-/***/ "./React-app-src/Lib/IPagedResponse.ts":
-/*!*********************************************!*\
-  !*** ./React-app-src/Lib/IPagedResponse.ts ***!
-  \*********************************************/
+/***/ "./React-app-src/Lib/SortBy.ts":
+/*!*************************************!*\
+  !*** ./React-app-src/Lib/SortBy.ts ***!
+  \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "SortBy": () => (/* binding */ SortBy)
 /* harmony export */ });
-// Interface for paged responses
-
 let SortBy;
 (function (SortBy) {
   SortBy[SortBy["Ascending"] = 1] = "Ascending";
@@ -4947,7 +4968,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "CategoriesService": () => (/* binding */ CategoriesService)
 /* harmony export */ });
 /* harmony import */ var _AppConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AppConfig */ "./React-app-src/AppConfig.ts");
-/* harmony import */ var _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/IPagedResponse */ "./React-app-src/Lib/IPagedResponse.ts");
+/* harmony import */ var _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/SortBy */ "./React-app-src/Lib/SortBy.ts");
 /* harmony import */ var _Lib_HttpClient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Lib/HttpClient */ "./React-app-src/Lib/HttpClient.ts");
 // Categories Service
 
@@ -4957,7 +4978,7 @@ class CategoriesService {
   static displayName = CategoriesService.name;
   static async Categories(page, sort) {
     page = page ?? 1;
-    sort = sort ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
+    sort = sort ?? _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending | _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
     const url = _AppConfig__WEBPACK_IMPORTED_MODULE_0__["default"].apiUrl + "Categories?page=" + page + "&sort=" + sort;
     try {
       return await _Lib_HttpClient__WEBPACK_IMPORTED_MODULE_2__.HttpClient.Get(url);
@@ -4969,7 +4990,7 @@ class CategoriesService {
   }
   static async ProductsInCategories(categoryId, page, sort) {
     page = page ?? 1;
-    sort = sort ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
+    sort = sort ?? _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending | _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name;
     const url = _AppConfig__WEBPACK_IMPORTED_MODULE_0__["default"].apiUrl + "Categories/" + categoryId + "/products?page=" + page + "&sort=" + sort;
     try {
       return await _Lib_HttpClient__WEBPACK_IMPORTED_MODULE_2__.HttpClient.Get(url);
@@ -4994,7 +5015,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ProductsService": () => (/* binding */ ProductsService)
 /* harmony export */ });
 /* harmony import */ var _AppConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AppConfig */ "./React-app-src/AppConfig.ts");
-/* harmony import */ var _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/IPagedResponse */ "./React-app-src/Lib/IPagedResponse.ts");
+/* harmony import */ var _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Lib/SortBy */ "./React-app-src/Lib/SortBy.ts");
 /* harmony import */ var _Lib_HttpClient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Lib/HttpClient */ "./React-app-src/Lib/HttpClient.ts");
 // Products Service
 
@@ -5015,7 +5036,7 @@ class ProductsService {
   static async Products(searchTerm, page, sort) {
     searchTerm = searchTerm ?? '';
     page = page ?? 1;
-    sort = sort ?? _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name | _Lib_IPagedResponse__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending;
+    sort = sort ?? _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Name | _Lib_SortBy__WEBPACK_IMPORTED_MODULE_1__.SortBy.Ascending;
     const url = _AppConfig__WEBPACK_IMPORTED_MODULE_0__["default"].apiUrl + "Products?page=" + page + "&sort=" + sort + (searchTerm.length > 0 ? "&searchTerm=" + searchTerm : '');
     try {
       return await _Lib_HttpClient__WEBPACK_IMPORTED_MODULE_2__.HttpClient.Get(url);
