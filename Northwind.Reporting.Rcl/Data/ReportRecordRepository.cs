@@ -11,7 +11,7 @@ namespace Northwind.Reporting.Rcl.Data
     {
         public ReportRecordRepository()
         {
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development" )
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
             {
                 throw new ApplicationException("ReportRecordRepository is not suitable for production environments!");
             }
@@ -37,7 +37,7 @@ namespace Northwind.Reporting.Rcl.Data
             {
                 return new HashSet<ReportRecord>();
             }
-            
+
         }
 
         private void SaveRecords()
@@ -50,7 +50,7 @@ namespace Northwind.Reporting.Rcl.Data
                 // this will get the records again from the updated file when next requested.
                 Records = new Lazy<HashSet<ReportRecord>>(GetRecords, false);
 
-                Monitor.Exit(ReportRecordRepository.SaveLock);               
+                Monitor.Exit(ReportRecordRepository.SaveLock);
             }
             else
             {
@@ -70,7 +70,7 @@ namespace Northwind.Reporting.Rcl.Data
                 {
                     // first record
                     record.Id = 1;
-                }                
+                }
             }
 
             Records.Value.Add(record);

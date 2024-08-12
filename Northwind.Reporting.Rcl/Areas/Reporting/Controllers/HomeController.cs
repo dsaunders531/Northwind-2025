@@ -52,21 +52,22 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
         public async Task<IActionResult> MyReports()
         {
             try
-            { string user = User.Identity?.Name ?? (User.Claims.Where(w => w.Type == "name").FirstOrDefault()?.Value ?? string.Empty);
+            {
+                string user = User.Identity?.Name ?? (User.Claims.Where(w => w.Type == "name").FirstOrDefault()?.Value ?? string.Empty);
 
                 return View(await RecordRepository.Fetch(w => w.UserName == user));
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error getting home page");
-                
+
                 return View("Error");
-            }            
+            }
         }
 
         [HttpGet]
         [Route("Download/{reportId}")]
-        public async Task<IActionResult> Download([FromRoute]long reportId)
+        public async Task<IActionResult> Download([FromRoute] long reportId)
         {
             try
             {
@@ -92,7 +93,7 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
                     {
                         LastModified = DateTime.UtcNow,
                         FileDownloadName = $"{record.ReportName}.{((record.OutputPath?.Contains(".") ?? false) ? record.OutputPath?.Substring(record.OutputPath.IndexOf(".") + 1) : "txt")}"
-                    };                    
+                    };
                 }
                 else
                 {
@@ -102,8 +103,8 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error getting home page");
-                
-                return View("Error");                
+
+                return View("Error");
             }
         }
 
@@ -121,7 +122,7 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
             {
                 Logger.LogError(ex, "Error deleting item");
 
-                return View("Error");                
+                return View("Error");
             }
         }
     }

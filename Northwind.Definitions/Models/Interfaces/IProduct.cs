@@ -5,7 +5,7 @@
 namespace Northwind.Context.Models.Interfaces
 {
     public interface IProduct
-    {        
+    {
         int? CategoryId { get; set; }
         bool Discontinued { get; set; }
         int ProductId { get; set; }

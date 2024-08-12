@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
 {
-    [AllowXRequestsEveryNSecondsPage("Login",6, 60)]
+    [AllowXRequestsEveryNSecondsPage("Login", 6, 60)]
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
@@ -82,7 +82,7 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
-        
+
         public async Task OnGetAsync(string returnUrl = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
@@ -99,7 +99,7 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
 
             ReturnUrl = returnUrl;
         }
-        
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             IActionResult result = Page();
@@ -133,7 +133,7 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");                    
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 }
             }
 
@@ -143,7 +143,7 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
             {
                 Thread.Sleep(minDuration - stopwatch.Elapsed);
             }
-            
+
             return result;
         }
     }

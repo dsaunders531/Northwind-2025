@@ -23,7 +23,7 @@ namespace Northwind.Tests.InMemory
             if (NorthwindService == default)
             {
                 NorthwindService = new NorthwindService(NorthwindContext);
-            }           
+            }
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Northwind.Reporting.Rcl.Reports
         {
             Year = DateTime.UtcNow.Year;
         }
-        
+
         [Required]
         public string Category { get; set; } = string.Empty;
 

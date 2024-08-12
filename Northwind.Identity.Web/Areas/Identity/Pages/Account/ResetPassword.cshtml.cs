@@ -72,7 +72,7 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
             [Required]
             public string Code { get; set; }
         }
-        
+
         public IActionResult OnGet(string code = null)
         {
             if (code == null)
@@ -88,7 +88,7 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
                 return Page();
             }
         }
-        
+
         public async Task<IActionResult> OnPostAsync()
         {
             // Add timer so this always takes n seconds for all outcomes (OWASP recommendation)

@@ -14,8 +14,8 @@ namespace Northwind.Security.ActionFilters
         {
             if (!context.HttpContext.Request.IsHttps)
             {
-                context.Result = new StatusCodeResult(StatusCodes.Status426UpgradeRequired);                
+                context.Result = new StatusCodeResult(StatusCodes.Status426UpgradeRequired);
             }
-        }            
+        }
     }
 }

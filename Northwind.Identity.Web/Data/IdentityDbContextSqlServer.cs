@@ -4,10 +4,10 @@ namespace Northwind.Identity.Web.Data
 {
     public class IdentityDbContextSqlServer : IdentityDbContext
     {
-        public IdentityDbContextSqlServer(): base() { }
+        public IdentityDbContextSqlServer() : base() { }
 
-        public IdentityDbContextSqlServer(DbContextOptions<IdentityDbContextSqlServer> options) : base(options) {}
-       
+        public IdentityDbContextSqlServer(DbContextOptions<IdentityDbContextSqlServer> options) : base(options) { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -21,7 +21,7 @@ namespace Northwind.Identity.Web.Data
         {
             base.OnModelCreating(builder);
 
-            builder.HasDefaultSchema("identity");            
+            builder.HasDefaultSchema("identity");
         }
     }
 }

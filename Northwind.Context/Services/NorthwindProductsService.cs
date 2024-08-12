@@ -44,7 +44,7 @@ namespace Northwind.Context.Services
             AdjustPageToWithinMinMaxRange(ref page, totalPages);
 
             // Sort rule
-            bool ascending = sort.IsAscending();         
+            bool ascending = sort.IsAscending();
 
             IOrderedQueryable<Category> sortedValues;
 
@@ -70,7 +70,7 @@ namespace Northwind.Context.Services
         {
             Product? result = await Context.Products.FindAsync(productId);
 
-            return result == default ? default : ProductApi.Create(result);            
+            return result == default ? default : ProductApi.Create(result);
         }
 
         public Task<IPagedResponse<ProductApi>> GetProducts(int page, SortBy sort, string searchTerm)
@@ -161,7 +161,7 @@ namespace Northwind.Context.Services
             IOrderedQueryable<Product> orderedList;
 
             switch (sort.Simplified())
-            {                
+            {
                 case SortBy.Name:
                     if (ascending)
                     {
@@ -173,7 +173,7 @@ namespace Northwind.Context.Services
                     }
 
                     break;
-                case SortBy.Price:                    
+                case SortBy.Price:
                 default:
                     if (ascending)
                     {
@@ -209,7 +209,7 @@ namespace Northwind.Context.Services
                                             .Select(s => s.ProductName)
                                             .OrderBy(o => o)
                                             .ToArray() ?? Array.Empty<string>());
-            }            
+            }
         }
 
         public Task<CategoryApi> GetCategory(int categoryId)

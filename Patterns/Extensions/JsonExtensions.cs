@@ -40,8 +40,8 @@ namespace Patterns.Extensions
             else
             {
                 return JsonSerializer.Deserialize<T>(value, JsonExtensions.JsonSerializerOptions) ?? Activator.CreateInstance<T>();
-            }            
+            }
         }
-            
+
     }
 }

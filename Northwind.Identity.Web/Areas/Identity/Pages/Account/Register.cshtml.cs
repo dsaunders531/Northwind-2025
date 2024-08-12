@@ -5,7 +5,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
@@ -97,13 +96,13 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
-        
+
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
-        
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             // Add timer so this always takes n seconds for all outcomes (OWASP recommendation)
@@ -115,9 +114,9 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
             stopwatch.Start();
 
             returnUrl ??= Url.Content("~/");
-            
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            
+
             if (ModelState.IsValid)
             {
                 ApplicationUser user = CreateUser();

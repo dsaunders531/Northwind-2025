@@ -33,7 +33,7 @@ namespace Northwind.Reporting.Rcl.Factories
 
         public Report GetReport(string name)
         {
-            return Reports.Where(w => w.Name.ToLowerInvariant() == name.ToLowerInvariant()).FirstOrDefault() 
+            return Reports.Where(w => w.Name.ToLowerInvariant() == name.ToLowerInvariant()).FirstOrDefault()
                 ?? throw new KeyNotFoundException($"Could not find report {name}.");
         }
     }

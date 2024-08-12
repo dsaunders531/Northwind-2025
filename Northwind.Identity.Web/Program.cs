@@ -40,7 +40,8 @@ namespace Northwind.Identity.Web
 
                 builder.Services.AddAntiforgery();
 
-                builder.Services.AddControllersWithViews(options => {
+                builder.Services.AddControllersWithViews(options =>
+                {
                     options.Filters.Add<HttpsOnlyActionFilter>(); // reject anything on http
                     options.Filters.Add<ContentSecurityActionFilter>(); // add csp
                     options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>(); // expect a validation token on all endpoints apart from HEAD, GET, OPTIONS, TRACE                   
@@ -93,7 +94,7 @@ namespace Northwind.Identity.Web
                     .AddDefaultUI()
                     .AddDefaultTokenProviders()
                     .AddPersonalDataProtection<LookupProtector, LookupProtectorKeyRing>()
-                    .AddEntityFrameworkStores<IdentityDbContextInMemory>();                
+                    .AddEntityFrameworkStores<IdentityDbContextInMemory>();
 
                 builder.Services.Configure<PasswordHasherOptions>(opts =>
                 {
@@ -129,7 +130,7 @@ namespace Northwind.Identity.Web
                 builder.Services
                     .AddDataProtection()
                     .PersistKeysToDbContext<DataProtectionDbContextInMemory>()
-                    .SetApplicationName("Northwind");                        
+                    .SetApplicationName("Northwind");
                 /* Identity Ends */
 
                 /* Add Identity Server */
@@ -141,7 +142,7 @@ namespace Northwind.Identity.Web
                     .AddInMemoryIdentityResources(IdentityServerConfig.IdentityResources)
                     .AddAspNetIdentity<ApplicationUser>();
                 /* End Identity Server */
-                
+
                 // Add the email sender service
                 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, UserEmailSender>();
 
@@ -183,7 +184,7 @@ namespace Northwind.Identity.Web
                     app.UseExceptionHandler("/Home/Error");
                     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                     app.UseHsts();
-                }                                   
+                }
 
                 app.UseHttpsRedirection();
                 app.UseStaticFiles();
@@ -192,11 +193,11 @@ namespace Northwind.Identity.Web
 
                 /* Identity */
                 Program.AddIdentitySeedData(app);
-                                
+
                 app.UseAuthentication();
                 /* Identity Server */
                 app.UseIdentityServer();
-                app.UseAuthorization();                                
+                app.UseAuthorization();
                 /* Identity */
 
                 app.MapControllerRoute(
@@ -217,7 +218,7 @@ namespace Northwind.Identity.Web
             {
                 // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
                 NLog.LogManager.Shutdown();
-            }           
+            }
         }
 
         /// <summary>
@@ -232,7 +233,7 @@ namespace Northwind.Identity.Web
                 {
                     UserManager<ApplicationUser> userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
                     RoleManager<ApplicationRole> roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
-                     
+
                     string[] defaultRoles = new string[] { "User", "UserAdministrator" };
 
                     foreach (string role in defaultRoles)
@@ -257,16 +258,16 @@ namespace Northwind.Identity.Web
                     {
                         // Create the user.
                         defaultUser = new ApplicationUser() { Email = "admin@northwind.com", UserName = "admin@northwind.com", EmailConfirmed = true };
-                        
+
                         IdentityResult result = userManager.CreateAsync(defaultUser, "Password1!").GetAwaiter().GetResult();
-                        
+
                         if (result.Succeeded)
                         {
                             _ = userManager.AddToRoleAsync(defaultUser, "UserAdministrator").GetAwaiter().GetResult();
                         }
                     }
                 }
-            }                
+            }
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Northwind.Patterns.Tests
 
             string value = thing.ToJson();
 
-            Assert.That(value,Has.Length.GreaterThan(0));
+            Assert.That(value, Has.Length.GreaterThan(0));
 
             TestThing deserialized = value.JsonConvert<TestThing>();
 
@@ -30,7 +30,7 @@ namespace Northwind.Patterns.Tests
             Assert.That(deserialized.DecimalNumber, Is.EqualTo(thing.DecimalNumber));
             Assert.That(deserialized.String, Is.EqualTo(thing.String));
             Assert.That(deserialized.Related, Is.EqualTo(thing.Related));
-            Assert.That(deserialized.Boolean, Is.EqualTo(thing.Boolean));            
+            Assert.That(deserialized.Boolean, Is.EqualTo(thing.Boolean));
         }
     }
 }

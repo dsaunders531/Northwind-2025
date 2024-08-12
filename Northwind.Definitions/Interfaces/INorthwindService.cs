@@ -44,7 +44,7 @@ namespace Northwind.Context.Interfaces
         Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters();
 
         Task<IList<SummaryOfSalesByQuarter>> SummaryOfSalesByQuarters(int year, int quarter);
-        
+
         [Obsolete("Relies on hard-coded date")]
         Task<IList<SummaryOfSalesByYear>> SummaryOfSalesByYears();
 

@@ -17,7 +17,7 @@ namespace Northwind.Reporting.Extensions
             {
                 ReportParameters reportParameters = record.ReportParametersJson.JsonConvert<ReportParameters>();
 
-                if (reportParameters.ReportPeriod == default) 
+                if (reportParameters.ReportPeriod == default)
                 {
                     throw new ArgumentException("A report period must be set for repeating reports.");
                 }

@@ -6,7 +6,7 @@
     /// <typeparam name="T"></typeparam>   
     /// <typeparam name="TId"></typeparam>
     public interface IRepository<T, TId>
-        where T : class        
+        where T : class
     {
         /// <summary>
         /// Get a record

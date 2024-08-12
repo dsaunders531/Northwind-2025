@@ -27,7 +27,7 @@ namespace Northwind.Reporting.ReportWriters
                 fileEngine.HeaderText = fileEngine.GetFileHeader();
 
                 using (fileEngine.BeginWriteFile(outputPath))
-                {                    
+                {
                     foreach (TDataRow item in data)
                     {
                         fileEngine.WriteNext(item);
@@ -41,7 +41,7 @@ namespace Northwind.Reporting.ReportWriters
                 outputPath = Path.Combine(ReportOutputBase, "NoDataFound.txt");
                 File.WriteAllText(outputPath, "No Data Found!");
             }
-           
+
             return Task.FromResult(new Uri(outputPath));
         }
     }

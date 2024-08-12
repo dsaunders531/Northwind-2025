@@ -47,5 +47,5 @@ namespace Northwind.Context.MsSql.Commands
 
             return result;
         }
-    }    
+    }
 }

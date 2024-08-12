@@ -22,7 +22,7 @@ namespace Northwind.Identity.Web.Services
 
         public string Unprotect(string keyId, string? data)
         {
-            
+
             return string.IsNullOrEmpty(data) ? string.Empty : DataProtector.Unprotect(data);
         }
     }

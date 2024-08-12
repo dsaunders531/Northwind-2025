@@ -30,7 +30,7 @@ namespace Northwind.Reporting.ReportWriters
                     HashSet<KeyValuePair<int, string>> columns = new HashSet<KeyValuePair<int, string>>();
 
                     foreach (PropertyInfo item in props)
-                    {                        
+                    {
                         XLColumnAttribute? attr = item.GetCustomAttribute<XLColumnAttribute>();
 
                         columns.Add(new KeyValuePair<int, string>(attr?.Order ?? column, attr?.Header ?? item.Name));

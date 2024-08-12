@@ -14,7 +14,7 @@ namespace Northwind.Identity.Web
         };
 
         public static IEnumerable<ApiScope> ApiScopes =>
-            new List<ApiScope> { 
+            new List<ApiScope> {
                 new ApiScope(name: "northwind-api", displayName: "Northwind Data Api")
             };
 
@@ -44,7 +44,7 @@ namespace Northwind.Identity.Web
                 new Client
                 {
                     ClientId = "northwind-web-user",
-                    
+
                     ClientSecrets = { new Secret("secret".Sha256()) },
 
                     AllowedGrantTypes = GrantTypes.Code,

@@ -11,12 +11,12 @@ namespace Patterns
         int ItemsPerPage { get; }
         int CurrentPage { get; }
         SortBy SortOrder { get; }
-        string SearchTerm { get; } 
+        string SearchTerm { get; }
     }
 
     public interface IPagedResponse<T> : IPagedResponse
         where T : class
-    {        
+    {
         T[] Page { get; }
     }
 }

@@ -16,7 +16,7 @@ namespace Northwind.Context.Models.Reporting
     {
         [XLColumn(Order = 4, Header = "Sale Amount")]
         [FieldOrder(4)]
-        [FieldConverter(ConverterKind.Decimal,".")]
+        [FieldConverter(ConverterKind.Decimal, ".")]
         [Column(TypeName = "money")]
         public decimal? SaleAmount { get; set; }
 

@@ -16,7 +16,7 @@ namespace Northwind.Reporting.Tests
         [Test]
         public async Task RunMockReport()
         {
-            MockReport report = new MockReport(new MockServiceProvider());            
+            MockReport report = new MockReport(new MockServiceProvider());
 
             Uri result = await report.Run(new MockReportOptions()
             {
@@ -45,7 +45,7 @@ namespace Northwind.Reporting.Tests
             {
                 Frequency = ReportFrequency.Immediate,
                 FrequencyWeeklyMonthly = null,
-                ReportParametersJson = new MockReportParameters() { ReportPeriod = ReportPeriod.Yesterday}.ToJson()
+                ReportParametersJson = new MockReportParameters() { ReportPeriod = ReportPeriod.Yesterday }.ToJson()
             };
 
             DateTime calculated = record.CalculateDue();
@@ -63,7 +63,7 @@ namespace Northwind.Reporting.Tests
             record.FrequencyWeeklyMonthly = 1; // Monday
 
             calculated = record.CalculateDue();
-            
+
             Assert.That(calculated.Date, Is.GreaterThan(DateTime.UtcNow.Date));
             Assert.That(calculated.DayOfWeek, Is.EqualTo(DayOfWeek.Monday));
 
@@ -98,9 +98,9 @@ namespace Northwind.Reporting.Tests
 
             // check that setting the report period does not override any dates which have been set
             reportParameters.ReportPeriod = ReportPeriod.Yesterday;
-            
+
             reportParameters.CalculateStartAndEndDates();
-            
+
             Assert.That(reportParameters.StartDate, Is.EqualTo(DateTime.UtcNow.AddYears(-1).Date));
             Assert.That(reportParameters.EndDate, Is.EqualTo(DateTime.UtcNow.Date.AddTicks(-1)));
 
@@ -128,7 +128,7 @@ namespace Northwind.Reporting.Tests
             reportParameters.EndDate = null;
 
             reportParameters.CalculateStartAndEndDates();
-            Assert.That(reportParameters.StartDate, Is.EqualTo(DateTime.UtcNow.AddMonths(-1).AddDays((DateTime.UtcNow.Day -1) * -1).Date));
+            Assert.That(reportParameters.StartDate, Is.EqualTo(DateTime.UtcNow.AddMonths(-1).AddDays((DateTime.UtcNow.Day - 1) * -1).Date));
             Assert.That(reportParameters.EndDate, Is.EqualTo(DateTime.UtcNow.AddDays((DateTime.UtcNow.Day - 1) * -1).Date.AddTicks(-1)));
 
             // month to date

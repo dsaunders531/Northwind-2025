@@ -5,7 +5,7 @@ namespace Northwind.Context.Models.Api
 {
     public class CategoryApi : ICategory
     {
-        public CategoryApi() 
+        public CategoryApi()
         {
             CategoryName = string.Empty;
         }

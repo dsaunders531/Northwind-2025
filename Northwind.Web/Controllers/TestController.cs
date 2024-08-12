@@ -30,7 +30,7 @@ namespace Northwind.Web.Controllers
                     new TestThing() { Id = 1, Name = "Hat" },
                     new TestThing() { Id = 2, Name = "Shoe"}
                 });
-                }                
+                }
             }
             catch (Exception ex)
             {

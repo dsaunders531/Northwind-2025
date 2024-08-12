@@ -10,12 +10,12 @@ namespace Northwind.Web.Pages
         {
             if (User.Identity?.IsAuthenticated ?? false)
             {
-                return SignOut(new AuthenticationProperties() { RedirectUri = "https://localhost:7240/" } , "Cookies", "oidc");
+                return SignOut(new AuthenticationProperties() { RedirectUri = "https://localhost:7240/" }, "Cookies", "oidc");
             }
             else
             {
                 return RedirectToPage("Index");
-            }            
+            }
         }
     }
 }

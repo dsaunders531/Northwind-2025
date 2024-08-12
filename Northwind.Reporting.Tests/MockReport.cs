@@ -16,7 +16,7 @@ namespace Northwind.Reporting.Tests
     }
 
     public class MockReportParameters : ReportParametersBase
-    {        
+    {
     }
 
     public class MockReport : Report<MockReportDataRow, MockReportParameters>

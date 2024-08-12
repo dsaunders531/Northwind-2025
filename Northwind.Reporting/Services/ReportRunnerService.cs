@@ -31,7 +31,7 @@ namespace Northwind.Reporting.Services
             PendingReportTimer.Elapsed += Timer_Elapsed;
 
             Jobs = new ConcurrentQueue<ReportRecord>();
-                    
+
             ProcessQueueTimer = new System.Timers.Timer()
             {
                 Interval = TimeSpan.FromSeconds(30).TotalMilliseconds,
@@ -53,7 +53,7 @@ namespace Northwind.Reporting.Services
                 }
 
                 ProcessQueueTimer.Start();
-            }            
+            }
         }
 
         private IReportFactory ReportFactory { get; set; }
@@ -115,7 +115,7 @@ namespace Northwind.Reporting.Services
                 catch (Exception ex)
                 {
                     Logger.LogError(ex, "Error running reports");
-                }                
+                }
             }
         }
 

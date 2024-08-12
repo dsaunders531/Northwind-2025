@@ -43,13 +43,13 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
         }
 
         [HttpPost]
-        [Route("SalesTotalByAmount")]        
+        [Route("SalesTotalByAmount")]
         public async Task<IActionResult> SalesTotalByAmount([FromForm] ReportConfig<SalesTotalsByAmountsReportParameters> model)
         {
             try
             {
                 // the report name must match the report.Name property
-                return await Save(model, "Sales totals by quantity");                
+                return await Save(model, "Sales totals by quantity");
             }
             catch (Exception ex)
             {
@@ -71,7 +71,7 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error getting sales by category");               
+                Logger.LogError(ex, "Error getting sales by category");
                 return View("Error");
             }
         }
@@ -83,15 +83,15 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
             try
             {
                 // the report name must match the report.Name property
-                return await Save(model, "Sales By Category");                
+                return await Save(model, "Sales By Category");
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error saving sales by category");
-                
+
                 ModelState.AddModelError(string.Empty, $"An error happened saving the form. {ex.GetType()}: {ex.Message}");
 
-                return View(model);                
+                return View(model);
             }
         }
 
@@ -122,7 +122,7 @@ namespace Northwind.Reporting.Rcl.Areas.Reporting.Controllers
                 ModelState.AddModelError(string.Empty, "There is something wrong with the form!");
 
                 return View(model);
-            }            
+            }
         }
-    }    
+    }
 }

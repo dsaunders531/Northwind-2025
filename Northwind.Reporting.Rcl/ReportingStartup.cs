@@ -21,7 +21,7 @@ namespace Northwind.Reporting.Rcl
         public static void AddReporting(this WebApplicationBuilder builder)
         {
             builder.Services.TryAddSingleton<IReportFactory, ReportFactory>();
-                     
+
             builder.Services.TryAddSingleton<IReportRecordRepository, ReportRecordRepository>();
 
             // add services which are needed by the reports.
@@ -30,7 +30,7 @@ namespace Northwind.Reporting.Rcl
             {
                 builder.Services.TryAddSingleton<NorthwindContext>(new NorthwindContextInMemory(string.Empty));
                 builder.Services.TryAddTransient<INorthwindService, NorthwindService>();
-            }            
+            }
         }
 
         public static void UseReporting(this WebApplication app)
@@ -44,10 +44,10 @@ namespace Northwind.Reporting.Rcl
                 NorthwindContext context = app.Services.GetRequiredService<NorthwindContext>();
                 context.BringUpToDate(DateTime.UtcNow.AddDays(DateTime.UtcNow.Day * -1));
 
-                ReportingStartup.ReportRunner = new ReportRunnerService(app.Services.GetRequiredService<IReportRecordRepository>(), 
-                                                                        app.Services.GetRequiredService<ILogger<ReportRunnerService>>(), 
+                ReportingStartup.ReportRunner = new ReportRunnerService(app.Services.GetRequiredService<IReportRecordRepository>(),
+                                                                        app.Services.GetRequiredService<ILogger<ReportRunnerService>>(),
                                                                         app.Services.GetRequiredService<IReportFactory>());
-                
+
             }
         }
     }

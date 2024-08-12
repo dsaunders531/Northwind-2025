@@ -39,12 +39,14 @@ namespace Northwind.Api
                 // use cors
                 string[] corsAllowOurSites = configuration.GetSection("CORS")["AllowedOrigins"].ToString().Split(",");
 
-                builder.Services.AddCors(options => {
+                builder.Services.AddCors(options =>
+                {
                     options.AddPolicy(name: "ForOurWebSite",
-                        policy => {
+                        policy =>
+                        {
                             policy.WithOrigins(corsAllowOurSites)
                                     .AllowAnyMethod()
-                                    .WithMethods("GET","POST","PUT","DELETE","OPTIONS","HEAD","PATCH")
+                                    .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH")
                                     //.AllowAnyHeader()
                                     .WithHeaders("Content-Type")
                                     //.AllowCredentials()
@@ -62,22 +64,23 @@ namespace Northwind.Api
                         // Https only does not work with the api tests (app is run without server)
                         options.Filters.Add<HttpsOnlyActionFilter>();
                         options.Filters.Add(new AuthorizeFilter()); // Authorise everything by default
-                    }                                        
+                    }
                 });
-                
+
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen();
 
                 if (!builder.Environment.IsDevelopment())
                 {
-                    builder.Services.AddHsts(options => {
+                    builder.Services.AddHsts(options =>
+                    {
                         options.Preload = true;
                         options.IncludeSubDomains = true;
                         options.MaxAge = TimeSpan.FromDays(360);
                     });
                 };
-                
+
                 /* Add Identity Server Authorisation (see Northwind.Identity.Web) */
                 builder.Services.AddAuthentication("Bearer")
                     .AddJwtBearer("Bearer", opts =>
@@ -102,7 +105,7 @@ namespace Northwind.Api
                     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                     app.UseHsts();
                 }
-                
+
                 app.UseHttpsRedirection();
 
                 app.UseCors("ForOurWebSite"); // this must go above auth and map controllers
@@ -111,7 +114,7 @@ namespace Northwind.Api
                 app.UseAuthorization();
 
                 app.MapControllers();
-               
+
                 app.Run();
             }
             catch (Exception ex)
@@ -124,7 +127,7 @@ namespace Northwind.Api
             {
                 // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
                 NLog.LogManager.Shutdown();
-            }           
+            }
         }
 
         private static void ConfigureBusinessServices(WebApplicationBuilder builder)

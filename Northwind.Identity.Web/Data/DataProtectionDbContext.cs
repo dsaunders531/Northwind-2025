@@ -10,9 +10,9 @@ namespace Northwind.Identity.Web.Data
     public abstract class DataProtectionDbContext : DbContext, IDataProtectionKeyContext
     {
         public DataProtectionDbContext() : base() { }
-        
+
         public DataProtectionDbContext(DbContextOptions options) : base(options) { }
 
-        public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }        
+        public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
     }
 }

@@ -10,6 +10,6 @@ namespace Northwind.Reporting.Interfaces
     {
         string ReportParametersJson { get; }
 
-        ReportWriter OutputFormat { get; }              
+        ReportWriter OutputFormat { get; }
     }
 }

@@ -85,12 +85,12 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account.Manage
             }
 
             string userId = await _userManager.GetUserIdAsync(user);
-            
+
             await _userManager.RemoveClaimsAsync(user, await _userManager.GetClaimsAsync(user));
             await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
 
             IdentityResult result = await _userManager.DeleteAsync(user);
-                        
+
             if (!result.Succeeded)
             {
                 throw new InvalidOperationException($"Unexpected error occurred deleting user.");

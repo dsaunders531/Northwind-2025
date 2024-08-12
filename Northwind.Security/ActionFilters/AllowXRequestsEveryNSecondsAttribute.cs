@@ -54,12 +54,12 @@ namespace Northwind.Security.ActionFilters
         public AllowXRequestsEveryNSecondsAttribute() : base()
         {
             Base = new AllowXRequestsEveryNBase()
-            { 
-                Message = Message ?? string.Empty, 
-                Name = Name ?? string.Empty, 
-                Requests = Requests, 
-                Seconds = Seconds, 
-                ThrottledRoute = ThrottledRoute 
+            {
+                Message = Message ?? string.Empty,
+                Name = Name ?? string.Empty,
+                Requests = Requests,
+                Seconds = Seconds,
+                ThrottledRoute = ThrottledRoute
             };
 
             Message = Base.Message;
@@ -74,6 +74,6 @@ namespace Northwind.Security.ActionFilters
             {
                 context.Result = result;
             }
-        }                        
+        }
     }
 }

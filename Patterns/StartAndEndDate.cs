@@ -39,7 +39,7 @@ namespace Patterns
         public StartAndEndDate(int year, int quarter)
         {
             int startmonth = quarter; // 1 = 1, 2 = 4, 3 = 7, 4 = 10
-            
+
             switch (startmonth)
             {
                 case 1:

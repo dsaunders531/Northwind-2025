@@ -12,11 +12,11 @@ namespace Northwind.Security.ActionFilters
     public class CORSActionFilter : ActionFilterAttribute
     {
         public override void OnResultExecuting([NotNull] ResultExecutingContext context)
-        {            
+        {
             if (context.HttpContext.User.Identity?.IsAuthenticated ?? false)
             {
                 // In these cases - the user is authenticated. An origin must be specified.
-                context.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", 
+                context.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin",
                     $"{context.HttpContext.Request.Scheme}://{context.HttpContext.Request.Host}");
             }
             else

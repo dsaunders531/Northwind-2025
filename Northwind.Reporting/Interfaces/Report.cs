@@ -11,7 +11,7 @@ namespace Northwind.Reporting.Interfaces
         }
 
         protected IServiceProvider ServiceProvider { get; private set; }
-        
+
         /// <summary>
         /// The name for the report.
         /// </summary>

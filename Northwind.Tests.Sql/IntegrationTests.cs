@@ -8,8 +8,8 @@ using Northwind.Context.Contexts;
 using Northwind.Context.Interfaces;
 using Northwind.Context.Models.Database;
 using Northwind.Context.Models.Reporting;
-using Northwind.Context.MsSql.Services;
 using Northwind.Context.MsSql.Contexts;
+using Northwind.Context.MsSql.Services;
 
 namespace Northwind.Tests.Sql
 {

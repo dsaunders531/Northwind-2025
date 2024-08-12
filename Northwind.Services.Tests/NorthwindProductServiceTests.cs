@@ -14,7 +14,7 @@ namespace Northwind.Services.Tests
     public class NorthwindProductServiceTests : Context.Interfaces.INorthwindProductsService
     {
         private NorthwindContext? _context;
-        
+
         private INorthwindProductsService? _service;
 
         [Test]
@@ -23,7 +23,7 @@ namespace Northwind.Services.Tests
             IPagedResponse<CategoryApi> result = await GetCategories(1, SortBy.Name | SortBy.Ascending);
 
             Assert.IsNotNull(result);
-                        
+
             Assert.That(result.Page, Has.Length.LessThanOrEqualTo(result.ItemsPerPage));
 
             Assert.That(result.Page.First().CategoryName.First(), Is.LessThanOrEqualTo(result.Page.Last().CategoryName.First()));
@@ -155,7 +155,7 @@ namespace Northwind.Services.Tests
             if (_service == default)
             {
                 _service = new NorthwindProductsService(_context);
-            }            
-        }        
+            }
+        }
     }
 }

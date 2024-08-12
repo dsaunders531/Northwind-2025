@@ -12,7 +12,7 @@ namespace Northwind.Identity.Web.Controllers
 
         // GET: ApplicationUsers
         public async Task<IActionResult> Index()
-        {            
+        {
             return View(await userManager.Users.ToListAsync());
         }
 
@@ -59,7 +59,7 @@ namespace Northwind.Identity.Web.Controllers
             }
 
             if (ModelState.IsValid)
-            {                
+            {
                 ApplicationUser? user = await userManager.FindByIdAsync(id.ToString());
 
                 if (user != null)
@@ -78,9 +78,9 @@ namespace Northwind.Identity.Web.Controllers
                     await userManager.UpdateSecurityStampAsync(user);
 
                     return RedirectToAction(nameof(Index));
-                }                
+                }
             }
-            
+
             return View(applicationUser);
         }
 
@@ -114,7 +114,7 @@ namespace Northwind.Identity.Web.Controllers
                 await userManager.RemoveFromRolesAsync(applicationUser, await userManager.GetRolesAsync(applicationUser));
                 await userManager.DeleteAsync(applicationUser);
             }
-            
+
             return RedirectToAction(nameof(Index));
         }
 

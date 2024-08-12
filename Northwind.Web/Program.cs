@@ -35,37 +35,39 @@ namespace Northwind.Web
                                                 .AddEnvironmentVariables()
                                                 .AddJsonFile("appsettings.json", false, false)
                                                 .Build();
-                
+
                 builder.Services.AddHttpClient();
                 builder.Services.AddSingleton<INorthwindProductsService, NorthwindApiProxy>();
 
                 builder.Services.AddAntiforgery();
 
-                builder.Services.AddControllersWithViews(options => {                    
+                builder.Services.AddControllersWithViews(options =>
+                {
                     options.Filters.Add<HttpsOnlyActionFilter>(); // reject anything on http
                     options.Filters.Add<ContentSecurityActionFilter>(); // add csp
                     options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>(); // expect a validation token on all endpoints apart from HEAD, GET, OPTIONS, TRACE                   
                 });
-               
+
                 if (!builder.Environment.IsDevelopment())
                 {
-                    builder.Services.AddHsts(options => {
+                    builder.Services.AddHsts(options =>
+                    {
                         options.Preload = true;
                         options.IncludeSubDomains = true;
-                        options.MaxAge = TimeSpan.FromDays(360);                        
+                        options.MaxAge = TimeSpan.FromDays(360);
                     });
                 }
-               
+
                 IMvcBuilder razorPagesBuilder = builder.Services.AddRazorPages();
 
                 if (builder.Environment.IsDevelopment())
-                {                    
+                {
                     razorPagesBuilder.AddRazorRuntimeCompilation();
                 }
 
                 /* Add identity hosted on Northwind.Idenity.Web */
                 JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
-                
+
                 builder.Services
                     .AddAuthentication(options =>
                     {
@@ -89,7 +91,7 @@ namespace Northwind.Web
 
                         options.GetClaimsFromUserInfoEndpoint = true;
 
-                        options.SaveTokens = true;                        
+                        options.SaveTokens = true;
                     });
 
                 // Add reporting
@@ -140,7 +142,7 @@ namespace Northwind.Web
             {
                 // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
                 NLog.LogManager.Shutdown();
-            }            
+            }
         }
     }
 }

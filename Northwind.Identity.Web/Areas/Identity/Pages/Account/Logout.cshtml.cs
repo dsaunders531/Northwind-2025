@@ -23,12 +23,12 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
-            if (this.User.IsAuthenticated())
-            {                
+            if (User.IsAuthenticated())
+            {
                 await _signInManager.SignOutAsync();
                 _logger.LogInformation("User logged out.");
             }
-                        
+
             if (!string.IsNullOrWhiteSpace(returnUrl))
             {
                 return LocalRedirect(returnUrl);
@@ -37,7 +37,7 @@ namespace Northwind.Identity.Web.Areas.Identity.Pages.Account
             {
                 // This needs to be a redirect so that the browser performs a new
                 // request and the identity for the user gets updated.
-                
+
                 return RedirectToPage();
             }
         }

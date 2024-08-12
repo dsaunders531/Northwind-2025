@@ -84,7 +84,7 @@ namespace Northwind.Context.Services
             return Task.FromResult(Context.Products
                                         .Where(w => w.Discontinued == false)
                                         .Select(s => new CurrentProductList() { ProductId = s.ProductId, ProductName = s.ProductName })
-                                        .OrderBy(o => o.ProductName)                                                                         
+                                        .OrderBy(o => o.ProductName)
                                         .ToList() as IList<CurrentProductList> ?? new List<CurrentProductList>());
         }
 
@@ -464,7 +464,7 @@ namespace Northwind.Context.Services
                                                 .AsEnumerable()
                                                 .Where(w => ((w.Product ?? new Product()).Category ?? new Category()).CategoryName == categoryName && ((w.Order ?? new Order()).OrderDate ?? DateTime.UtcNow).Year == year)
                                                 .AsEnumerable()
-                                                .Select(s => new { s.Product.ProductName, extendedPrice = s.ExtendedPrice() ?? 0 })                                                
+                                                .Select(s => new { s.Product.ProductName, extendedPrice = s.ExtendedPrice() ?? 0 })
                                                 .AsEnumerable()
                                                 .GroupBy(g => g.ProductName)
                                                 .AsEnumerable()

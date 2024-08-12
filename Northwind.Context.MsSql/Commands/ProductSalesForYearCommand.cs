@@ -26,7 +26,7 @@ namespace Northwind.Context.MsSql.Commands
             DateTime end = start.AddYears(1).Date.AddTicks(-1); // last moment of year
 
             com.Parameters.Add(new SqlParameter("@start", System.Data.SqlDbType.DateTime) { Value = start });
-            com.Parameters.Add(new SqlParameter("@end", System.Data.SqlDbType.DateTime) { Value =  end });
+            com.Parameters.Add(new SqlParameter("@end", System.Data.SqlDbType.DateTime) { Value = end });
         }
 
         protected override async Task<IList<ProductSalesForYear>> RunCommand(SqlCommand com)

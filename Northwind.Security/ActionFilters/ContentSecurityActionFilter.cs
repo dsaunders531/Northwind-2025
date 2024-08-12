@@ -21,8 +21,8 @@ namespace Northwind.Security.ActionFilters
 
         private IConfiguration Configuration { get; set; }
 
-        public override void OnResultExecuting([NotNull]ResultExecutingContext context)
-        {            
+        public override void OnResultExecuting([NotNull] ResultExecutingContext context)
+        {
             if (context.Result is ViewResult || context.Result is PageResult)
             {
                 // https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
@@ -63,7 +63,7 @@ namespace Northwind.Security.ActionFilters
                     {
                         context.HttpContext.Response.Headers.Add("X-Content-Security-Policy", csp);
                     }
-                }                
+                }
 
                 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
                 if (!context.HttpContext.Response.Headers.ContainsKey("X-Content-Type-Options"))
@@ -82,7 +82,7 @@ namespace Northwind.Security.ActionFilters
                 {
                     context.HttpContext.Response.Headers.Add("Referrer-Policy", "no-referrer");
                 }
-                
+
                 // https://cheatsheetseries.owasp.org/cheatsheets/DotNet_Security_Cheat_Sheet.html
                 if (!context.HttpContext.Response.Headers.ContainsKey("X-Permitted-Cross-Domain-Policies"))
                 {
@@ -94,7 +94,7 @@ namespace Northwind.Security.ActionFilters
                     context.HttpContext.Response.Headers.Add("X-XSS-Protection", "0");
                 }
             }
-            
+
             base.OnResultExecuting(context);
         }
     }

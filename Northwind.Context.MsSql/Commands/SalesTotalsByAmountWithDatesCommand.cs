@@ -23,7 +23,7 @@ namespace Northwind.Context.MsSql.Commands
         }
 
         protected override void DefineParameters(SqlCommand com)
-        {            
+        {
             com.Parameters.Add(new SqlParameter("@start", System.Data.SqlDbType.DateTime) { Value = Parameters.StartDate });
             com.Parameters.Add(new SqlParameter("@end", System.Data.SqlDbType.DateTime) { Value = Parameters.EndDate });
         }

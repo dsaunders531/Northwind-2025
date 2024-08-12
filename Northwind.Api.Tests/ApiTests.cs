@@ -29,7 +29,7 @@ namespace Northwind.Api.Tests
             if (_app == default)
             {
                 _app = new NorthwindApiWebApplication();
-               
+
                 _client = _app.CreateClient();
             }
         }

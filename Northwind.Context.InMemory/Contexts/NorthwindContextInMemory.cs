@@ -26,15 +26,15 @@ namespace Northwind.Context.InMemory.Contexts
         /// <returns></returns>
         private string BaseFilePath()
         {
-            return Path.Combine(Environment.CurrentDirectory,"Resources")
-                                ?? (string.IsNullOrWhiteSpace(PathToStateFiles) 
-                                        ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), GetType().ToString()) 
+            return Path.Combine(Environment.CurrentDirectory, "Resources")
+                                ?? (string.IsNullOrWhiteSpace(PathToStateFiles)
+                                        ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), GetType().ToString())
                                         : PathToStateFiles);
         }
         public override void Dispose()
         {
             SaveState();
-            
+
             base.Dispose();
         }
 
@@ -103,7 +103,7 @@ namespace Northwind.Context.InMemory.Contexts
                 return new List<T>();
             }
         }
-        
+
         private void LoadState()
         {
             if (!Loaded)
@@ -264,7 +264,7 @@ namespace Northwind.Context.InMemory.Contexts
                     TerritoryDescription = s.TerritoryDescription,
                     TerritoryId = s.TerritoryId
                 }).ToArray().ToJson());
-            }            
+            }
         }
 
         private void SaveState()

@@ -18,7 +18,7 @@ namespace Northwind.Context.Models.Reporting
 
         [XLColumn(Order = 2, Header = "Total Purchased")]
         [FieldOrder(2)]
-        [FieldConverter(ConverterKind.Decimal,".")]
+        [FieldConverter(ConverterKind.Decimal, ".")]
         public decimal TotalPurchased { get; set; }
     }
 }

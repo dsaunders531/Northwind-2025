@@ -22,7 +22,7 @@ namespace Northwind.Api.Client
             if (string.IsNullOrWhiteSpace(BaseUrl.Host) || string.IsNullOrWhiteSpace(AuthUrl.Host))
             {
                 throw new UriFormatException("Url does not look correct for base or auth. Check the configuration.");
-            }                                   
+            }
         }
 
         private HttpClient Client { get; set; }
@@ -36,19 +36,19 @@ namespace Northwind.Api.Client
         private TokenResponse? Token { get; set; } = default;
 
         private DateTime? TokenExpires { get; set; } = default;
-        
+
         private async Task<DiscoveryDocumentResponse> GetDiscoveryDoc()
-        {                       
+        {
             if (OpenIdConfiguration == default)
             {
                 OpenIdConfiguration = await Client.GetDiscoveryDocumentAsync(AuthUrl.ToString());
             }
-            
-            return OpenIdConfiguration;            
+
+            return OpenIdConfiguration;
         }
 
         private async Task<string> GetToken()
-        {            
+        {
             if (Token == default || (TokenExpires ?? DateTime.MinValue) <= DateTime.UtcNow)
             {
                 TokenResponse tokenResponse = await Client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
@@ -73,7 +73,7 @@ namespace Northwind.Api.Client
                 }
             }
 
-            return Token.AccessToken;                        
+            return Token.AccessToken;
         }
 
         public async Task<global::Patterns.IPagedResponse<CategoryApi>> GetCategories(int page, global::Patterns.SortBy sort)
@@ -133,7 +133,7 @@ namespace Northwind.Api.Client
         }
 
         public async Task<string[]> SearchProducts(string term)
-        {           
+        {
             HttpResponseMessage response = await Client.GetAsync(new Uri(BaseUrl, $"Products/search?term={term}"));
 
             response.EnsureSuccessStatusCode();

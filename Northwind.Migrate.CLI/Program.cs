@@ -35,7 +35,7 @@ namespace Northwind.Migrate.CLI
                 Console.WriteLine($"Migration Complete: took {stopwatch.Elapsed.TotalMinutes.ToString("F2")} minutes.");
                 Console.WriteLine("Press any key to exit.");
                 Console.ReadKey(true);
-            }                        
+            }
         }
 
         private static void PerformMigration()

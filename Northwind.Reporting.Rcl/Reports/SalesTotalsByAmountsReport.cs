@@ -9,7 +9,7 @@ namespace Northwind.Reporting.Rcl.Reports
 {
     public class SalesTotalsByAmountsReport : Report<SalesTotalsByAmount, SalesTotalsByAmountsReportParameters>
     {
-        public SalesTotalsByAmountsReport(IServiceProvider serviceProvider) : base(serviceProvider) {}
+        public SalesTotalsByAmountsReport(IServiceProvider serviceProvider) : base(serviceProvider) { }
 
         public override string Name => "Sales totals by quantity";
 
@@ -21,7 +21,7 @@ namespace Northwind.Reporting.Rcl.Reports
         {
             // Make sure the dates cover all the time on selected days
             parameters.CalculateStartAndEndDates();
-            
+
             INorthwindService service = ServiceProvider.GetRequiredService<INorthwindService>();
 
             return (await service.SalesTotalsByAmounts(parameters.StartDate.Value, parameters.EndDate.Value)).AsEnumerable();
@@ -36,6 +36,6 @@ namespace Northwind.Reporting.Rcl.Reports
 
             StartDate = now.AddDays((now.Day * -1) + 1).AddMonths(-1);
             EndDate = now.AddDays(now.Day * -1);
-        }        
+        }
     }
 }

@@ -155,10 +155,10 @@ namespace Northwind.Security.ActionFilters
                             }
                         }
                     }
-                }                
+                }
             }
-            
-            
+
+
 
             return result.ToString();
         }
