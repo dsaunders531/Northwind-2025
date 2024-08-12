@@ -21,7 +21,7 @@
     "types": [ "react", "node", "react-dom", "jest", "react-test-renderer" ]
   },
   "include": [
-    "src/**/*"
+    "React-app-src/**/*"
   ],
   "exclude": [
     "node_modules",

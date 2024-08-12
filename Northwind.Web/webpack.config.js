@@ -9,7 +9,7 @@ const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader
 
 const config = {
     devtool: false,
-    entry: './src/main.tsx',
+    entry: './React-app-src/main.tsx',
     output: {
         path: path.resolve(__dirname, './wwwroot/app'),
         filename: 'main.js'

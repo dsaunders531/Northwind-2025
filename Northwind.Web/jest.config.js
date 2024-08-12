@@ -8,7 +8,7 @@ const config = {
     ],
     testEnvironment: 'jsdom',
     coveragePathIgnorePatterns: ['/node_modules/', '/bin/', '/obj/', '/wwwroot/'],
-    roots: ['<rootDir>/src/'],   
+    roots: ['<rootDir>/React-app-src/'],   
 };
 
 module.exports = config;
