@@ -5,18 +5,8 @@ using Northwind.Context.Models.Api;
 
 namespace Northwind.Web.Pages
 {
-    public class ProductModel : PageModel
+    public class ProductModel(ILogger<ProductModel> logger, INorthwindProductsService productsService) : PageModel
     {
-        public ProductModel(ILogger<ProductModel> logger, INorthwindProductsService productsService)
-        {
-            Logger = logger;
-            NorthwindProductsService = productsService;
-        }
-
-        private ILogger<ProductModel> Logger { get; set; }
-
-        private INorthwindProductsService NorthwindProductsService { get; set; }
-
         [BindProperty]
         public ProductApi? Product { get; set; }
 
@@ -24,7 +14,7 @@ namespace Northwind.Web.Pages
         {
             try
             {
-                Product = await NorthwindProductsService.GetProductById(productId);
+                Product = await productsService.GetProductById(productId);
 
                 if (Product == default)
                 {
@@ -37,7 +27,7 @@ namespace Northwind.Web.Pages
             }
             catch (Exception e)
             {
-                Logger.LogError("Error getting product", e);
+                logger.LogError(e, "Error getting product");
                 throw;
             }
 

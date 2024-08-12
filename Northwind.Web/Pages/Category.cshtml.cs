@@ -6,18 +6,8 @@ using Patterns;
 
 namespace Northwind.Web.Pages
 {
-    public class CategoryModel : PageModel
+    public class CategoryModel(ILogger<CategoriesModel> logger, INorthwindProductsService northwindProductsService) : PageModel
     {
-        public CategoryModel(ILogger<CategoriesModel> logger, INorthwindProductsService northwindProductsService)
-        {
-            Logger = logger;
-            NorthwindProductsService = northwindProductsService;
-        }
-
-        private ILogger<CategoriesModel> Logger { get; set; }
-
-        private INorthwindProductsService NorthwindProductsService { get; set; }
-
         [BindProperty]
         public IPagedResponse<ProductApi>? Products { get; set; }
 
@@ -25,13 +15,15 @@ namespace Northwind.Web.Pages
         {
             try
             {
-                Products = await NorthwindProductsService.GetProductsInCategory(categoryId, p.Value, s.Value);
+                Products = await northwindProductsService.GetProductsInCategory(categoryId,
+                                                                                p ?? 1,
+                                                                                s ?? SortBy.Name | SortBy.Ascending);
 
                 return Page();
             }
             catch (Exception e)
             {
-                Logger.LogError("Error getting category", e);
+                logger.LogError(e, $"Error getting category!");
                 throw;
             }
         }

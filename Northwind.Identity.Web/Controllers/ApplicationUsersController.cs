@@ -7,55 +7,43 @@ using Northwind.Identity.Web.Models;
 namespace Northwind.Identity.Web.Controllers
 {
     [Authorize(Roles = "UserAdministrator")]
-    public class ApplicationUsersController : Controller
-    {        
-        private readonly UserManager<ApplicationUser> UserManager;
-
-        public ApplicationUsersController(UserManager<ApplicationUser> userManager)
-        {            
-            UserManager = userManager;
-        }
+    public class ApplicationUsersController(UserManager<ApplicationUser> userManager) : Controller
+    {
 
         // GET: ApplicationUsers
         public async Task<IActionResult> Index()
         {            
-            return View(await UserManager.Users.ToListAsync());
+            return View(await userManager.Users.ToListAsync());
         }
 
         // GET: ApplicationUsers/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
-            if (id == null || UserManager.Users == null)
+            if (id == null || userManager.Users == null)
             {
                 return NotFound();
             }
-
-            ApplicationUser applicationUser = await UserManager.FindByIdAsync(id.ToString());
-            
-            if (applicationUser == null)
+            else
             {
-                return NotFound();
-            }
+                ApplicationUser? applicationUser = await userManager.FindByIdAsync((id ?? Guid.Empty).ToString());
 
-            return View(applicationUser);
+                return applicationUser == null ? NotFound() : View(applicationUser);
+            }
         }
 
         // GET: ApplicationUsers/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null || UserManager.Users == null)
+            if (id == null || userManager.Users == null)
             {
                 return NotFound();
             }
+            else
+            {
+                ApplicationUser? applicationUser = await userManager.FindByIdAsync((id ?? Guid.Empty).ToString());
 
-            ApplicationUser applicationUser = await UserManager.FindByIdAsync(id.ToString());
-            
-            if (applicationUser == null)
-            {
-                return NotFound();
+                return applicationUser == null ? NotFound() : View(applicationUser);
             }
-            
-            return View(applicationUser);
         }
 
         // POST: ApplicationUsers/Edit/5
@@ -72,22 +60,25 @@ namespace Northwind.Identity.Web.Controllers
 
             if (ModelState.IsValid)
             {                
-                ApplicationUser user = await UserManager.FindByIdAsync(id.ToString());
-                
-                user.PhoneNumber = applicationUser.PhoneNumber;
-                user.PhoneNumberConfirmed = applicationUser.PhoneNumberConfirmed;
-                user.EmailConfirmed = applicationUser.EmailConfirmed;
-                user.LockoutEnd = null;
-                user.LockoutEnabled = applicationUser.LockoutEnabled;
-                user.AccessFailedCount = 0;
+                ApplicationUser? user = await userManager.FindByIdAsync(id.ToString());
 
-                await UserManager.UpdateAsync(user);
-                await UserManager.SetLockoutEndDateAsync(user, null);
-                await UserManager.SetLockoutEnabledAsync(user, applicationUser.LockoutEnabled);
-                
-                await UserManager.UpdateSecurityStampAsync(user);
+                if (user != null)
+                {
+                    user.PhoneNumber = applicationUser.PhoneNumber;
+                    user.PhoneNumberConfirmed = applicationUser.PhoneNumberConfirmed;
+                    user.EmailConfirmed = applicationUser.EmailConfirmed;
+                    user.LockoutEnd = null;
+                    user.LockoutEnabled = applicationUser.LockoutEnabled;
+                    user.AccessFailedCount = 0;
 
-                return RedirectToAction(nameof(Index));
+                    await userManager.UpdateAsync(user);
+                    await userManager.SetLockoutEndDateAsync(user, null);
+                    await userManager.SetLockoutEnabledAsync(user, applicationUser.LockoutEnabled);
+
+                    await userManager.UpdateSecurityStampAsync(user);
+
+                    return RedirectToAction(nameof(Index));
+                }                
             }
             
             return View(applicationUser);
@@ -96,19 +87,16 @@ namespace Northwind.Identity.Web.Controllers
         // GET: ApplicationUsers/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null || UserManager.Users == null)
+            if (id == null || userManager.Users == null)
             {
                 return NotFound();
             }
-
-            ApplicationUser applicationUser = await UserManager.FindByIdAsync(id.ToString());
-
-            if (applicationUser == null)
+            else
             {
-                return NotFound();
-            }
+                ApplicationUser? applicationUser = await userManager.FindByIdAsync((id ?? Guid.Empty).ToString());
 
-            return View(applicationUser);
+                return applicationUser == null ? NotFound() : View(applicationUser);
+            }
         }
 
         // POST: ApplicationUsers/Delete/5
@@ -116,15 +104,15 @@ namespace Northwind.Identity.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            ApplicationUser applicationUser = await UserManager.FindByIdAsync(id.ToString());
+            ApplicationUser? applicationUser = await userManager.FindByIdAsync(id.ToString());
 
             if (applicationUser != null)
             {
-                await UserManager.UpdateSecurityStampAsync(applicationUser);
+                await userManager.UpdateSecurityStampAsync(applicationUser);
 
-                await UserManager.RemoveClaimsAsync(applicationUser, await UserManager.GetClaimsAsync(applicationUser));
-                await UserManager.RemoveFromRolesAsync(applicationUser, await UserManager.GetRolesAsync(applicationUser));
-                await UserManager.DeleteAsync(applicationUser);
+                await userManager.RemoveClaimsAsync(applicationUser, await userManager.GetClaimsAsync(applicationUser));
+                await userManager.RemoveFromRolesAsync(applicationUser, await userManager.GetRolesAsync(applicationUser));
+                await userManager.DeleteAsync(applicationUser);
             }
             
             return RedirectToAction(nameof(Index));
@@ -132,7 +120,7 @@ namespace Northwind.Identity.Web.Controllers
 
         private bool ApplicationUserExists(Guid id)
         {
-            return UserManager.Users.Any(a => a.Id == id);
+            return userManager.Users.Any(a => a.Id == id);
         }
     }
 }
