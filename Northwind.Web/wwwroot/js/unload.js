@@ -1,30 +1,33 @@
-﻿// When a page unloads - disable all controls
+﻿// When a page unloads by submit button being clicked - disable all controls
 //
 // This stops any changes or resubmissions from being made
-//
 
 EnableUnload();
 
-function EnableUnload() {
-    window.addEventListener("beforeunload", (ev) => {
-        DisableDocument();
-                             
-        document.querySelectorAll("button[type='submit'],input[type='submit'],button[type='reset'],input[type='reset']")
+function EnableUnload() {    
+    document.querySelectorAll("button[type='submit'],input[type='submit']")
             .forEach((e) => {
-                try {
-                    // remove functionality
-                    e.type = "button";
+                try {                    
+                    e.onclick = () => DisableSubmitDisableDocument(e);                    
                 } catch (ex) {
                     console.error(ex);
                 }
             });   
+}
 
-        document.style.cursor = "progress";
-    });
-
-    window.addEventListener("DOMContentLoaded", (ev) => {
-        EnableDocument();
-    });
+function DisableSubmitDisableDocument(btn) {
+    // Allow the button to be clicked once
+    // wait 30ms then disable the page.
+    // Otherwise the submit event will not fire
+    try {        
+        window.setTimeout(() => {
+            console.info("disabling submit button");
+            btn.type = "button"; // it will not submit anymore
+            DisableDocument();            
+        }, 30);  
+    } catch (ex) {
+        console.error(ex);
+    }      
 }
 
 function DisableDocument() {
